@@ -13,7 +13,7 @@ export default
         </el-tag>
         <el-divider border-style="dotted" style="margin: 0;padding: 0;" />
         <el-divider border-style="dashed" style="margin: 0;padding: 0;" />
-        <div style="padding-top: 2rem;padding-bottom: 2rem;padding-left: 3.5rem;padding-right: 3.5rem;">
+        <div style="" id="cont-div01">
             本实验室研究经费及研究生指标充足（可为研究生提供良好科研环境以及发展机会），与国内外著名高校和研究机构有紧密合作：<br><br>
 
            （1）欢迎青年老师和有意从事学术研究的博士后、博士生、硕士生、本科生加入（或访问）本课题组；<br><br>
@@ -26,3 +26,16 @@ export default
         </div>
     </div>
 </template>
+<style>
+#cont-div01
+{
+    padding-top: 2rem;padding-bottom: 2rem;padding-left: 3.5rem;padding-right: 3.5rem;
+}
+@media screen and (max-width: 40rem) 
+{
+    #cont-div01
+    {
+        padding-left: 1rem;padding-right: 1rem;
+    }
+}
+</style>

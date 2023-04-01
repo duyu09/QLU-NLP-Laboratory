@@ -7,7 +7,7 @@ export default
 </script>
 <template>
     <div class="block text-center" id="mainDiv">
-    <el-carousel height="18rem" style="background-color: gray;">
+    <el-carousel height="18rem" style="background-color: white;" id="roto-el01">
         <!--
             <el-carousel-item v-for="item in 4" :key="item">
         <h3 class="small justify-center" text="2xl">{{ item }}</h3>
@@ -32,5 +32,12 @@ export default
 #mainDiv img
 {
     width:100%;
+}
+@media screen and (max-width: 40rem) 
+{
+    #roto-el01
+    {
+        height: 9rem;
+    }
 }
 </style>

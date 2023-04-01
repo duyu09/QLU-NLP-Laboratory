@@ -7,8 +7,8 @@ export default
 }
 </script>
 <template>
-    <div style="margin-left: 1.6rem;padding: 1.25rem;">
-        <el-tag class="mx-1" effect="dark" style="height:2.5rem;font-size: 1.6rem;">
+    <div style="padding: 1.8rem;">
+        <el-tag class="mx-1" effect="dark" id="news-tag01">
             新闻资讯
         </el-tag>
         <el-divider border-style="dotted" style="margin: 0;padding: 0;" />
@@ -27,5 +27,10 @@ export default
         </div>
     </div>
     
-
 </template>
+<style>
+#news-tag01
+{
+    height:2.5rem;font-size: 1.6rem;
+}
+</style>

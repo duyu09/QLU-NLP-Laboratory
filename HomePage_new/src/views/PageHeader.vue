@@ -8,11 +8,11 @@ export default
 <template>
   <div id="d01">
         <div id="headTitle01">
-          <span>齐鲁工业大学</span>
+          <span><nobr>齐鲁工业大学</nobr></span>
         </div>
         <div id="headTitle02">
             自然语言处理实验室<br>
-            <span style="font-size: smaller;color: rgb(120,255,255);">Laboratory of Natural Language Processing</span>
+            <span style="font-size: smaller;color: rgb(120,255,255);"><nobr>Laboratory of Natural </nobr><wbr><nobr>Language Processing</nobr></span>
         </div>
         <div id="headTitle03"></div>
   </div>
@@ -34,11 +34,6 @@ export default
     align-items: center;
     padding-left: 1.25rem;
   }
-  @media screen and (min-width: 50rem) {
-    #d01{
-      background-color: rgb(16,83,151);
-    }
-  }
   #headTitle01
   {
     font-size: 2rem;
@@ -56,5 +51,21 @@ export default
   #headTitle03
   {
     flex-grow: 8;
+  }
+  @media screen and (max-width: 40rem) 
+  {
+    #d01
+    {
+      background-image: linear-gradient(to right,rgb(16,83,151),rgb(16,83,151));
+    }
+    #headTitle01
+    {
+      margin-left: 0.5rem;
+      font-size: 1.6rem;
+    }
+    #headTitle02
+    {
+      padding-left: 1rem;
+    }
   }
 </style>

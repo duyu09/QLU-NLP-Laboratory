@@ -27,7 +27,7 @@ export default
   <p-header></p-header>
   <div id="mainDiv" style="background-color: rgb(231,231,231);">
     <div style="display: flex;justify-content: center;background-color: rgb(248,248,248);box-shadow: 0 .125rem .1875rem black;">
-      <div style="width: 85%">
+      <div style="width: 85%;">
         <dynamicMenu></dynamicMenu>
       </div>
     </div>
@@ -38,10 +38,14 @@ export default
     </div>
     <div style="display: flex;justify-content: center;">
       <div style="width: 85%;background-color: white;padding-top: .825rem;">
-        <el-row>
+        <el-row id="i_and_n01">
         <el-col :span="9"><introduction></introduction></el-col>
         <el-col :span="15"><news></news></el-col>
         </el-row>
+        <div id="i_and_n02">
+          <introduction></introduction>
+          <news></news>
+        </div>
       </div>
     </div>
     <div style="display: flex;justify-content: center;margin-top: 0.5rem;">
@@ -55,6 +59,19 @@ export default
       </div>
     </div>
   </div>
-    <foot></foot>
+  <foot></foot>
   
 </template>
+<style>
+@media screen and (max-width: 40rem) 
+{
+    #i_and_n01
+    {
+        display: none;
+    }
+    #i_and_n02
+    {
+        display: inline-block;
+    }
+}
+</style>
