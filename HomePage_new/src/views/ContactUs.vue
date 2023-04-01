@@ -7,7 +7,7 @@ export default
 }
 </script>
 <template>
-    <div style="margin-bottom: 1rem;">
+    <div style="padding: 1.25rem;">
         <el-tag class="mx-1" effect="dark" style="height:2.5rem;font-size: 1.6rem;">
             联系我们
         </el-tag>

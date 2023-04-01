@@ -26,24 +26,32 @@ export default
   #d01
   {
     font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
-    background-image: linear-gradient(to right, rgb(0, 204, 204), rgb(0, 0, 204));
+    background-image: linear-gradient(to right, rgb(0,251,255), rgb(0,1,255));
     color: white;
-    height: 6.7rem;
-    padding-top: 1.3rem;
+    height:6.1875rem;
+    padding-top: 0rem;
     display: flex;
+    align-items: center;
+    padding-left: 1.25rem;
+  }
+  @media screen and (min-width: 50rem) {
+    #d01{
+      background-color: rgb(16,83,151);
+    }
   }
   #headTitle01
   {
-    font-size: 3.2rem;
-    margin-left: 5rem;
+    font-size: 2rem;
+    line-height: 2rem;
+    margin-left: 5.5rem;
     flex-grow: 2;
   }
   #headTitle02
   {
     flex-grow: 13;
-    font-size: 1.4rem;
+    font-size: 1rem;
     font-style: italic;
-    margin-top: 0.8rem;
+    margin-top: 0;
   }
   #headTitle03
   {

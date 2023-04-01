@@ -12,7 +12,7 @@ export default
 }
 </script>
 <template>
-    <div style="font-size: smaller;">
+    <div style="font-size: smaller;padding: 1.25rem;">
         <el-tag class="mx-1" effect="dark" style="height:2.5rem;font-size: 1.6rem;">
             友情链接
         </el-tag>

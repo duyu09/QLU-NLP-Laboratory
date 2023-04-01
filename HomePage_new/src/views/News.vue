@@ -7,7 +7,7 @@ export default
 }
 </script>
 <template>
-    <div style="margin-left: 1.6rem;">
+    <div style="margin-left: 1.6rem;padding: 1.25rem;">
         <el-tag class="mx-1" effect="dark" style="height:2.5rem;font-size: 1.6rem;">
             新闻资讯
         </el-tag>
