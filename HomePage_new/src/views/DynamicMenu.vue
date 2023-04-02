@@ -42,4 +42,41 @@ export default
     color: white;
     cursor: pointer;
 }
+@media screen and (max-width: 40rem){
+    #mainDynamicMenu{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: absolute;
+        top: 2rem;
+        right: 0.5rem;
+        z-index: 4;
+        background: rgb(20, 114, 208);
+        width: 4rem;
+        height: 2rem;
+        overflow: hidden;
+        border-radius: 0.5rem;
+    }
+    #mainDynamicMenu>div{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-bottom: 0.5rem;
+        padding-top: 0.5rem;
+        height: 2rem;
+        width: 100%;
+        font-size: 0.5rem;
+        background: rgb(20, 114, 208);
+        transition: all 0.5s;
+    }
+    #mainDynamicMenu>div:not(:nth-child(1)){
+        opacity:0;
+    }
+    #mainDynamicMenu:hover{
+        overflow: visible;
+    }
+    #mainDynamicMenu:hover div{
+        opacity: 1;
+    }
+}
 </style>

@@ -42,7 +42,7 @@ export default
     border-right: .125rem solid white;
     display: flex;
     padding-left: 6rem;
-    padding-right: 0.4rem;
+    padding-right: 22rem;
   }
   #div02
   {
@@ -56,11 +56,13 @@ export default
     {
         font-size: smaller;
         padding-left: 1.8rem;
-        padding-right: 0.1rem;
+        padding-right: 0rem;
+        border-right:0px;
     }
     #div02
     {
         font-size: smaller;
+        display: none;
     }
   }
 </style>

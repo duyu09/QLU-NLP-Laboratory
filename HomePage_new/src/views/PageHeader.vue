@@ -7,6 +7,9 @@ export default
 </script>
 <template>
   <div id="d01">
+        <div id="shortname" style="display: none;font-size: 1.8rem">QLU NLP
+            <span style="font-size: 1rem;display:inline-block;height: 1rem">Laboratory</span>
+        </div>
         <div id="headTitle01">
           <span><nobr>齐鲁工业大学</nobr></span>
         </div>
@@ -15,6 +18,7 @@ export default
             <span style="font-size: smaller;color: rgb(120,255,255);"><nobr>Laboratory of Natural </nobr><wbr><nobr>Language Processing</nobr></span>
         </div>
         <div id="headTitle03"></div>
+      <slot></slot>
   </div>
 </template>
 <style>
@@ -57,15 +61,29 @@ export default
     #d01
     {
       background-image: linear-gradient(to right,rgb(16,83,151),rgb(16,83,151));
+        padding-left: 0;
+        display: flex;
+        justify-content: center;
     }
     #headTitle01
     {
-      margin-left: 0.5rem;
-      font-size: 1.6rem;
+        display: none;
+        margin-left: 0;
+        padding:0;
+        font-size: 1.6rem;
+        flex-grow: 0;
     }
     #headTitle02
     {
-      padding-left: 1rem;
+        display: none;
+    }
+    #headTitle03{
+        flex-grow: 0;
+    }
+    #shortname{
+        display: inline !important;
+        position: absolute;
+        left: 2rem;
     }
   }
 </style>
