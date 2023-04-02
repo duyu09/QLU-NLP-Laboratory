@@ -24,6 +24,7 @@ import java.util.List;
  * 
  * @author qluoj
  */
+
 @RestController
 @RequestMapping("/addqluoj/config/data")
 public class QLUConfigDataController extends BaseController
