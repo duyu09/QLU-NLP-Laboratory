@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.train.cmsCloud.mapper.NlpFrontendCarouselMapper">
+
+    <resultMap type="NlpFrontendCarousel" id="NlpFrontendCarouselResult">
+        <result property="id"    column="id"    />
+        <result property="carouselImg"    column="carousel_img"    />
+        <result property="carouselName"    column="carousel_name"    />
+        <result property="urlPath"    column="url_path"    />
+        <result property="recordContent"    column="record_content"    />
+        <result property="postSort"    column="post_sort"    />
+        <result property="isFrame"    column="is_frame"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectNlpFrontendCarouselVo">
+        select id, carousel_img, carousel_name, url_path, record_content, post_sort, is_frame, status, create_by, create_time, update_by, update_time, remark from nlp_frontend_carousel
+    </sql>
+
+    <select id="selectNlpFrontendCarouselList" parameterType="NlpFrontendCarousel" resultMap="NlpFrontendCarouselResult">
+        <include refid="selectNlpFrontendCarouselVo"/>
+        <where>
+            <if test="carouselName != null  and carouselName != ''"> and carousel_name like concat('%', #{carouselName}, '%')</if>
+            <if test="isFrame != null "> and is_frame = #{isFrame}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+
+    <select id="selectNlpFrontendCarouselById" parameterType="Long" resultMap="NlpFrontendCarouselResult">
+        <include refid="selectNlpFrontendCarouselVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertNlpFrontendCarousel" parameterType="NlpFrontendCarousel" useGeneratedKeys="true" keyProperty="id">
+        insert into nlp_frontend_carousel
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="carouselImg != null">carousel_img,</if>
+            <if test="carouselName != null">carousel_name,</if>
+            <if test="urlPath != null">url_path,</if>
+            <if test="recordContent != null">record_content,</if>
+            <if test="postSort != null">post_sort,</if>
+            <if test="isFrame != null">is_frame,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="carouselImg != null">#{carouselImg},</if>
+            <if test="carouselName != null">#{carouselName},</if>
+            <if test="urlPath != null">#{urlPath},</if>
+            <if test="recordContent != null">#{recordContent},</if>
+            <if test="postSort != null">#{postSort},</if>
+            <if test="isFrame != null">#{isFrame},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateNlpFrontendCarousel" parameterType="NlpFrontendCarousel">
+        update nlp_frontend_carousel
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="carouselImg != null">carousel_img = #{carouselImg},</if>
+            <if test="carouselName != null">carousel_name = #{carouselName},</if>
+            <if test="urlPath != null">url_path = #{urlPath},</if>
+            <if test="recordContent != null">record_content = #{recordContent},</if>
+            <if test="postSort != null">post_sort = #{postSort},</if>
+            <if test="isFrame != null">is_frame = #{isFrame},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteNlpFrontendCarouselById" parameterType="Long">
+        delete from nlp_frontend_carousel where id = #{id}
+    </delete>
+
+    <delete id="deleteNlpFrontendCarouselByIds" parameterType="String">
+        delete from nlp_frontend_carousel where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
