@@ -14,6 +14,8 @@ IDE：VSCode与WebStorm
 
 使用的包：Vue3 + Element-Plus + Vue-Router
 
+环境要求：Node.js版本>=16.0.0
+
 
 ### 开发者
 
@@ -24,7 +26,7 @@ IDE：VSCode与WebStorm
 
 ### 版本
 
-version 2.0.0
+version 2.1.0
 
 
 ### 著作权
@@ -46,7 +48,7 @@ yarn
 yarn dev
 ```
 
-### 构建发行
+### 构建部署
 
 ```sh
 yarn build

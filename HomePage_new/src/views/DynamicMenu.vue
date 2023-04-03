@@ -1,8 +1,13 @@
 <script>
 import { RouterLink, RouterView } from 'vue-router';
+import { ArrowDown } from '@element-plus/icons-vue';
 export default
 {
     name:'DynamicMenu',
+    components:
+    {
+      ArrowDown:'arrow-down',
+    },
     data() 
     {
        return{
@@ -19,7 +24,71 @@ export default
 </script>
 <template>
     <div id="mainDynamicMenu">
-        <div v-for="item in MenuArray">{{ item.name }}</div>
+        <!-- <div v-for="item in MenuArray">{{ item.name }}</div> -->
+
+        <div>
+            <el-dropdown>
+              <span class="el-dropdown-link" style="font-size: larger;outline: 0 !important;">
+                    首页
+                <el-icon class="el-icon--right">
+                    <arrow-down />
+                </el-icon>
+              </span>
+            </el-dropdown>
+        </div>
+
+        <div>
+            <el-dropdown>
+              <span class="el-dropdown-link" style="font-size: larger;outline: 0 !important;">
+                    实验室概况
+                <el-icon class="el-icon--right">
+                    <arrow-down />
+                </el-icon>
+              </span>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item>科研方向</el-dropdown-item>
+                  <el-dropdown-item>科研成果</el-dropdown-item>
+                  <el-dropdown-item>实验室简介</el-dropdown-item>
+                  <!-- <el-dropdown-item disabled>Action 4</el-dropdown-item>
+                  <el-dropdown-item divided>Action 5</el-dropdown-item> -->
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+        </div>
+
+        <div>
+            <el-dropdown>
+              <span class="el-dropdown-link" style="font-size: larger;outline: 0 !important;">
+                    科研项目
+                <el-icon class="el-icon--right">
+                    <arrow-down />
+                </el-icon>
+              </span>
+              <template #dropdown>
+              </template>
+            </el-dropdown>
+        </div>
+        
+        <div>
+            <el-dropdown>
+              <span class="el-dropdown-link" style="font-size: larger;outline: 0 !important;">
+                    人才管理
+                <el-icon class="el-icon--right">
+                    <arrow-down />
+                </el-icon>
+              </span>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item>人才培养</el-dropdown-item>
+                  <el-dropdown-item>人才招聘</el-dropdown-item>
+                  <!-- <el-dropdown-item disabled>Action 4</el-dropdown-item>
+                  <el-dropdown-item divided>Action 5</el-dropdown-item> -->
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+        </div>
+
     </div>
 </template>
 <style>
@@ -36,47 +105,15 @@ export default
     padding-top: 1rem;
     padding-bottom: 1rem;
 }
+div.el-dropdown
+{
+    line-height: 1.5rem !important;
+    outline: 0 !important;
+}
 #mainDynamicMenu > div:hover
 {
     background-color: #55ABDA;
     color: white;
     cursor: pointer;
-}
-@media screen and (max-width: 40rem){
-    #mainDynamicMenu{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        position: absolute;
-        top: 2rem;
-        right: 0.5rem;
-        z-index: 4;
-        background: rgb(20, 114, 208);
-        width: 4rem;
-        height: 2rem;
-        overflow: hidden;
-        border-radius: 0.5rem;
-    }
-    #mainDynamicMenu>div{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding-bottom: 0.5rem;
-        padding-top: 0.5rem;
-        height: 2rem;
-        width: 100%;
-        font-size: 0.5rem;
-        background: rgb(20, 114, 208);
-        transition: all 0.5s;
-    }
-    #mainDynamicMenu>div:not(:nth-child(1)){
-        opacity:0;
-    }
-    #mainDynamicMenu:hover{
-        overflow: visible;
-    }
-    #mainDynamicMenu:hover div{
-        opacity: 1;
-    }
 }
 </style>

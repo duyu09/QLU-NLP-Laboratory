@@ -40,15 +40,15 @@ export default
   #div01
   {
     border-right: .125rem solid white;
-    display: flex;
+    flex-grow: 1;
     padding-left: 6rem;
-    padding-right: 22rem;
+    padding-right: 0rem;
   }
   #div02
   {
     flex-grow: 1;
-    display: flex;
     justify-content: center;
+    padding-left: 2rem;
   }
   @media screen and (max-width: 40rem)
   {
