@@ -24,14 +24,18 @@ export default
 }
 </script>
 <template>
-  <p-header></p-header>
+  <p-header>
+    <div style="display: none" id="pulldown">
+      <dynamicMenu></dynamicMenu>
+    </div>
+  </p-header>
   <div id="mainDiv" style="background-color: rgb(231,231,231);">
-    <div style="display: flex;justify-content: center;background-color: rgb(248,248,248);box-shadow: 0 .125rem .1875rem black;">
+    <div id="menu" style="display: flex;justify-content: center;background-color: rgb(248,248,248);box-shadow: 0 .125rem .1875rem black;">
       <div style="width: 85%;">
         <dynamicMenu></dynamicMenu>
       </div>
     </div>
-    <div style="display: flex;justify-content: center;margin-top: .625rem;">
+    <div style="display: flex;justify-content: center;margin-top: .625rem;" id="Graph">
       <div style="width: 85%;">
         <rotoGraph></rotoGraph>
       </div>
@@ -72,6 +76,17 @@ export default
     #i_and_n02
     {
         display: inline-block;
+    }
+    #menu{
+      display: none !important;
+    }
+    #pulldown
+    {
+      display: block !important;
+    }
+    #Graph{
+      margin-top: 0 !important;
+      padding-top: 0.5rem;
     }
 }
 </style>

@@ -22,11 +22,14 @@ export default
 
            （2）欢迎高年级本科生参与实验室科研实习（可推荐至美国、新加坡、微软亚洲研究院等世界知名大学/机构攻读博士学位）。<br><br>
 
-           <b>【联系方式】：weiw@hust.edu.cn </b>
+           <b class="contact">【联系方式】：<br>联系人：鹿老师<br>联系电话：10000000000<br>邮箱：example@qq.com </b>
         </div>
     </div>
 </template>
 <style>
+    .contact{
+        display: none;
+    }
 #cont-div01
 {
     padding-top: 2rem;padding-bottom: 2rem;padding-left: 3.5rem;padding-right: 3.5rem;
@@ -36,6 +39,10 @@ export default
     #cont-div01
     {
         padding-left: 1rem;padding-right: 1rem;
+    }
+    .contact{
+        display: block;
+
     }
 }
 </style>
