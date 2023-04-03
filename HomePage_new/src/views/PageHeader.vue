@@ -1,24 +1,113 @@
 <script>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView } from 'vue-router';
+import { ElMessageBox } from 'element-plus';
+import { ArrowDown } from '@element-plus/icons-vue';
+
+
 export default
 {
-    name:'PageHeader'
+    name:'PageHeader',
+    components:
+    {
+      ArrowDown:'arrow-down',
+    },
+    data(){
+      return {
+        drawer:false,
+      }
+    },
 }
 </script>
 <template>
-  <div id="d01">
-        <div id="shortname" style="display: none;font-size: 1.8rem">QLU NLP
-            <span style="font-size: 1rem;display:inline-block;height: 1rem">Laboratory</span>
+  <div id="headTitle-shortname">
+          <span style="font-family: censcbk;font-weight: 600;">
+            QLU
+          </span>
+          <span style="font-size: 1.55rem;font-weight:100;display:inline-block;font-style: italic;margin-left: 0.4rem;">
+            NLP实验室
+          </span>
+
+          <el-button type="primary" style="margin-left: 1.85rem;background-color: transparent;" @click="drawer = true">
+            <!-- <div style="background-image: url('../src/assets/images/small_menu.svg');height:100%;width: 100%;"></div> -->
+            MENU
+          </el-button>
+          <el-drawer v-model="drawer" title="QLU NLP Labs" size="50%">
+
+
+            <el-dropdown>
+              <span class="el-dropdown-link" style="font-size: larger;outline: 0 !important;">
+                    首页
+                <el-icon class="el-icon--right">
+                    <arrow-down />
+                </el-icon>
+              </span>
+            </el-dropdown>
+
+
+            
+            <el-dropdown>
+              <span class="el-dropdown-link" style="font-size: larger;outline: none;">
+                    实验室概况
+                <el-icon class="el-icon--right">
+                    <arrow-down />
+                </el-icon>
+              </span>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item>科研方向</el-dropdown-item>
+                  <el-dropdown-item>科研成果</el-dropdown-item>
+                  <el-dropdown-item>实验室简介</el-dropdown-item>
+                  <!-- <el-dropdown-item disabled>Action 4</el-dropdown-item>
+                  <el-dropdown-item divided>Action 5</el-dropdown-item> -->
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+
+
+            <el-dropdown>
+              <span class="el-dropdown-link" style="font-size: larger;outline: none;">
+                    科研项目
+                <el-icon class="el-icon--right">
+                    <arrow-down />
+                </el-icon>
+              </span>
+              <template #dropdown>
+              </template>
+            </el-dropdown>
+
+
+
+            <el-dropdown>
+              <span class="el-dropdown-link" style="font-size: larger;outline: none;">
+                    人才管理
+                <el-icon class="el-icon--right">
+                    <arrow-down />
+                </el-icon>
+              </span>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item>人才培养</el-dropdown-item>
+                  <el-dropdown-item>人才招聘</el-dropdown-item>
+                  <!-- <el-dropdown-item disabled>Action 4</el-dropdown-item>
+                  <el-dropdown-item divided>Action 5</el-dropdown-item> -->
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+
+          </el-drawer>
+
         </div>
+  <div id="headTitle-d01">
+          
         <div id="headTitle01">
           <span><nobr>齐鲁工业大学</nobr></span>
         </div>
         <div id="headTitle02">
             自然语言处理实验室<br>
-            <span style="font-size: smaller;color: rgb(120,255,255);"><nobr>Laboratory of Natural </nobr><wbr><nobr>Language Processing</nobr></span>
+            <span id="headTitle-englishName"><nobr>Laboratory of Natural </nobr><wbr><nobr>Language Processing</nobr></span>
         </div>
         <div id="headTitle03"></div>
-      <slot></slot>
+        
   </div>
 </template>
 <style>
@@ -27,12 +116,16 @@ export default
    margin: 0;
    padding: 0;
   }
-  #d01
+  #headTitle-englishName
+  {
+    font-size: smaller;color: rgb(155, 240, 255);font-family: censcbk;
+  }
+  #headTitle-d01
   {
     font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
-    background-image: linear-gradient(to right, rgb(0,251,255), rgb(0,1,255));
+    background-image: linear-gradient(to right, cyan, blue);
     color: white;
-    height:6.1875rem;
+    height:4.75rem;
     padding-top: 0rem;
     display: flex;
     align-items: center;
@@ -56,14 +149,27 @@ export default
   {
     flex-grow: 8;
   }
+  #headTitle-shortname
+  {
+    font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+    color: white;
+    height:4.75rem;
+    padding-top: 1rem;
+    display: flex;
+    align-items: center;
+    padding-left: 0.5rem;
+    display: none;
+    font-size: 1.8rem;
+    outline: 0;
+  }
   @media screen and (max-width: 40rem) 
   {
-    #d01
+    #headTitle-d01
     {
       background-image: linear-gradient(to right,rgb(16,83,151),rgb(16,83,151));
-        padding-left: 0;
-        display: flex;
-        justify-content: center;
+      padding-left: 0;
+      display: flex;
+      justify-content: center;
     }
     #headTitle01
     {
@@ -77,13 +183,30 @@ export default
     {
         display: none;
     }
-    #headTitle03{
+    #headTitle03
+    {
         flex-grow: 0;
     }
-    #shortname{
-        display: inline !important;
+    #headTitle-shortname
+    {
+        display: inline;
         position: absolute;
         left: 2rem;
     }
+  }
+  .el-dropdown:focus-visible
+  {
+    outline: 0;
+  }
+  .example-showcase .el-dropdown-link 
+  {
+  cursor: pointer;
+  color: var(--el-color-primary);
+  display: flex;
+  align-items: center;
+  }
+  @font-face {
+    font-family: censcbk;
+    src: url("../assets/fonts/censcbk.woff");
   }
 </style>

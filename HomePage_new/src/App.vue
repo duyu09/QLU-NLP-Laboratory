@@ -24,24 +24,20 @@ export default
 }
 </script>
 <template>
-  <p-header>
-    <div style="display: none" id="pulldown">
-      <dynamicMenu></dynamicMenu>
-    </div>
-  </p-header>
-  <div id="mainDiv" style="background-color: rgb(231,231,231);">
-    <div id="menu" style="display: flex;justify-content: center;background-color: rgb(248,248,248);box-shadow: 0 .125rem .1875rem black;">
+  <p-header></p-header>
+  <div id="mainDiv">
+    <div id="app-menu" style="display: flex;justify-content: center;background-color: rgb(240,240,240);box-shadow: black 0.125rem 0.1875rem 0.5rem 0px;">
       <div style="width: 85%;">
         <dynamicMenu></dynamicMenu>
       </div>
     </div>
-    <div style="display: flex;justify-content: center;margin-top: .625rem;" id="Graph">
+    <div style="display: flex;justify-content: center;margin-top: 0.625rem;" id="app-Graph">
       <div style="width: 85%;">
         <rotoGraph></rotoGraph>
       </div>
     </div>
     <div style="display: flex;justify-content: center;">
-      <div style="width: 85%;background-color: white;padding-top: .825rem;">
+      <div style="width: 85%;background-color: white;padding-top: 0.825rem;">
         <el-row id="i_and_n01">
         <el-col :span="9"><introduction></introduction></el-col>
         <el-col :span="15"><news></news></el-col>
@@ -67,7 +63,16 @@ export default
   
 </template>
 <style>
-@media screen and (max-width: 40rem) 
+#mainDiv
+{
+  background-color: rgb(231,231,231);
+}
+#i_and_n02
+{
+  display: none;
+}
+
+@media screen and (max-width: 40rem)
 {
     #i_and_n01
     {
@@ -75,16 +80,14 @@ export default
     }
     #i_and_n02
     {
-        display: inline-block;
+        display: inline-block !important;
     }
-    #menu{
+    #app-menu
+    {
       display: none !important;
     }
-    #pulldown
+    #app-Graph
     {
-      display: block !important;
-    }
-    #Graph{
       margin-top: 0 !important;
       padding-top: 0.5rem;
     }

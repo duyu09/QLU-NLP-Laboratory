@@ -7,13 +7,13 @@ export default
 }
 </script>
 <template>
-    <div style="padding: 1.8rem;">
+    <div id="news-mainDiv">
         <el-tag class="mx-1" effect="dark" id="news-tag01">
             新闻资讯
         </el-tag>
         <el-divider border-style="dotted" style="margin: 0;padding: 0;" />
         <el-divider border-style="dashed" style="margin: 0;padding: 0;" />
-        <div style="margin-top: 2rem;margin-bottom: 2rem;">
+        <div id="news-div02">
             <div v-for="item in 4">
                 <span style="font-size: 1.2rem;">第{{ item }}条新闻</span>
                 <p style="color: grey; font-size: smaller;">
@@ -29,6 +29,14 @@ export default
     
 </template>
 <style>
+#news-mainDiv
+{
+    padding: 1.8rem;padding-top: 1.25rem;
+}
+#news-div02
+{
+    margin-top: 2rem;margin-bottom: 2rem;
+}
 #news-tag01
 {
     height:2.5rem;font-size: 1.6rem;
