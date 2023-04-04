@@ -100,11 +100,12 @@ export default
   <div id="headTitle-d01">
           
         <div id="headTitle01">
-          <span><nobr>齐鲁工业大学</nobr></span>
+          <!-- <span style="font-family: maozedong;"><nobr>齐鲁工业大学 (山东省科学院)</nobr></span> -->
+          <img src="../assets/images/logo.svg" style="height:3.35rem;">
         </div>
         <div id="headTitle02">
-            自然语言处理实验室<br>
-            <span id="headTitle-englishName"><nobr>Laboratory of Natural </nobr><wbr><nobr>Language Processing</nobr></span>
+            自然语言处理及认知计算实验室<br>
+            <span id="headTitle-englishName"><nobr>Laboratory of Natural Language Processing </nobr><wbr><nobr>and Cognitive Computing</nobr></span>
         </div>
         <div id="headTitle03"></div>
         
@@ -123,9 +124,9 @@ export default
   #headTitle-d01
   {
     font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
-    background-image: linear-gradient(to right, cyan, blue);
+    background-image: linear-gradient(to right, rgb(0, 85, 255), rgb(0, 0, 108));
     color: white;
-    height:4.75rem;
+    height:5.4rem;
     padding-top: 0rem;
     display: flex;
     align-items: center;
@@ -141,9 +142,10 @@ export default
   #headTitle02
   {
     flex-grow: 13;
-    font-size: 1rem;
+    font-size: 1.15rem;
     font-style: italic;
     margin-top: 0;
+    padding-left: 1rem;
   }
   #headTitle03
   {
@@ -154,7 +156,7 @@ export default
     font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
     color: white;
     height:4.75rem;
-    padding-top: 1rem;
+    padding-top: 1.4rem;
     display: flex;
     align-items: center;
     padding-left: 0.5rem;
@@ -194,19 +196,22 @@ export default
         left: 2rem;
     }
   }
-  .el-dropdown:focus-visible
+  #headTitle-shortname .el-dropdown:focus-visible
   {
     outline: 0;
   }
-  .example-showcase .el-dropdown-link 
+  #headTitle-shortname .example-showcase .el-dropdown-link 
   {
   cursor: pointer;
-  color: var(--el-color-primary);
   display: flex;
   align-items: center;
   }
   @font-face {
     font-family: censcbk;
     src: url("../assets/fonts/censcbk.woff");
+  }
+  @font-face {
+    font-family: maozedong;
+    src: url("../assets/fonts/maozedong.woff");
   }
 </style>
