@@ -18,16 +18,16 @@ export default
         </el-tag>
         <el-divider border-style="dotted" style="margin: 0;padding: 0;" />
         <el-divider border-style="dashed" style="margin: 0;padding: 0;" />
-        <div style="" id="conn-div01">
-            <div><el-icon><Link /></el-icon><nobr>齐鲁工大</nobr></div>
-            <div><el-icon><Link /></el-icon><nobr>齐鲁工大计算学部</nobr></div>
-            <div><el-icon><Link /></el-icon><nobr>省科学院</nobr></div>
-            <div><el-icon><Link /></el-icon><nobr>中国科学院</nobr></div>
-            <div><el-icon><Link /></el-icon><nobr>中国工程院</nobr></div>
-            <div><el-icon><Link /></el-icon><nobr>中国高性能计算协会</nobr></div>
-            <div><el-icon><Link /></el-icon><nobr>中国科技部</nobr></div>
-            <div><el-icon><Link /></el-icon><nobr>山东科技厅</nobr></div>
-            <div><el-icon><Link /></el-icon><nobr>中国工信部</nobr></div>
+        <div id="conn-div01">
+            <div><nobr><el-icon><Link /></el-icon>齐鲁工大</nobr></div>
+            <div><nobr><el-icon><Link /></el-icon>齐鲁工大计算学部</nobr></div>
+            <div><nobr><el-icon><Link /></el-icon>省科学院</nobr></div>
+            <div><nobr><el-icon><Link /></el-icon>中国科学院</nobr></div>
+            <div><nobr><el-icon><Link /></el-icon>中国工程院</nobr></div>
+            <div><nobr><el-icon><Link /></el-icon>中国高性能计算协会</nobr></div>
+            <div><nobr><el-icon><Link /></el-icon>中国科技部</nobr></div>
+            <div><nobr><el-icon><Link /></el-icon>山东科技厅</nobr></div>
+            <div><nobr><el-icon><Link /></el-icon>中国工信部</nobr></div>
 
         </div>
     </div>
@@ -36,6 +36,7 @@ export default
 #conn-div01
 {
     margin-top: 1rem;margin-bottom: 1rem;column-count: 4;column-gap:3rem;column-fill: balance;
+    font-size: 1rem;
 }
 #conn-div01 > div
 {

@@ -96,24 +96,36 @@ export default
 #mainDynamicMenu
 {
     display: flex;
+    height: 3rem;
 }
 #mainDynamicMenu > div
 {
     font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
     flex-grow: 1;
     text-align: center;
-    padding-top: 1rem;
+    padding-top: 0.75rem;
     padding-bottom: 1rem;
 }
-div.el-dropdown
+#mainDynamicMenu > div >.el-dropdown:hover,#mainDynamicMenu > div:hover
+{
+    cursor: pointer;
+    animation: dm-keyframe01 0.5s;
+    animation-fill-mode: forwards;
+    /* background-color: #acccff; */
+}
+#mainDynamicMenu div.el-dropdown
 {
     line-height: 1.5rem !important;
     outline: 0 !important;
+    color: black;
+    height: 100%;
 }
-#mainDynamicMenu > div:hover
+@keyframes dm-keyframe01 
 {
-    background-color: #55ABDA;
-    color: white;
-    cursor: pointer;
+  to
+  {
+    background-color: #acccff;
+  }
 }
+
 </style>

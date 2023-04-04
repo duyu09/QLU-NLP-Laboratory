@@ -144,16 +144,16 @@
         </el-form-item>
 
         <div v-if="form.isFrame == 0">
-        <el-form-item label="路由地址" prop="urlPath">
+        <el-form-item  label="路由地址" prop="urlPath">
           <el-input v-model="form.urlPath" placeholder="请输入路由地址" />
         </el-form-item>
         </div>
 
-<!--        <div v-if="form.isFrame == 1">-->
-        <el-form-item v-if="form.isFrame == 1" label="详细信息">
+        <div v-if="form.isFrame == 1">
+        <el-form-item  label="详细信息">
           <MarkdownEditor v-model="form.recordContent"></MarkdownEditor>
         </el-form-item>
-<!--        </div>-->
+        </div>
 
         <el-form-item label="轮播图排序" prop="postSort">
           <el-input-number v-model="form.postSort" controls-position="right" :min="0" />
@@ -250,9 +250,6 @@ export default {
         carouselImg: [
           { required: true, message: "请插入轮播图", trigger: "blur" }
         ],
-
-
-
       }
     };
   },
