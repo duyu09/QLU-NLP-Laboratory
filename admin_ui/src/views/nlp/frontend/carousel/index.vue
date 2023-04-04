@@ -64,11 +64,28 @@
 
     <el-table v-loading="loading" :data="carouselList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="轮播图ID" align="center" prop="id" />
-      <el-table-column label="轮播图" align="center" prop="carouselImg" />
-      <el-table-column label="轮播图名称" align="center" prop="carouselName" />
+<!--      <el-table-column label="轮播图ID" align="center" prop="id" />-->
+      <el-table-column label="轮播图" align="center" prop="carouselImg" >
+        <template slot-scope="scope">
+          <div style="width: 100px; height: 100px">
+            <el-image
+              :src="showImgUrl + scope.row.carouselImg"
+              fix="contain"
+              :preview-src-list="showImgUrlBox"
+              @click="addShowImgUrl(showImgUrl + scope.row.imgUrl)"
+            />
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column label="轮播图名称" align="center" prop="carouselName" width="110px"/>
       <el-table-column label="路由地址" align="center" prop="urlPath" />
-      <el-table-column label="详细信息" align="center" prop="recordContent" />
+      <el-table-column label="详细信息" align="center" prop="recordContent" >
+        <template slot-scope="scope">
+          <p v-if="scope.row.recordContent === ''" >请填写详细内容</p>
+          <p v-else-if="scope.row.recordContent === null" >请填写详细内容</p>
+          <a v-else style="color:#1890ff" @click="openRecordContent(scope.row.recordContent)">点击查看</a>
+        </template>
+      </el-table-column>
       <el-table-column label="轮播图顺序" align="center" prop="postSort" />
       <el-table-column label="是否为外链 " align="center" prop="isFrame" />
       <el-table-column label="轮播图状态" align="center" prop="status">
@@ -109,20 +126,39 @@
     <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="轮播图">
-          <imageUpload v-model="form.carouselImg"/>
+          <imageUpload v-model="form.carouselImg":limit="1"/>
         </el-form-item>
         <el-form-item label="轮播图名称" prop="carouselName">
           <el-input v-model="form.carouselName" placeholder="请输入轮播图名称" />
         </el-form-item>
+
+        <el-form-item label="是否为外链" prop="isFrame">
+          <el-radio-group v-model="form.isFrame">
+<!--            <span>{{this.form.isFrame==0?"是":"否"}}</span>-->
+            <el-radio
+            v-for="dict in dict.type.nlp_isFrame_yes_no"
+            :key="dict.value"
+            :label="dict.value"
+            >{{dict.label}}</el-radio>
+          </el-radio-group>
+        </el-form-item>
+
+        <div v-if="form.isFrame == 0">
         <el-form-item label="路由地址" prop="urlPath">
           <el-input v-model="form.urlPath" placeholder="请输入路由地址" />
         </el-form-item>
+        </div>
+        <div v-if="form.isFrame == 1">
         <el-form-item label="详细信息">
 <!--          <editor v-model="form.recordContent" :min-height="192"/>-->
           <MarkdownEditor v-model="form.recordContent"></MarkdownEditor>
         </el-form-item>
-        <el-form-item label="轮播图顺序" prop="postSort">
-          <el-input v-model="form.postSort" placeholder="请输入轮播图顺序" />
+        </div>
+<!--        <el-form-item label="轮播图顺序" prop="postSort">-->
+<!--          <el-input v-model="form.postSort" placeholder="请输入轮播图顺序" />-->
+<!--        </el-form-item>-->
+        <el-form-item label="轮播图排序" prop="postSort">
+          <el-input-number v-model="form.postSort" controls-position="right" :min="0" />
         </el-form-item>
 
         <el-form-item label="轮播图状态">
@@ -143,6 +179,13 @@
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
+
+    <!--    详细内容预览框-->
+    <el-dialog title="轮播图内容" :visible.sync="ifShowRecordContent" @close="closeRecordContent">
+      <v-md-preview :text="showRecordContent"></v-md-preview>
+    </el-dialog>
+
+
   </div>
 </template>
 
@@ -151,9 +194,10 @@ import { listCarousel, getCarousel, delCarousel, addCarousel, updateCarousel } f
 
 export default {
   name: "Carousel",
-  dicts: ['sys_normal_disable'],
+  dicts: ['nlp_isFrame_yes_no','sys_normal_disable'],
   data() {
     return {
+      radio: 0,
       // 遮罩层
       loading: true,
       // 选中数组
@@ -172,6 +216,14 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
+      // 图片显示路径
+      showImgUrl: process.env.VUE_APP_BASE_API,
+      // 详细介绍是否展示
+      ifShowRecordContent: false,
+      //详细介绍内容
+      showRecordContent: '',
+      // 预览大图功能数组
+      showImgUrlBox: [],
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -184,6 +236,25 @@ export default {
       form: {},
       // 表单校验
       rules: {
+
+        carouselName: [
+          { required: true, message: "请输入轮播图名称", trigger: "blur" }
+        ],
+        isFrame: [
+          { required: true, message: "是否外链不能为空", trigger: "change" }
+        ],
+        postSort: [
+          { required: true, message: "显示顺序不能为空", trigger: "change" }
+        ],
+        status: [
+          { required: true, message: "状态不能为空", trigger: "change" }
+        ],
+        carouselImg: [
+          { required: true, message: "请插入轮播图", trigger: "blur" }
+        ],
+
+
+
       }
     };
   },
@@ -214,7 +285,7 @@ export default {
         urlPath: null,
         recordContent: null,
         postSort: null,
-        isFrame: 0,
+        isFrame:"0",
         status: "0",
         createBy: null,
         createTime: null,
@@ -291,6 +362,15 @@ export default {
       this.download('cmsCloud/carousel/export', {
         ...this.queryParams
       }, `carousel_${new Date().getTime()}.xlsx`)
+    },
+    // 详情展示 打开
+    openRecordContent(data) {
+      this.ifShowRecordContent = true;
+      this.showRecordContent = data;
+    },
+    // 详情展示 关闭
+    closeRecordContent() {
+      this.showRecordContent = '';
     }
   }
 };
