@@ -10,23 +10,25 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="鎵€灞炵被鍒?" prop="configId">
-        <el-input
-          v-model="queryParams.configId"
-          placeholder="请输入鎵€灞炵被鍒?"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+      <el-form-item label="所属类别" prop="configId">
+        <el-select v-model="queryParams.configId" placeholder="请选择所属类别" clearable size="small">
+          <el-option
+            v-for="dict in dict.type.nlp_admission_details"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
       </el-form-item>
-      <el-form-item label="显示顺序" prop="postSort">
-        <el-input
-          v-model="queryParams.postSort"
-          placeholder="请输入显示顺序"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+      <el-form-item label="状态" prop="status">
+        <el-select v-model="queryParams.status" placeholder="请选择状态" clearable size="small">
+          <el-option
+            v-for="dict in dict.type.sys_normal_disable"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -82,13 +84,21 @@
 
     <el-table v-loading="loading" :data="admissionDetailsList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="主键" align="center" prop="id" />
+<!--      <el-table-column label="主键" align="center" prop="id" />-->
       <el-table-column label="title标题" align="center" prop="title" />
       <el-table-column label="简介md内容" align="center" prop="synopsisContent" />
       <el-table-column label="详细md内容" align="center" prop="recordContent" />
-      <el-table-column label="鎵€灞炵被鍒?" align="center" prop="configId" />
+      <el-table-column label="所属类别" align="center" prop="configId">
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.nlp_admission_details" :value="scope.row.configId"/>
+        </template>
+      </el-table-column>
       <el-table-column label="显示顺序" align="center" prop="postSort" />
-      <el-table-column label="状态" align="center" prop="status" />
+      <el-table-column label="状态" align="center" prop="status">
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -118,22 +128,39 @@
     />
 
     <!-- 添加或修改招生详情数据对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="title标题" prop="title">
           <el-input v-model="form.title" placeholder="请输入title标题" />
         </el-form-item>
+<!--        <el-form-item label="简介md内容">-->
+<!--          <editor v-model="form.synopsisContent" :min-height="192"/>-->
+<!--        </el-form-item>-->
         <el-form-item label="简介md内容">
-          <editor v-model="form.synopsisContent" :min-height="192"/>
+          <MarkdownEditor v-model="form.recordContent"></MarkdownEditor>
         </el-form-item>
-        <el-form-item label="详细md内容">
-          <editor v-model="form.recordContent" :min-height="192"/>
+<!--        <el-form-item label="详细md内容">-->
+<!--          <editor v-model="form.recordContent" :min-height="192"/>-->
+<!--        </el-form-item>-->
+        <el-form-item label="详细内容">
+          <MarkdownEditor v-model="form.recordContent"></MarkdownEditor>
         </el-form-item>
-        <el-form-item label="鎵€灞炵被鍒?" prop="configId">
-          <el-input v-model="form.configId" placeholder="请输入鎵€灞炵被鍒?" />
+        <el-form-item label="所属类别" prop="configId">
+          <el-input v-model="form.configId" placeholder="请输入所属类别" />
         </el-form-item>
         <el-form-item label="显示顺序" prop="postSort">
           <el-input v-model="form.postSort" placeholder="请输入显示顺序" />
+        </el-form-item>
+        <el-form-item label="状态">
+          <el-radio-group v-model="form.status">
+            <el-radio
+              v-for="dict in dict.type.sys_normal_disable"
+              :key="dict.value"
+              :label="dict.value"
+            >
+              {{dict.label}}
+            </el-radio>
+          </el-radio-group>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -149,6 +176,7 @@ import { listAdmissionDetails, getAdmissionDetails, delAdmissionDetails, addAdmi
 
 export default {
   name: "AdmissionDetails",
+  dicts: ['nlp_admission_details', 'sys_normal_disable'],
   data() {
     return {
       // 遮罩层
@@ -185,7 +213,7 @@ export default {
       // 表单校验
       rules: {
         configId: [
-          { required: true, message: "鎵€灞炵被鍒?不能为空", trigger: "blur" }
+          { required: true, message: "所属类别不能为空", trigger: "blur" }
         ],
         postSort: [
           { required: true, message: "显示顺序不能为空", trigger: "blur" }
