@@ -143,11 +143,11 @@
           </el-radio-group>
         </el-form-item>
 
-        <div v-if="form.isFrame == 0">
-        <el-form-item label="路由地址" prop="urlPath">
+<!--        <div v-if="form.isFrame == 0">-->
+        <el-form-item  v-if="form.isFrame == 0" label="路由地址" prop="urlPath">
           <el-input v-model="form.urlPath" placeholder="请输入路由地址" />
         </el-form-item>
-        </div>
+<!--        </div>-->
 
 <!--        <div v-if="form.isFrame == 1">-->
         <el-form-item v-if="form.isFrame == 1" label="详细信息">
@@ -281,7 +281,7 @@ export default {
         carouselImg: null,
         carouselName: null,
         urlPath: null,
-        recordContent: null,
+        recordContent: '',
         postSort: null,
         isFrame:"0",
         status: "0",
