@@ -30,8 +30,8 @@ public class NlpAdmissionDetails extends BaseEntity
     @Excel(name = "详细md内容")
     private String recordContent;
 
-    /** 鎵€灞炵被鍒? */
-    @Excel(name = "鎵€灞炵被鍒?")
+    /** 所属类别 */
+    @Excel(name = "所属类别")
     private String configId;
 
     /** 显示顺序 */
