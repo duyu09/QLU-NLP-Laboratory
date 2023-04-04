@@ -146,7 +146,14 @@
           <MarkdownEditor v-model="form.recordContent"></MarkdownEditor>
         </el-form-item>
         <el-form-item label="所属类别" prop="configId">
-          <el-input v-model="form.configId" placeholder="请输入所属类别" />
+          <el-select v-model="form.configId" placeholder="请选择所属类别">
+            <el-option
+              v-for="dict in dict.type.nlp_admission_details"
+              :key="dict.value"
+              :label="dict.label"
+              :value="dict.value"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item label="显示顺序" prop="postSort">
           <el-input v-model="form.postSort" placeholder="请输入显示顺序" />
@@ -248,7 +255,7 @@ export default {
         id: null,
         title: null,
         synopsisContent: null,
-        recordContent: null,
+        recordContent: '',
         configId: null,
         postSort: null,
         status: "0",

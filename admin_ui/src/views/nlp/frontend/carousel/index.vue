@@ -281,7 +281,7 @@ export default {
         carouselImg: null,
         carouselName: null,
         urlPath: null,
-        recordContent: null,
+        recordContent: '',
         postSort: null,
         isFrame:"0",
         status: "0",
