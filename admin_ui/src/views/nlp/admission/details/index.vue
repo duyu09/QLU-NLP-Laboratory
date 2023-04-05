@@ -80,13 +80,13 @@
     />
 
     <!-- 添加或修改招生详情 培养计划 招聘详情 数据对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="标题" prop="title">
           <el-input v-model="form.title" placeholder="请输入标题" />
         </el-form-item>
         <el-form-item label="展示内容">
-          <editor v-model="form.recordContent" :min-height="192"/>
+          <MarkdownEditor v-model="form.recordContent"></MarkdownEditor>
         </el-form-item>
         <el-form-item label="详情类别" prop="configId">
           <el-select v-model="form.configId" placeholder="请选择详情类别">
@@ -99,7 +99,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="显示顺序" prop="postSort">
-          <el-input v-model="form.postSort" placeholder="请输入显示顺序" />
+          <el-input-number v-model="form.postSort" controls-position="right" :min="0" />
         </el-form-item>
         <el-form-item label="状态">
           <el-radio-group v-model="form.status">
@@ -153,7 +153,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         title: null,
-        recordContent: null,
+        recordContent: '',
         configId: null,
         postSort: null,
         status: null,
