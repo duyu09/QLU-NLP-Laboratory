@@ -1,6 +1,15 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
+      <el-form-item label="标题" prop="title">
+        <el-input
+          v-model="queryParams.title"
+          placeholder="请输入标题"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
       <el-form-item label="详情类别" prop="configId">
         <el-select v-model="queryParams.configId" placeholder="请选择详情类别" clearable size="small">
           <el-option
@@ -30,19 +39,50 @@
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button
+          type="primary"
+          plain
+          icon="el-icon-plus"
+          size="mini"
+          @click="handleAdd"
+          v-hasPermi="['nlp:admission:detailsManagement:add']"
+        >新增</el-button>
+      </el-col>
+      <el-col :span="1.5">
+        <el-button
           type="success"
           plain
           icon="el-icon-edit"
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['nlp:admission:details:edit']"
+          v-hasPermi="['nlp:admission:detailsManagement:edit']"
         >修改</el-button>
+      </el-col>
+      <el-col :span="1.5">
+        <el-button
+          type="danger"
+          plain
+          icon="el-icon-delete"
+          size="mini"
+          :disabled="multiple"
+          @click="handleDelete"
+          v-hasPermi="['nlp:admission:detailsManagement:remove']"
+        >删除</el-button>
+      </el-col>
+      <el-col :span="1.5">
+        <el-button
+          type="warning"
+          plain
+          icon="el-icon-download"
+          size="mini"
+          @click="handleExport"
+          v-hasPermi="['nlp:admission:detailsManagement:export']"
+        >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="detailsList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="detailsManagementList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="主键" align="center" prop="id" />
       <el-table-column label="标题" align="center" prop="title" />
@@ -65,8 +105,15 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['nlp:admission:details:edit']"
+            v-hasPermi="['nlp:admission:detailsManagement:edit']"
           >修改</el-button>
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-delete"
+            @click="handleDelete(scope.row)"
+            v-hasPermi="['nlp:admission:detailsManagement:remove']"
+          >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -79,7 +126,7 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改招生详情 培养计划 招聘详情 数据对话框 -->
+    <!-- 添加或修改招生详情 培养计划 招聘详情 数据（管理）对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="标题" prop="title">
@@ -107,10 +154,7 @@
               v-for="dict in dict.type.sys_normal_disable"
               :key="dict.value"
               :label="dict.value"
-            >
-              {{dict.label}}
-            </el-radio>
-
+            >{{dict.label}}</el-radio>
           </el-radio-group>
         </el-form-item>
       </el-form>
@@ -123,10 +167,10 @@
 </template>
 
 <script>
-import { listDetails, getDetails, delDetails, addDetails, updateDetails } from "@/api/nlp/admission/details";
+import { listDetailsManagement, getDetailsManagement, delDetailsManagement, addDetailsManagement, updateDetailsManagement } from "@/api/nlp/admission/detailsManagement";
 
 export default {
-  name: "Details",
+  name: "DetailsManagement",
   dicts: ['nlp_details', 'sys_normal_disable'],
   data() {
     return {
@@ -142,8 +186,8 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 招生详情 培养计划 招聘详情 数据表格数据
-      detailsList: [],
+      // 招生详情 培养计划 招聘详情 数据（管理）表格数据
+      detailsManagementList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -155,7 +199,6 @@ export default {
         title: null,
         recordContent: null,
         configId: null,
-        postSort: null,
         status: null,
       },
       // 表单参数
@@ -178,11 +221,11 @@ export default {
     this.getList();
   },
   methods: {
-    /** 查询招生详情 培养计划 招聘详情 数据列表 */
+    /** 查询招生详情 培养计划 招聘详情 数据（管理）列表 */
     getList() {
       this.loading = true;
-      listDetails(this.queryParams).then(response => {
-        this.detailsList = response.rows;
+      listDetailsManagement(this.queryParams).then(response => {
+        this.detailsManagementList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
@@ -228,16 +271,16 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加招生详情 培养计划 招聘详情 数据";
+      this.title = "添加招生详情 培养计划 招聘详情 数据（管理）";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
       const id = row.id || this.ids
-      getDetails(id).then(response => {
+      getDetailsManagement(id).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改招生详情 培养计划 招聘详情 数据";
+        this.title = "修改招生详情 培养计划 招聘详情 数据（管理）";
       });
     },
     /** 提交按钮 */
@@ -245,13 +288,13 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.id != null) {
-            updateDetails(this.form).then(response => {
+            updateDetailsManagement(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addDetails(this.form).then(response => {
+            addDetailsManagement(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -263,8 +306,8 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除招生详情 培养计划 招聘详情 数据编号为"' + ids + '"的数据项？').then(function() {
-        return delDetails(ids);
+      this.$modal.confirm('是否确认删除招生详情 培养计划 招聘详情 数据（管理）编号为"' + ids + '"的数据项？').then(function() {
+        return delDetailsManagement(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
@@ -272,9 +315,9 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('/nlp/admission/details/export', {
+      this.download('nlp/admission/detailsManagement/export', {
         ...this.queryParams
-      }, `details_${new Date().getTime()}.xlsx`)
+      }, `detailsManagement_${new Date().getTime()}.xlsx`)
     }
   }
 };
