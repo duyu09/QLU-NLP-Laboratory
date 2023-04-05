@@ -1,25 +1,42 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="轮播图名称" prop="carouselName">
+<!--      <el-form-item label="新闻插图" prop="newsImg">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.newsImg"-->
+<!--          placeholder="请输入新闻插图"-->
+<!--          clearable-->
+<!--          size="small"-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+      <el-form-item label="标题" prop="title">
         <el-input
-          v-model="queryParams.carouselName"
-          placeholder="请输入轮播图名称"
+          v-model="queryParams.title"
+          placeholder="请输入title标题"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="轮播图状态" prop="status">
-        <el-select v-model="queryParams.status" placeholder="请选择轮播图状态" clearable size="small">
-          <el-option
-            v-for="dict in dict.type.sys_normal_disable"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
+<!--      <el-form-item label="是否置顶" prop="isStick">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.isStick"-->
+<!--          placeholder="请输入是否置顶"-->
+<!--          clearable-->
+<!--          size="small"-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="展示顺序" prop="postSort">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.postSort"-->
+<!--          placeholder="请输入展示顺序"-->
+<!--          clearable-->
+<!--          size="small"-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -34,7 +51,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['nlp:frontend:carousel:add']"
+          v-hasPermi="['nlp:frontend:news:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -45,7 +62,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['nlp:frontend:carousel:edit']"
+          v-hasPermi="['nlp:frontend:news:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -56,43 +73,36 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['nlp:frontend:carousel:remove']"
+          v-hasPermi="['nlp:frontend:news:remove']"
         >删除</el-button>
+      </el-col>
+      <el-col :span="1.5">
+        <el-button
+          type="warning"
+          plain
+          icon="el-icon-download"
+          size="mini"
+          @click="handleExport"
+          v-hasPermi="['nlp:frontend:news:export']"
+        >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="carouselList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="nlpFrontendNewsList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-<!--      <el-table-column label="轮播图ID" align="center" prop="id" />-->
-      <el-table-column label="轮播图" align="center" prop="carouselImg" >
+<!--      <el-table-column label="新闻ID" align="center" prop="id" />-->
+      <el-table-column label="新闻插图" align="center" prop="newsImg" />
+      <el-table-column label="标题" align="center" prop="title" />
+      <el-table-column label="简介内容" align="center" prop="synopsisContent" />
+      <el-table-column label="详细内容" align="center" prop="recordContent" />
+      <el-table-column label="是否置顶" align="center" prop="isStick">
         <template slot-scope="scope">
-          <div style="width: 100px; height: 100px">
-            <el-image
-              :src="showImgUrl + scope.row.carouselImg"
-              fix="contain"
-              :preview-src-list="showImgUrlBox"
-              @click="addShowImgUrl(showImgUrl + scope.row.imgUrl)"
-            />
-          </div>
+          <dict-tag :options="dict.type.nlp_isFrame_yes_no" :value="scope.row.isStick"/>
         </template>
       </el-table-column>
-      <el-table-column label="轮播图名称" align="center" prop="carouselName" width="110px"/>
-      <el-table-column label="路由地址" align="center" prop="urlPath" />
-      <el-table-column label="详细信息" align="center" prop="recordContent" >
-        <template slot-scope="scope">
-          <p v-if="scope.row.recordContent === ''" >请填写详细内容</p>
-          <p v-else-if="scope.row.recordContent === null" >请填写详细内容</p>
-          <a v-else style="color:#1890ff" @click="openRecordContent(scope.row.recordContent)">点击查看</a>
-        </template>
-      </el-table-column>
-      <el-table-column label="轮播图顺序" align="center" prop="postSort" />
-      <el-table-column label="是否为外链 " align="center" prop="isFrame" >
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.nlp_isFrame_yes_no" :value="scope.row.isFrame"/>
-        </template>
-      </el-table-column>
-      <el-table-column label="轮播图状态" align="center" prop="status">
+      <el-table-column label="展示顺序" align="center" prop="postSort" />
+      <el-table-column label="状态" align="center" prop="status" >
         <template slot-scope="scope">
           <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
         </template>
@@ -105,14 +115,14 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['nlp:frontend:carousel:edit']"
+            v-hasPermi="['nlp:frontend:news:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['nlp:frontend:carousel:remove']"
+            v-hasPermi="['nlp:frontend:news:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
@@ -126,43 +136,39 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改轮播图对话框 -->
+    <!-- 添加或修改新闻动态管理对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="轮播图">
-          <imageUpload v-model="form.carouselImg":limit="1"/>
+        <el-form-item label="新闻插图" prop="newsImg">
+          <imageUpload v-model="form.newsImg":limit="1"/>
         </el-form-item>
-        <el-form-item label="轮播图名称" prop="carouselName">
-          <el-input v-model="form.carouselName" placeholder="请输入轮播图名称" />
+        <el-form-item label="标题" prop="title">
+          <el-input v-model="form.title" placeholder="请输入title标题" />
         </el-form-item>
-
-        <el-form-item label="是否为外链" prop="isFrame">
-          <el-radio-group v-model="form.isFrame">
+        <el-form-item label="简介内容">
+          <MarkdownEditor v-model="form.synopsisContent" :min-height="192"/>
+        </el-form-item>
+        <el-form-item label="详细内容">
+          <MarkdownEditor v-model="form.recordContent" :min-height="192"/>
+        </el-form-item>
+        <el-form-item label="是否置顶" prop="isStick">
+<!--          <el-input v-model="form.isStick" placeholder="请输入是否置顶" />-->
+          <el-radio-group v-model="form.isStick">
             <el-radio
-            v-for="dict in dict.type.nlp_isFrame_yes_no"
-            :key="dict.value"
-            :label="dict.value"
+              v-for="dict in dict.type.nlp_isFrame_yes_no"
+              :key="dict.value"
+              :label="dict.value"
             >{{dict.label}}</el-radio>
           </el-radio-group>
         </el-form-item>
-
-        <div v-if="form.isFrame == 0">
-        <el-form-item  label="路由地址" prop="urlPath">
-          <el-input v-model="form.urlPath" placeholder="请输入路由地址" />
-        </el-form-item>
-        </div>
-
-        <div v-if="form.isFrame == 1">
-        <el-form-item  label="详细信息">
-          <MarkdownEditor v-model="form.recordContent"></MarkdownEditor>
-        </el-form-item>
-        </div>
-
-        <el-form-item label="轮播图排序" prop="postSort">
-          <el-input-number v-model="form.postSort" controls-position="right" :min="0" />
+<!--        <el-form-item label="展示顺序" prop="postSort">-->
+<!--          <el-input v-model="form.postSort" placeholder="请输入展示顺序" />-->
+<!--        </el-form-item>-->
+        <el-form-item label="展示顺序" prop="postSort">
+          <el-input-number v-model="form.postSort" controls-position="right" :min="1" />
         </el-form-item>
 
-        <el-form-item label="轮播图状态">
+        <el-form-item label="状态">
           <el-radio-group v-model="form.status">
             <el-radio
               v-for="dict in dict.type.sys_normal_disable"
@@ -180,25 +186,17 @@
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
-
-    <!--    详细内容预览框-->
-    <el-dialog title="轮播图内容" :visible.sync="ifShowRecordContent" @close="closeRecordContent">
-      <v-md-preview :text="showRecordContent"></v-md-preview>
-    </el-dialog>
-
-
   </div>
 </template>
 
 <script>
-import { listCarousel, getCarousel, delCarousel, addCarousel, updateCarousel } from "@/api/nlp/frontend/carousel";
+import { listNlpFrontendNews, getNlpFrontendNews, delNlpFrontendNews, addNlpFrontendNews, updateNlpFrontendNews } from "@/api/nlp/frontend/news";
 
 export default {
-  name: "Carousel",
+  name: "NlpFrontendNews",
   dicts: ['nlp_isFrame_yes_no','sys_normal_disable'],
   data() {
     return {
-      radio: 0,
       // 遮罩层
       loading: true,
       // 选中数组
@@ -211,47 +209,42 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 轮播图表格数据
-      carouselList: [],
+      // 新闻动态管理表格数据
+      nlpFrontendNewsList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
       open: false,
-      // 图片显示路径
-      showImgUrl: process.env.VUE_APP_BASE_API,
-      // 详细介绍是否展示
-      ifShowRecordContent: false,
-      //详细介绍内容
-      showRecordContent: '',
-      // 预览大图功能数组
-      showImgUrlBox: [],
       // 查询参数
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        carouselName: null,
-        isFrame: null,
+        newsImg: null,
+        title: null,
+        synopsisContent: null,
+        recordContent: null,
+        isStick: null,
+        postSort: null,
         status: null,
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
-
-        carouselName: [
-          { required: true, message: "请输入轮播图名称", trigger: "blur" }
+        title: [
+          { required: true, message: "请输入标题", trigger: "blur" }
         ],
-        isFrame: [
-          { required: true, message: "是否外链不能为空", trigger: "change" }
+        synopsisContent: [
+          { required: true, message: "请输入简介内容", trigger: "blur" }
         ],
-        postSort: [
-          { required: true, message: "显示顺序不能为空", trigger: "change" }
+        recordContent: [
+          { required: true, message: "请输入详细内容", trigger: "blur" }
         ],
         status: [
           { required: true, message: "状态不能为空", trigger: "change" }
         ],
-        carouselImg: [
-          { required: true, message: "请插入轮播图", trigger: "blur" }
+        postSort: [
+          { required: true, message: "顺序不能空", trigger: "blur" }
         ],
       }
     };
@@ -260,11 +253,11 @@ export default {
     this.getList();
   },
   methods: {
-    /** 查询轮播图列表 */
+    /** 查询新闻动态管理列表 */
     getList() {
       this.loading = true;
-      listCarousel(this.queryParams).then(response => {
-        this.carouselList = response.rows;
+      listNlpFrontendNews(this.queryParams).then(response => {
+        this.nlpFrontendNewsList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
@@ -278,12 +271,12 @@ export default {
     reset() {
       this.form = {
         id: null,
-        carouselImg: null,
-        carouselName: null,
-        urlPath: null,
+        newsImg: null,
+        title: null,
+        synopsisContent: '',
         recordContent: '',
-        postSort: null,
-        isFrame:"0",
+        isStick: "1",
+        postSort: "0",
         status: "0",
         createBy: null,
         createTime: null,
@@ -313,16 +306,16 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加轮播图";
+      this.title = "添加新闻动态管理";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
       const id = row.id || this.ids
-      getCarousel(id).then(response => {
+      getNlpFrontendNews(id).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改轮播图";
+        this.title = "修改新闻动态管理";
       });
     },
     /** 提交按钮 */
@@ -330,13 +323,13 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.id != null) {
-            updateCarousel(this.form).then(response => {
+            updateNlpFrontendNews(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addCarousel(this.form).then(response => {
+            addNlpFrontendNews(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -348,8 +341,8 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除轮播图编号为"' + ids + '"的数据项？').then(function() {
-        return delCarousel(ids);
+      this.$modal.confirm('是否确认删除新闻动态管理编号为"' + ids + '"的数据项？').then(function() {
+        return delNlpFrontendNews(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
@@ -357,22 +350,10 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('cmsCloud/carousel/export', {
+      this.download('cmsCloud/nlpFrontendNews/export', {
         ...this.queryParams
-      }, `carousel_${new Date().getTime()}.xlsx`)
-    },
-    // 详情展示 打开
-    openRecordContent(data) {
-      this.ifShowRecordContent = true;
-      this.showRecordContent = data;
-    },
-    // 详情展示 关闭
-    closeRecordContent() {
-      this.showRecordContent = '';
-    },
-    addShowImgUrl(data) {
-      this.showImgUrlBox.push(data)
-    },
+      }, `nlpFrontendNews_${new Date().getTime()}.xlsx`)
+    }
   }
 };
 </script>

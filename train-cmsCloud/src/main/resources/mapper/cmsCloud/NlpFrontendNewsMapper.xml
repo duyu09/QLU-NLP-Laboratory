@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.train.cmsCloud.mapper.NlpFrontendNewsMapper">
+
+    <resultMap type="NlpFrontendNews" id="NlpFrontendNewsResult">
+        <result property="id"    column="id"    />
+        <result property="newsImg"    column="news_img"    />
+        <result property="title"    column="title"    />
+        <result property="synopsisContent"    column="synopsis_content"    />
+        <result property="recordContent"    column="record_content"    />
+        <result property="isStick"    column="is_stick"    />
+        <result property="postSort"    column="post_sort"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectNlpFrontendNewsVo">
+        select id, news_img, title, synopsis_content, record_content, is_stick, post_sort, status, create_by, create_time, update_by, update_time, remark from nlp_frontend_news
+    </sql>
+
+    <select id="selectNlpFrontendNewsList" parameterType="NlpFrontendNews" resultMap="NlpFrontendNewsResult">
+        <include refid="selectNlpFrontendNewsVo"/>
+        <where>
+            <if test="newsImg != null  and newsImg != ''"> and news_img = #{newsImg}</if>
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="synopsisContent != null  and synopsisContent != ''"> and synopsis_content = #{synopsisContent}</if>
+            <if test="recordContent != null  and recordContent != ''"> and record_content = #{recordContent}</if>
+            <if test="isStick != null  and isStick != ''"> and is_stick = #{isStick}</if>
+            <if test="postSort != null "> and post_sort = #{postSort}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+
+    <select id="selectNlpFrontendNewsById" parameterType="Long" resultMap="NlpFrontendNewsResult">
+        <include refid="selectNlpFrontendNewsVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertNlpFrontendNews" parameterType="NlpFrontendNews" useGeneratedKeys="true" keyProperty="id">
+        insert into nlp_frontend_news
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="newsImg != null">news_img,</if>
+            <if test="title != null">title,</if>
+            <if test="synopsisContent != null">synopsis_content,</if>
+            <if test="recordContent != null">record_content,</if>
+            <if test="isStick != null">is_stick,</if>
+            <if test="postSort != null">post_sort,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="newsImg != null">#{newsImg},</if>
+            <if test="title != null">#{title},</if>
+            <if test="synopsisContent != null">#{synopsisContent},</if>
+            <if test="recordContent != null">#{recordContent},</if>
+            <if test="isStick != null">#{isStick},</if>
+            <if test="postSort != null">#{postSort},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateNlpFrontendNews" parameterType="NlpFrontendNews">
+        update nlp_frontend_news
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="newsImg != null">news_img = #{newsImg},</if>
+            <if test="title != null">title = #{title},</if>
+            <if test="synopsisContent != null">synopsis_content = #{synopsisContent},</if>
+            <if test="recordContent != null">record_content = #{recordContent},</if>
+            <if test="isStick != null">is_stick = #{isStick},</if>
+            <if test="postSort != null">post_sort = #{postSort},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteNlpFrontendNewsById" parameterType="Long">
+        delete from nlp_frontend_news where id = #{id}
+    </delete>
+
+    <delete id="deleteNlpFrontendNewsByIds" parameterType="String">
+        delete from nlp_frontend_news where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
