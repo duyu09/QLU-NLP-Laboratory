@@ -1,10 +1,10 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="标题" prop="title">
+      <el-form-item label="内容" prop="recordContent">
         <el-input
-          v-model="queryParams.title"
-          placeholder="请输入标题"
+          v-model="queryParams.recordContent"
+          placeholder="请输入内容"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -68,16 +68,6 @@
           @click="handleDelete"
           v-hasPermi="['nlp:admission:detailsManagement:remove']"
         >删除</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="warning"
-          plain
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-          v-hasPermi="['nlp:admission:detailsManagement:export']"
-        >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>

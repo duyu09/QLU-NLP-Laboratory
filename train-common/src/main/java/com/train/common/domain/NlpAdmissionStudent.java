@@ -6,33 +6,37 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
- * 招生详情数据对象 nlp_admission_details
+ * 学生 数据对象 nlp_admission_student
  *
  * @author ICOVETOUS
- * @date 2023-04-04
+ * @date 2023-04-05
  */
-public class NlpAdmissionDetails extends BaseEntity
+public class NlpAdmissionStudent extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
     /** 主键 */
     private Integer id;
 
-    /** title标题 */
-    @Excel(name = "title标题")
-    private String title;
+    /** 姓名 */
+    @Excel(name = "姓名")
+    private String name;
 
-    /** 简介md内容 */
-    @Excel(name = "简介md内容")
-    private String synopsisContent;
+    /** 性别（0男 1女 2未知） */
+    @Excel(name = "性别", readConverterExp = "0=男,1=女,2=未知")
+    private String sex;
 
-    /** 详细md内容 */
-    @Excel(name = "详细md内容")
-    private String recordContent;
+    /** 年级 */
+    @Excel(name = "年级")
+    private String grade;
 
-    /** 所属类别 */
-    @Excel(name = "所属类别")
-    private String configId;
+    /** 学历 */
+    @Excel(name = "学历")
+    private String education;
+
+    /** 是否在读（0在读 1毕业） */
+    @Excel(name = "是否在读", readConverterExp = "0=在读,1=毕业")
+    private String atSchool;
 
     /** 显示顺序 */
     @Excel(name = "显示顺序")
@@ -51,41 +55,50 @@ public class NlpAdmissionDetails extends BaseEntity
     {
         return id;
     }
-    public void setTitle(String title)
+    public void setName(String name)
     {
-        this.title = title;
+        this.name = name;
     }
 
-    public String getTitle()
+    public String getName()
     {
-        return title;
+        return name;
     }
-    public void setSynopsisContent(String synopsisContent)
+    public void setSex(String sex)
     {
-        this.synopsisContent = synopsisContent;
-    }
-
-    public String getSynopsisContent()
-    {
-        return synopsisContent;
-    }
-    public void setRecordContent(String recordContent)
-    {
-        this.recordContent = recordContent;
+        this.sex = sex;
     }
 
-    public String getRecordContent()
+    public String getSex()
     {
-        return recordContent;
+        return sex;
     }
-    public void setConfigId(String configId)
+    public void setGrade(String grade)
     {
-        this.configId = configId;
+        this.grade = grade;
     }
 
-    public String getConfigId()
+    public String getGrade()
     {
-        return configId;
+        return grade;
+    }
+    public void setEducation(String education)
+    {
+        this.education = education;
+    }
+
+    public String getEducation()
+    {
+        return education;
+    }
+    public void setAtSchool(String atSchool)
+    {
+        this.atSchool = atSchool;
+    }
+
+    public String getAtSchool()
+    {
+        return atSchool;
     }
     public void setPostSort(Long postSort)
     {
@@ -110,10 +123,11 @@ public class NlpAdmissionDetails extends BaseEntity
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
                 .append("id", getId())
-                .append("title", getTitle())
-                .append("synopsisContent", getSynopsisContent())
-                .append("recordContent", getRecordContent())
-                .append("configId", getConfigId())
+                .append("name", getName())
+                .append("sex", getSex())
+                .append("grade", getGrade())
+                .append("education", getEducation())
+                .append("atSchool", getAtSchool())
                 .append("postSort", getPostSort())
                 .append("status", getStatus())
                 .append("createBy", getCreateBy())

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.train.cmsCloud.mapper.NlpAdmissionStudentMapper">
+
+    <resultMap type="NlpAdmissionStudent" id="NlpAdmissionStudentResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="sex"    column="sex"    />
+        <result property="grade"    column="grade"    />
+        <result property="education"    column="education"    />
+        <result property="atSchool"    column="at_school"    />
+        <result property="postSort"    column="post_sort"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectNlpAdmissionStudentVo">
+        select id, name, sex, grade, education, at_school, post_sort, status, create_by, create_time, update_by, update_time from nlp_admission_student
+    </sql>
+
+    <select id="selectNlpAdmissionStudentList" parameterType="NlpAdmissionStudent" resultMap="NlpAdmissionStudentResult">
+        <include refid="selectNlpAdmissionStudentVo"/>
+        <where>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="sex != null  and sex != ''"> and sex = #{sex}</if>
+            <if test="grade != null  and grade != ''"> and grade like concat('%', #{grade}, '%')</if>
+            <if test="education != null  and education != ''"> and education like concat('%', #{education}, '%')</if>
+            <if test="atSchool != null  and atSchool != ''"> and at_school = #{atSchool}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+
+    <select id="selectNlpAdmissionStudentById" parameterType="Integer" resultMap="NlpAdmissionStudentResult">
+        <include refid="selectNlpAdmissionStudentVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertNlpAdmissionStudent" parameterType="NlpAdmissionStudent" useGeneratedKeys="true" keyProperty="id">
+        insert into nlp_admission_student
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="sex != null and sex != ''">sex,</if>
+            <if test="grade != null">grade,</if>
+            <if test="education != null">education,</if>
+            <if test="atSchool != null and atSchool != ''">at_school,</if>
+            <if test="postSort != null">post_sort,</if>
+            <if test="status != null and status != ''">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="sex != null and sex != ''">#{sex},</if>
+            <if test="grade != null">#{grade},</if>
+            <if test="education != null">#{education},</if>
+            <if test="atSchool != null and atSchool != ''">#{atSchool},</if>
+            <if test="postSort != null">#{postSort},</if>
+            <if test="status != null and status != ''">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateNlpAdmissionStudent" parameterType="NlpAdmissionStudent">
+        update nlp_admission_student
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="sex != null and sex != ''">sex = #{sex},</if>
+            <if test="grade != null">grade = #{grade},</if>
+            <if test="education != null">education = #{education},</if>
+            <if test="atSchool != null and atSchool != ''">at_school = #{atSchool},</if>
+            <if test="postSort != null">post_sort = #{postSort},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteNlpAdmissionStudentById" parameterType="Integer">
+        delete from nlp_admission_student where id = #{id}
+    </delete>
+
+    <delete id="deleteNlpAdmissionStudentByIds" parameterType="String">
+        delete from nlp_admission_student where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,19 +1,47 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="title标题" prop="title">
+      <el-form-item label="姓名" prop="name">
         <el-input
-          v-model="queryParams.title"
-          placeholder="请输入title标题"
+          v-model="queryParams.name"
+          placeholder="请输入姓名"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="所属类别" prop="configId">
-        <el-select v-model="queryParams.configId" placeholder="请选择所属类别" clearable size="small">
+      <el-form-item label="性别" prop="sex">
+        <el-select v-model="queryParams.sex" placeholder="请选择性别" clearable size="small">
           <el-option
-            v-for="dict in dict.type.nlp_admission_details"
+            v-for="dict in dict.type.sys_user_sex"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="年级" prop="grade">
+        <el-input
+          v-model="queryParams.grade"
+          placeholder="请输入年级"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="学历" prop="education">
+        <el-input
+          v-model="queryParams.education"
+          placeholder="请输入学历"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="是否在读" prop="atSchool">
+        <el-select v-model="queryParams.atSchool" placeholder="请选择是否在读" clearable size="small">
+          <el-option
+            v-for="dict in dict.type.nlp_admission_student"
             :key="dict.value"
             :label="dict.label"
             :value="dict.value"
@@ -44,7 +72,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['nlp:admission:admissionDetails:add']"
+          v-hasPermi="['nlp:admission:admissionStudent:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -55,7 +83,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['nlp:admission:admissionDetails:edit']"
+          v-hasPermi="['nlp:admission:admissionStudent:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -66,31 +94,26 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['nlp:admission:admissionDetails:remove']"
+          v-hasPermi="['nlp:admission:admissionStudent:remove']"
         >删除</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="warning"
-          plain
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-          v-hasPermi="['nlp:admission:admissionDetails:export']"
-        >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="admissionDetailsList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="admissionStudentList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-<!--      <el-table-column label="主键" align="center" prop="id" />-->
-      <el-table-column label="title标题" align="center" prop="title" />
-      <el-table-column label="简介md内容" align="center" prop="synopsisContent" />
-      <el-table-column label="详细md内容" align="center" prop="recordContent" />
-      <el-table-column label="所属类别" align="center" prop="configId">
+      <el-table-column label="主键" align="center" prop="id" />
+      <el-table-column label="姓名" align="center" prop="name" />
+      <el-table-column label="性别" align="center" prop="sex">
         <template slot-scope="scope">
-          <dict-tag :options="dict.type.nlp_admission_details" :value="scope.row.configId"/>
+          <dict-tag :options="dict.type.sys_user_sex" :value="scope.row.sex"/>
+        </template>
+      </el-table-column>
+      <el-table-column label="年级" align="center" prop="grade" />
+      <el-table-column label="学历" align="center" prop="education" />
+      <el-table-column label="是否在读" align="center" prop="atSchool">
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.nlp_admission_student" :value="scope.row.atSchool"/>
         </template>
       </el-table-column>
       <el-table-column label="显示顺序" align="center" prop="postSort" />
@@ -106,14 +129,14 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['nlp:admission:admissionDetails:edit']"
+            v-hasPermi="['nlp:admission:admissionStudent:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['nlp:admission:admissionDetails:remove']"
+            v-hasPermi="['nlp:admission:admissionStudent:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
@@ -127,33 +150,36 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改招生详情数据对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body>
+    <!-- 添加或修改学生 数据对话框 -->
+    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="title标题" prop="title">
-          <el-input v-model="form.title" placeholder="请输入title标题" />
+        <el-form-item label="姓名" prop="name">
+          <el-input v-model="form.name" placeholder="请输入姓名" />
         </el-form-item>
-<!--        <el-form-item label="简介md内容">-->
-<!--          <editor v-model="form.synopsisContent" :min-height="192"/>-->
-<!--        </el-form-item>-->
-        <el-form-item label="简介md内容">
-          <MarkdownEditor v-model="form.recordContent"></MarkdownEditor>
-        </el-form-item>
-<!--        <el-form-item label="详细md内容">-->
-<!--          <editor v-model="form.recordContent" :min-height="192"/>-->
-<!--        </el-form-item>-->
-        <el-form-item label="详细内容">
-          <MarkdownEditor v-model="form.recordContent"></MarkdownEditor>
-        </el-form-item>
-        <el-form-item label="所属类别" prop="configId">
-          <el-select v-model="form.configId" placeholder="请选择所属类别">
+        <el-form-item label="性别" prop="sex">
+          <el-select v-model="form.sex" placeholder="请选择性别">
             <el-option
-              v-for="dict in dict.type.nlp_admission_details"
+              v-for="dict in dict.type.sys_user_sex"
               :key="dict.value"
               :label="dict.label"
               :value="dict.value"
-            />
+            ></el-option>
           </el-select>
+        </el-form-item>
+        <el-form-item label="年级" prop="grade">
+          <el-input v-model="form.grade" placeholder="请输入年级" />
+        </el-form-item>
+        <el-form-item label="学历" prop="education">
+          <el-input v-model="form.education" placeholder="请输入学历" />
+        </el-form-item>
+        <el-form-item label="是否在读">
+          <el-radio-group v-model="form.atSchool">
+            <el-radio
+              v-for="dict in dict.type.nlp_admission_student"
+              :key="dict.value"
+              :label="dict.value"
+            >{{dict.label}}</el-radio>
+          </el-radio-group>
         </el-form-item>
         <el-form-item label="显示顺序" prop="postSort">
           <el-input v-model="form.postSort" placeholder="请输入显示顺序" />
@@ -164,9 +190,7 @@
               v-for="dict in dict.type.sys_normal_disable"
               :key="dict.value"
               :label="dict.value"
-            >
-              {{dict.label}}
-            </el-radio>
+            >{{dict.label}}</el-radio>
           </el-radio-group>
         </el-form-item>
       </el-form>
@@ -179,11 +203,11 @@
 </template>
 
 <script>
-import { listAdmissionDetails, getAdmissionDetails, delAdmissionDetails, addAdmissionDetails, updateAdmissionDetails } from "@/api/nlp/admission/admissionDetails";
+import { listAdmissionStudent, getAdmissionStudent, delAdmissionStudent, addAdmissionStudent, updateAdmissionStudent } from "@/api/nlp/admission/admissionStudent";
 
 export default {
-  name: "AdmissionDetails",
-  dicts: ['nlp_admission_details', 'sys_normal_disable'],
+  name: "AdmissionStudent",
+  dicts: ['sys_user_sex', 'nlp_admission_student', 'sys_normal_disable'],
   data() {
     return {
       // 遮罩层
@@ -198,8 +222,8 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 招生详情数据表格数据
-      admissionDetailsList: [],
+      // 学生 数据表格数据
+      admissionStudentList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -208,19 +232,22 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        title: null,
-        synopsisContent: null,
-        recordContent: null,
-        configId: null,
-        postSort: null,
+        name: null,
+        sex: null,
+        grade: null,
+        education: null,
+        atSchool: null,
         status: null,
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
-        configId: [
-          { required: true, message: "所属类别不能为空", trigger: "blur" }
+        sex: [
+          { required: true, message: "性别不能为空", trigger: "change" }
+        ],
+        atSchool: [
+          { required: true, message: "是否在读不能为空", trigger: "blur" }
         ],
         postSort: [
           { required: true, message: "显示顺序不能为空", trigger: "blur" }
@@ -235,11 +262,11 @@ export default {
     this.getList();
   },
   methods: {
-    /** 查询招生详情数据列表 */
+    /** 查询学生 数据列表 */
     getList() {
       this.loading = true;
-      listAdmissionDetails(this.queryParams).then(response => {
-        this.admissionDetailsList = response.rows;
+      listAdmissionStudent(this.queryParams).then(response => {
+        this.admissionStudentList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
@@ -253,10 +280,11 @@ export default {
     reset() {
       this.form = {
         id: null,
-        title: null,
-        synopsisContent: null,
-        recordContent: '',
-        configId: null,
+        name: null,
+        sex: null,
+        grade: null,
+        education: null,
+        atSchool: "0",
         postSort: null,
         status: "0",
         createBy: null,
@@ -286,16 +314,16 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加招生详情数据";
+      this.title = "添加学生 数据";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
       const id = row.id || this.ids
-      getAdmissionDetails(id).then(response => {
+      getAdmissionStudent(id).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改招生详情数据";
+        this.title = "修改学生 数据";
       });
     },
     /** 提交按钮 */
@@ -303,13 +331,13 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.id != null) {
-            updateAdmissionDetails(this.form).then(response => {
+            updateAdmissionStudent(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addAdmissionDetails(this.form).then(response => {
+            addAdmissionStudent(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -321,8 +349,8 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除招生详情数据编号为"' + ids + '"的数据项？').then(function() {
-        return delAdmissionDetails(ids);
+      this.$modal.confirm('是否确认删除学生 数据编号为"' + ids + '"的数据项？').then(function() {
+        return delAdmissionStudent(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
@@ -330,9 +358,9 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('cmsCloud/admissionDetails/export', {
+      this.download('nlp/admission/admissionStudent/export', {
         ...this.queryParams
-      }, `admissionDetails_${new Date().getTime()}.xlsx`)
+      }, `admissionStudent_${new Date().getTime()}.xlsx`)
     }
   }
 };
