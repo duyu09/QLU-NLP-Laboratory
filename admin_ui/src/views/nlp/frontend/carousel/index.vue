@@ -87,7 +87,11 @@
         </template>
       </el-table-column>
       <el-table-column label="轮播图顺序" align="center" prop="postSort" />
-      <el-table-column label="是否为外链 " align="center" prop="isFrame" />
+      <el-table-column label="是否为外链 " align="center" prop="isFrame" >
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.nlp_isFrame_yes_no" :value="scope.row.isFrame"/>
+        </template>
+      </el-table-column>
       <el-table-column label="轮播图状态" align="center" prop="status">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
@@ -366,7 +370,10 @@ export default {
     // 详情展示 关闭
     closeRecordContent() {
       this.showRecordContent = '';
-    }
+    },
+    addShowImgUrl(data) {
+      this.showImgUrlBox.push(data)
+    },
   }
 };
 </script>
