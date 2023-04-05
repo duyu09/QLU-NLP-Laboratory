@@ -26,7 +26,7 @@ export default
 <template>
   <p-header></p-header>
   <div id="mainDiv">
-    <div id="app-menu" style="display: flex;justify-content: center;background-color: rgb(240,240,240);box-shadow: black 0.125rem 0.1875rem 0.5rem 0px;">
+    <div id="app-menu" style="display: flex;justify-content: center;background-color: rgb(240,240,240);box-shadow: black 0.125rem 0.02rem 0.2rem;">
       <div style="width: 85%;">
         <dynamicMenu></dynamicMenu>
       </div>
