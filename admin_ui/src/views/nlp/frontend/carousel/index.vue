@@ -138,7 +138,6 @@
 
         <el-form-item label="是否为外链" prop="isFrame">
           <el-radio-group v-model="form.isFrame">
-<!--            <span>{{this.form.isFrame==0?"是":"否"}}</span>-->
             <el-radio
             v-for="dict in dict.type.nlp_isFrame_yes_no"
             :key="dict.value"
