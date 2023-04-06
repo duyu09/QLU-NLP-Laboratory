@@ -41,4 +41,5 @@ export function delNlpFrontendNews(id) {
     url: '/nlp/frontend/news/' + id,
     method: 'delete'
   })
+
 }

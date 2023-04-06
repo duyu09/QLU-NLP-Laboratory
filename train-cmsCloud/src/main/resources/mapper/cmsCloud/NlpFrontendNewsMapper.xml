@@ -103,4 +103,12 @@
             #{id}
         </foreach>
     </delete>
+
+
+    <select id="setTopNews" parameterType="NlpFrontendNews" resultMap="NlpFrontendNewsResult">
+        select * from nlp_frontend_news
+        order by is_stick asc ,create_time asc
+    </select>
+
+
 </mapper>

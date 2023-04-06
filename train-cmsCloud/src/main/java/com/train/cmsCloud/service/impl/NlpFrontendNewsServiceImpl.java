@@ -94,4 +94,11 @@ public class NlpFrontendNewsServiceImpl implements INlpFrontendNewsService
     {
         return nlpFrontendNewsMapper.deleteNlpFrontendNewsById(id);
     }
+
+
+    @Override
+    public List<NlpFrontendNews> setTopNews(NlpFrontendNews nlpFrontendNews)
+    {
+        return nlpFrontendNewsMapper.setTopNews(nlpFrontendNews);
+    }
 }

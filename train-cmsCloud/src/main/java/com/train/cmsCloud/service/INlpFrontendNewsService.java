@@ -59,4 +59,6 @@ public interface INlpFrontendNewsService
      * @return 结果
      */
     public int deleteNlpFrontendNewsById(Long id);
+
+    public List<NlpFrontendNews> setTopNews(NlpFrontendNews nlpFrontendNews);
 }

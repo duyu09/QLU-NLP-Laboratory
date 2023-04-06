@@ -100,6 +100,8 @@
         <template slot-scope="scope">
           <dict-tag :options="dict.type.nlp_isFrame_yes_no" :value="scope.row.isStick"/>
         </template>
+
+
       </el-table-column>
       <el-table-column label="展示顺序" align="center" prop="postSort" />
       <el-table-column label="状态" align="center" prop="status" >
@@ -124,6 +126,11 @@
             @click="handleDelete(scope.row)"
             v-hasPermi="['nlp:frontend:news:remove']"
           >删除</el-button>
+
+<!--       <el-button  type="text" size="small" @click="getTopMove(scope.row,scope.$index)" :disabled="scope.$index==0">-->
+<!--         置顶-->
+<!--       </el-button>-->
+
         </template>
       </el-table-column>
     </el-table>
@@ -151,8 +158,8 @@
         <el-form-item label="详细内容">
           <MarkdownEditor v-model="form.recordContent" :min-height="192"/>
         </el-form-item>
+
         <el-form-item label="是否置顶" prop="isStick">
-<!--          <el-input v-model="form.isStick" placeholder="请输入是否置顶" />-->
           <el-radio-group v-model="form.isStick">
             <el-radio
               v-for="dict in dict.type.nlp_isFrame_yes_no"
@@ -161,12 +168,15 @@
             >{{dict.label}}</el-radio>
           </el-radio-group>
         </el-form-item>
+
+
 <!--        <el-form-item label="展示顺序" prop="postSort">-->
 <!--          <el-input v-model="form.postSort" placeholder="请输入展示顺序" />-->
 <!--        </el-form-item>-->
         <el-form-item label="展示顺序" prop="postSort">
           <el-input-number v-model="form.postSort" controls-position="right" :min="1" />
         </el-form-item>
+
 
         <el-form-item label="状态">
           <el-radio-group v-model="form.status">
@@ -299,7 +309,7 @@ export default {
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.id)
-      this.single = selection.length!==1
+      this.single = selection.length !== 1
       this.multiple = !selection.length
     },
     /** 新增按钮操作 */
@@ -341,19 +351,27 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除新闻动态管理编号为"' + ids + '"的数据项？').then(function() {
+      this.$modal.confirm('是否确认删除新闻动态管理编号为"' + ids + '"的数据项？').then(function () {
         return delNlpFrontendNews(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
-      }).catch(() => {});
+      }).catch(() => {
+      });
     },
     /** 导出按钮操作 */
     handleExport() {
       this.download('cmsCloud/nlpFrontendNews/export', {
         ...this.queryParams
       }, `nlpFrontendNews_${new Date().getTime()}.xlsx`)
-    }
+    },
+
+    //
+    // //置顶
+    // getTopMove(row,index) {
+    //   this.dataList.splice(index, 1)
+    //   this.dataList.unshift(row)
+    // }
   }
 };
 </script>

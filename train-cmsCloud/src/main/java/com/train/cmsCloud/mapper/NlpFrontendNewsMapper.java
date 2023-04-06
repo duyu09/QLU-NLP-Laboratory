@@ -3,7 +3,9 @@ package com.train.cmsCloud.mapper;
 import com.train.common.domain.NlpFrontendNews;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -62,4 +64,8 @@ public interface NlpFrontendNewsMapper
      * @return 结果
      */
     public int deleteNlpFrontendNewsByIds(Long[] ids);
+
+
+    public List<NlpFrontendNews> setTopNews(NlpFrontendNews nlpFrontendNews);
+
 }

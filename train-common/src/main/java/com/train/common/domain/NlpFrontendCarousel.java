@@ -40,7 +40,7 @@ public class NlpFrontendCarousel extends BaseEntity
 
     /** 是否为外链  */
     @Excel(name = "是否为外链 ")
-    private Integer isFrame;
+    private String isFrame;
 
     /** 轮播图状态（0正常 1停用） */
     @Excel(name = "轮播图状态", readConverterExp = "0=正常,1=停用")
@@ -100,12 +100,12 @@ public class NlpFrontendCarousel extends BaseEntity
     {
         return postSort;
     }
-    public void setIsFrame(Integer isFrame)
+    public void setIsFrame(String isFrame)
     {
         this.isFrame = isFrame;
     }
 
-    public Integer getIsFrame()
+    public String getIsFrame()
     {
         return isFrame;
     }

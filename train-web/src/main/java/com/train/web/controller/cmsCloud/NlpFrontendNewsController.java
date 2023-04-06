@@ -43,7 +43,8 @@ public class NlpFrontendNewsController extends BaseController
     public TableDataInfo list(NlpFrontendNews nlpFrontendNews)
     {
         startPage();
-        List<NlpFrontendNews> list = nlpFrontendNewsService.selectNlpFrontendNewsList(nlpFrontendNews);
+//        List<NlpFrontendNews> list = nlpFrontendNewsService.selectNlpFrontendNewsList(nlpFrontendNews);
+        List<NlpFrontendNews> list = nlpFrontendNewsService.setTopNews(nlpFrontendNews);
         return getDataTable(list);
     }
 
@@ -102,4 +103,6 @@ public class NlpFrontendNewsController extends BaseController
     {
         return toAjax(nlpFrontendNewsService.deleteNlpFrontendNewsByIds(ids));
     }
+
+
 }
