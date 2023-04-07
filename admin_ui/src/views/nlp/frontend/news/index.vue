@@ -92,15 +92,40 @@
     <el-table v-loading="loading" :data="nlpFrontendNewsList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
 <!--      <el-table-column label="新闻ID" align="center" prop="id" />-->
-      <el-table-column label="新闻插图" align="center" prop="newsImg" />
+      <el-table-column label="新闻插图" align="center" prop="newsImg" >
+        <template slot-scope="scope">
+          <div style="width: 100px; height: 100px">
+            <el-image
+              :src="showImgUrl + scope.row.newsImg"
+              fix="contain"
+              :preview-src-list="showImgUrlBox"
+              @click="addShowImgUrl(showImgUrl + scope.row.newsImg)"
+            />
+          </div>
+        </template>
+      </el-table-column>
       <el-table-column label="标题" align="center" prop="title" />
-      <el-table-column label="简介内容" align="center" prop="synopsisContent" />
-      <el-table-column label="详细内容" align="center" prop="recordContent" />
+
+      <el-table-column label="简介内容" align="center" prop="synopsisContent" >
+        <template slot-scope="scope">
+          <p v-if="scope.row.synopsisContent === ''" >请填写简介内容</p>
+          <p v-else-if="scope.row.synopsisContent === null" >请填写简介内容</p>
+          <a v-else style="color:#1890ff" @click="openSynopsisContent(scope.row.synopsisContent)">点击查看</a>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="详细内容" align="center" prop="recordContent" >
+        <template slot-scope="scope">
+          <p v-if="scope.row.recordContent === ''" >请填写详细内容</p>
+          <p v-else-if="scope.row.recordContent === null" >请填写详细内容</p>
+          <a v-else style="color:#1890ff" @click="openRecordContent(scope.row.recordContent)">点击查看</a>
+        </template>
+      </el-table-column>
+
       <el-table-column label="是否置顶" align="center" prop="isStick">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.nlp_isFrame_yes_no" :value="scope.row.isStick"/>
         </template>
-
 
       </el-table-column>
       <el-table-column label="展示顺序" align="center" prop="postSort" />
@@ -126,10 +151,6 @@
             @click="handleDelete(scope.row)"
             v-hasPermi="['nlp:frontend:news:remove']"
           >删除</el-button>
-
-<!--       <el-button  type="text" size="small" @click="getTopMove(scope.row,scope.$index)" :disabled="scope.$index==0">-->
-<!--         置顶-->
-<!--       </el-button>-->
 
         </template>
       </el-table-column>
@@ -169,14 +190,9 @@
           </el-radio-group>
         </el-form-item>
 
-
-<!--        <el-form-item label="展示顺序" prop="postSort">-->
-<!--          <el-input v-model="form.postSort" placeholder="请输入展示顺序" />-->
-<!--        </el-form-item>-->
         <el-form-item label="展示顺序" prop="postSort">
           <el-input-number v-model="form.postSort" controls-position="right" :min="1" />
         </el-form-item>
-
 
         <el-form-item label="状态">
           <el-radio-group v-model="form.status">
@@ -195,6 +211,15 @@
         <el-button type="primary" @click="submitForm">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
       </div>
+    </el-dialog>
+
+    <!--    详细内容预览框-->
+    <el-dialog title="详解内容" :visible.sync="ifShowRecordContent" @close="closeRecordContent">
+      <v-md-preview :text="showRecordContent"></v-md-preview>
+    </el-dialog>
+    <!--    简介内容预览框-->
+    <el-dialog title="简介内容" :visible.sync="ifShowSynopsisContent" @close="closeSynopsisContent">
+      <v-md-preview :text="showSynopsisContent"></v-md-preview>
     </el-dialog>
   </div>
 </template>
@@ -225,6 +250,18 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
+      // 详细介绍是否展示
+      ifShowRecordContent: false,
+      //详细介绍内容
+      showRecordContent: '',
+      //简介内容是否展示
+      ifShowSynopsisContent: false,
+      //简介介绍内容
+      showSynopsisContent: '',
+      // 预览大图功能数组
+      showImgUrlBox: [],
+      // 图片显示路径
+      showImgUrl: process.env.VUE_APP_BASE_API,
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -361,17 +398,34 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('cmsCloud/nlpFrontendNews/export', {
+      this.download('nlp/frontend/news/export', {
         ...this.queryParams
       }, `nlpFrontendNews_${new Date().getTime()}.xlsx`)
     },
 
-    //
-    // //置顶
-    // getTopMove(row,index) {
-    //   this.dataList.splice(index, 1)
-    //   this.dataList.unshift(row)
-    // }
+    // 详情展示 打开
+    openRecordContent(data) {
+      this.ifShowRecordContent = true;
+      this.showRecordContent = data;
+    },
+    // 详情展示 关闭
+    closeRecordContent() {
+      this.showRecordContent = '';
+    },
+
+    // 简介展示 打开
+    openSynopsisContent(data) {
+      this.ifShowSynopsisContent = true;
+      this.showSynopsisContent = data;
+    },
+    // 简介展示 关闭
+    closeSynopsisContent() {
+      this.showSynopsisContent = '';
+    },
+    /** 点击图片预览功能 */
+    addShowImgUrl(data) {
+      this.showImgUrlBox.push(data)
+    },
   }
 };
 </script>

@@ -31,6 +31,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isFrame != null "> and is_frame = #{isFrame}</if>
             <if test="status != null  and status != ''"> and status = #{status}</if>
         </where>
+        order by post_sort asc ,create_time asc
     </select>
 
     <select id="selectNlpFrontendCarouselById" parameterType="Long" resultMap="NlpFrontendCarouselResult">

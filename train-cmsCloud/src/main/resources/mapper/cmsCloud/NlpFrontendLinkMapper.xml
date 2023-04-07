@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.train.cmsCloud.mapper.NlpFrontendLinkMapper">
+
+    <resultMap type="NlpFrontendLink" id="NlpFrontendLinkResult">
+        <result property="id"    column="id"    />
+        <result property="status"    column="status"    />
+        <result property="linkName"    column="link_name"    />
+        <result property="linkUrl"    column="link_url"    />
+        <result property="postSort"    column="post_sort"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectNlpFrontendLinkVo">
+        select id, status, link_name, link_url, post_sort, create_by, create_time, update_by, update_time, remark from nlp_frontend_link
+    </sql>
+
+    <select id="selectNlpFrontendLinkList" parameterType="NlpFrontendLink" resultMap="NlpFrontendLinkResult">
+        <include refid="selectNlpFrontendLinkVo"/>
+        <where>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="linkName != null  and linkName != ''"> and link_name like concat('%', #{linkName}, '%')</if>
+            <if test="linkUrl != null  and linkUrl != ''"> and link_url = #{linkUrl}</if>
+            <if test="postSort != null "> and post_sort = #{postSort}</if>
+        </where>
+        order by post_sort asc ,create_time asc
+    </select>
+
+    <select id="selectNlpFrontendLinkById" parameterType="Long" resultMap="NlpFrontendLinkResult">
+        <include refid="selectNlpFrontendLinkVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertNlpFrontendLink" parameterType="NlpFrontendLink">
+        insert into nlp_frontend_link
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="status != null">status,</if>
+            <if test="linkName != null">link_name,</if>
+            <if test="linkUrl != null">link_url,</if>
+            <if test="postSort != null">post_sort,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="status != null">#{status},</if>
+            <if test="linkName != null">#{linkName},</if>
+            <if test="linkUrl != null">#{linkUrl},</if>
+            <if test="postSort != null">#{postSort},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateNlpFrontendLink" parameterType="NlpFrontendLink">
+        update nlp_frontend_link
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="status != null">status = #{status},</if>
+            <if test="linkName != null">link_name = #{linkName},</if>
+            <if test="linkUrl != null">link_url = #{linkUrl},</if>
+            <if test="postSort != null">post_sort = #{postSort},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteNlpFrontendLinkById" parameterType="Long">
+        delete from nlp_frontend_link where id = #{id}
+    </delete>
+
+    <delete id="deleteNlpFrontendLinkByIds" parameterType="String">
+        delete from nlp_frontend_link where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
