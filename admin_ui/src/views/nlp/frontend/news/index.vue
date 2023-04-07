@@ -92,6 +92,7 @@
     <el-table v-loading="loading" :data="nlpFrontendNewsList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
 <!--      <el-table-column label="新闻ID" align="center" prop="id" />-->
+      <el-table-column label="展示顺序" align="center" prop="postSort" />
       <el-table-column label="新闻插图" align="center" prop="newsImg" >
         <template slot-scope="scope">
           <div style="width: 100px; height: 100px">
@@ -128,7 +129,7 @@
         </template>
 
       </el-table-column>
-      <el-table-column label="展示顺序" align="center" prop="postSort" />
+
       <el-table-column label="状态" align="center" prop="status" >
         <template slot-scope="scope">
           <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>

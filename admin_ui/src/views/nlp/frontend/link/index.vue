@@ -94,17 +94,17 @@
       <el-table-column type="selection" width="55" align="center" />
 <!--      <el-table-column label="id" align="center" prop="id" />-->
       <el-table-column label="展示顺序" align="center" prop="postSort" />
-      <el-table-column label="是否使用" align="center" prop="status">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
-        </template>
-      </el-table-column>
       <el-table-column label="链接名称" align="center" prop="linkName" />
       <el-table-column label="链接地址" align="center" prop="linkUrl" >
         <template slot-scope="scope">
           <p v-if="scope.row.linkUrl === ''" >请填写链接地址</p>
           <p v-else-if="scope.row.linkUrl === null" >请填写链接地址</p>
           <a v-else style="color:#1890ff" @click="openLinkUrl(scope.row.linkUrl)">点击查看</a>
+        </template>
+      </el-table-column>
+      <el-table-column label="是否使用" align="center" prop="status">
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
         </template>
       </el-table-column>
       <el-table-column label="备注" align="center" prop="remark" />

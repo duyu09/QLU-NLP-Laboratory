@@ -66,6 +66,7 @@
       <el-table-column type="selection" width="55" align="center" />
 <!--      <el-table-column label="轮播图ID" align="center" prop="id" />-->
       <el-table-column label="轮播图顺序" align="center" prop="postSort" />
+      <el-table-column label="轮播图名称" align="center" prop="carouselName" width="110px"/>
       <el-table-column label="轮播图" align="center" prop="carouselImg" >
         <template slot-scope="scope">
           <div style="width: 100px; height: 100px">
@@ -78,7 +79,11 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="轮播图名称" align="center" prop="carouselName" width="110px"/>
+      <el-table-column label="是否为外链 " align="center" prop="isFrame" >
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.nlp_isFrame_yes_no" :value="scope.row.isFrame"/>
+        </template>
+      </el-table-column>
       <el-table-column label="路由地址" align="center" prop="urlPath" />
       <el-table-column label="详细信息" align="center" prop="recordContent" >
         <template slot-scope="scope">
@@ -87,11 +92,7 @@
           <a v-else style="color:#1890ff" @click="openRecordContent(scope.row.recordContent)">点击查看</a>
         </template>
       </el-table-column>
-      <el-table-column label="是否为外链 " align="center" prop="isFrame" >
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.nlp_isFrame_yes_no" :value="scope.row.isFrame"/>
-        </template>
-      </el-table-column>
+
       <el-table-column label="轮播图状态" align="center" prop="status">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
