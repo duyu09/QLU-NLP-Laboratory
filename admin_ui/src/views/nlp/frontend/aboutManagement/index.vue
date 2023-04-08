@@ -47,14 +47,14 @@
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-<!--        <el-button-->
-<!--          type="primary"-->
-<!--          plain-->
-<!--          icon="el-icon-plus"-->
-<!--          size="mini"-->
-<!--          @click="handleAdd"-->
-<!--          v-hasPermi="['nlp:frontend:about:add']"-->
-<!--        >新增</el-button>-->
+        <el-button
+          type="primary"
+          plain
+          icon="el-icon-plus"
+          size="mini"
+          @click="handleAdd"
+          v-hasPermi="['nlp:frontend:aboutManagement:add']"
+        >新增</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -64,34 +64,34 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['nlp:frontend:about:edit']"
+          v-hasPermi="['nlp:frontend:aboutManagement:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
-<!--        <el-button-->
-<!--          type="danger"-->
-<!--          plain-->
-<!--          icon="el-icon-delete"-->
-<!--          size="mini"-->
-<!--          :disabled="multiple"-->
-<!--          @click="handleDelete"-->
-<!--          v-hasPermi="['nlp:frontend:about:remove']"-->
-<!--        >删除</el-button>-->
+        <el-button
+          type="danger"
+          plain
+          icon="el-icon-delete"
+          size="mini"
+          :disabled="multiple"
+          @click="handleDelete"
+          v-hasPermi="['nlp:frontend:aboutManagement:remove']"
+        >删除</el-button>
       </el-col>
       <el-col :span="1.5">
-<!--        <el-button-->
-<!--          type="warning"-->
-<!--          plain-->
-<!--          icon="el-icon-download"-->
-<!--          size="mini"-->
-<!--          @click="handleExport"-->
-<!--          v-hasPermi="['nlp:frontend:about:export']"-->
-<!--        >导出</el-button>-->
+        <el-button
+          type="warning"
+          plain
+          icon="el-icon-download"
+          size="mini"
+          @click="handleExport"
+          v-hasPermi="['nlp:frontend:aboutManagement:export']"
+        >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="frontendAboutList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="frontendAboutManagementList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
 <!--      <el-table-column label="主键" align="center" prop="id" />-->
       <el-table-column label="展示顺序" align="center" prop="postSort" />
@@ -121,15 +121,15 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['nlp:frontend:about:edit']"
+            v-hasPermi="['nlp:frontend:aboutManagement:edit']"
           >修改</el-button>
-<!--          <el-button-->
-<!--            size="mini"-->
-<!--            type="text"-->
-<!--            icon="el-icon-delete"-->
-<!--            @click="handleDelete(scope.row)"-->
-<!--            v-hasPermi="['nlp:frontend:about:remove']"-->
-<!--          >删除</el-button>-->
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-delete"
+            @click="handleDelete(scope.row)"
+            v-hasPermi="['nlp:frontend:aboutManagement:remove']"
+          >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -142,17 +142,19 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改联系我们对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+    <!-- 添加或修改联系我们(管理)对话框 -->
+    <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="名字" prop="name">
           <el-input v-model="form.name" placeholder="请输入名字" />
         </el-form-item>
         <el-form-item label="展示顺序" prop="postSort">
-          <el-input v-model="form.postSort" placeholder="请输入展示顺序" />
+<!--          <el-input v-model="form.postSort" placeholder="请输入展示顺序" />-->
+          <el-input-number v-model="form.postSort" controls-position="right" :min="0" />
         </el-form-item>
         <el-form-item label="详细内容">
-          <editor v-model="form.recordContent" :min-height="192"/>
+<!--          <editor v-model="form.recordContent" :min-height="192"/>-->
+          <MarkdownEditor v-model="form.recordContent"></MarkdownEditor>
         </el-form-item>
         <el-form-item label="详情类型" prop="type">
           <el-select v-model="form.type" placeholder="请选择详情类型">
@@ -191,10 +193,10 @@
 </template>
 
 <script>
-import { listFrontendAbout, getFrontendAbout, delFrontendAbout, addFrontendAbout, updateFrontendAbout } from "@/api/nlp/frontend/about";
+import { listFrontendAboutManagement, getFrontendAboutManagement, delFrontendAboutManagement, addFrontendAboutManagement, updateFrontendAboutManagement } from "@/api/nlp/frontend/aboutManagement";
 
 export default {
-  name: "FrontendAbout",
+  name: "FrontendAboutManagement",
   dicts: ['nlp_frontend_markdown', 'sys_normal_disable'],
   data() {
     return {
@@ -210,8 +212,8 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 联系我们表格数据
-      frontendAboutList: [],
+      // 联系我们(管理)表格数据
+      frontendAboutManagementList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -234,6 +236,15 @@ export default {
       form: {},
       // 表单校验
       rules: {
+        name: [
+          { required: true, message: "请输入名字", trigger: "blur" }
+        ],
+        type: [
+          { required: true, message: "所属类别不能为空", trigger: "blur" }
+        ],
+        postSort: [
+          { required: true, message: "显示顺序不能为空", trigger: "blur" }
+        ],
         status: [
           { required: true, message: "状态不能为空", trigger: "blur" }
         ],
@@ -244,11 +255,11 @@ export default {
     this.getList();
   },
   methods: {
-    /** 查询联系我们列表 */
+    /** 查询联系我们(管理)列表 */
     getList() {
       this.loading = true;
-      listFrontendAbout(this.queryParams).then(response => {
-        this.frontendAboutList = response.rows;
+      listFrontendAboutManagement(this.queryParams).then(response => {
+        this.frontendAboutManagementList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
@@ -264,7 +275,7 @@ export default {
         id: null,
         name: null,
         postSort: null,
-        recordContent: null,
+        recordContent: '',
         type: null,
         status: "0",
         createBy: null,
@@ -295,16 +306,16 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加联系我们";
+      this.title = "添加联系我们(管理)";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
       const id = row.id || this.ids
-      getFrontendAbout(id).then(response => {
+      getFrontendAboutManagement(id).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改联系我们";
+        this.title = "修改联系我们(管理)";
       });
     },
     /** 提交按钮 */
@@ -312,13 +323,13 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.id != null) {
-            updateFrontendAbout(this.form).then(response => {
+            updateFrontendAboutManagement(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addFrontendAbout(this.form).then(response => {
+            addFrontendAboutManagement(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -330,8 +341,8 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除联系我们编号为"' + ids + '"的数据项？').then(function() {
-        return delFrontendAbout(ids);
+      this.$modal.confirm('是否确认删除联系我们(管理)编号为"' + ids + '"的数据项？').then(function() {
+        return delFrontendAboutManagement(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
@@ -339,9 +350,9 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('nlp/frontend/about/export', {
+      this.download('nlp/frontend/aboutManagement/export', {
         ...this.queryParams
-      }, `frontendAbout_${new Date().getTime()}.xlsx`)
+      }, `frontendAboutManagement_${new Date().getTime()}.xlsx`)
     },
     // 详情展示 打开
     openRecordContent(data) {
