@@ -121,6 +121,7 @@ Vue.component('ImageUpload', ImageUpload)
 Vue.component('ImagePreview', ImagePreview)
 Vue.component('MyTooltip', MyTooltip)
 Vue.component('MarkdownEditor', MarkdownEditor)
+Vue.component("v-md-editor",VMdEditor)
 
 Vue.use(directive)
 Vue.use(plugins)
