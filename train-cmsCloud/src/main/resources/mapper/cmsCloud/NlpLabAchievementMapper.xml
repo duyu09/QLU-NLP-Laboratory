@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.train.cmsCloud.mapper.NlpLabAchievementMapper">
+    
+    <resultMap type="NlpLabAchievement" id="NlpLabAchievementResult">
+        <result property="id"    column="id"    />
+        <result property="scientificResearchPlatform"    column="scientific_research_platform"    />
+        <result property="scientificPatent"    column="scientific_patent"    />
+        <result property="scientificPaper"    column="scientific_paper"    />
+        <result property="postSort"    column="post_sort"    />
+        <result property="status"    column="status"    />
+        <result property="creatBy"    column="creat_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updataTime"    column="updata_time"    />
+    </resultMap>
+
+    <sql id="selectNlpLabAchievementVo">
+        select id, scientific_research_platform, scientific_patent, scientific_paper, post_sort, status, creat_by, create_time, update_by, updata_time from nlp_lab_achievement
+    </sql>
+
+    <select id="selectNlpLabAchievementList" parameterType="NlpLabAchievement" resultMap="NlpLabAchievementResult">
+        <include refid="selectNlpLabAchievementVo"/>
+        <where>  
+            <if test="scientificResearchPlatform != null  and scientificResearchPlatform != ''"> and scientific_research_platform = #{scientificResearchPlatform}</if>
+            <if test="scientificPatent != null  and scientificPatent != ''"> and scientific_patent = #{scientificPatent}</if>
+            <if test="scientificPaper != null  and scientificPaper != ''"> and scientific_paper = #{scientificPaper}</if>
+            <if test="postSort != null "> and post_sort = #{postSort}</if>
+            <if test="createTime != null "> and create_time = #{createTime}</if>
+            <if test="updateBy != null  and updateBy != ''"> and update_by = #{updateBy}</if>
+            <if test="updataTime != null "> and updata_time = #{updataTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectNlpLabAchievementById" parameterType="Long" resultMap="NlpLabAchievementResult">
+        <include refid="selectNlpLabAchievementVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertNlpLabAchievement" parameterType="NlpLabAchievement" useGeneratedKeys="true" keyProperty="id">
+        insert into nlp_lab_achievement
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="scientificResearchPlatform != null">scientific_research_platform,</if>
+            <if test="scientificPatent != null">scientific_patent,</if>
+            <if test="scientificPaper != null">scientific_paper,</if>
+            <if test="postSort != null">post_sort,</if>
+            <if test="status != null and status != ''">status,</if>
+            <if test="creatBy != null">creat_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updataTime != null">updata_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="scientificResearchPlatform != null">#{scientificResearchPlatform},</if>
+            <if test="scientificPatent != null">#{scientificPatent},</if>
+            <if test="scientificPaper != null">#{scientificPaper},</if>
+            <if test="postSort != null">#{postSort},</if>
+            <if test="status != null and status != ''">#{status},</if>
+            <if test="creatBy != null">#{creatBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updataTime != null">#{updataTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateNlpLabAchievement" parameterType="NlpLabAchievement">
+        update nlp_lab_achievement
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="scientificResearchPlatform != null">scientific_research_platform = #{scientificResearchPlatform},</if>
+            <if test="scientificPatent != null">scientific_patent = #{scientificPatent},</if>
+            <if test="scientificPaper != null">scientific_paper = #{scientificPaper},</if>
+            <if test="postSort != null">post_sort = #{postSort},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="creatBy != null">creat_by = #{creatBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updataTime != null">updata_time = #{updataTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteNlpLabAchievementById" parameterType="Long">
+        delete from nlp_lab_achievement where id = #{id}
+    </delete>
+
+    <delete id="deleteNlpLabAchievementByIds" parameterType="String">
+        delete from nlp_lab_achievement where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
