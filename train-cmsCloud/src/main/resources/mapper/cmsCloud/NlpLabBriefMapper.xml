@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.train.cmsCloud.mapper.NlpLabBriefMapper">
+    
+    <resultMap type="NlpLabBrief" id="NlpLabBriefResult">
+        <result property="id"    column="id"    />
+        <result property="recordContent"    column="record_content"    />
+        <result property="postSort"    column="post_sort"    />
+        <result property="status"    column="status"    />
+        <result property="creatBy"    column="creat_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updataTime"    column="updata_time"    />
+    </resultMap>
+
+    <sql id="selectNlpLabBriefVo">
+        select id, record_content, post_sort, status, creat_by, create_time, update_by, updata_time from nlp_lab_brief
+    </sql>
+
+    <select id="selectNlpLabBriefList" parameterType="NlpLabBrief" resultMap="NlpLabBriefResult">
+        <include refid="selectNlpLabBriefVo"/>
+        <where>  
+            <if test="recordContent != null  and recordContent != ''"> and record_content = #{recordContent}</if>
+            <if test="postSort != null "> and post_sort = #{postSort}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="creatBy != null  and creatBy != ''"> and creat_by = #{creatBy}</if>
+            <if test="updataTime != null "> and updata_time = #{updataTime}</if>
+        </where>
+        order by post_sort
+    </select>
+    
+    <select id="selectNlpLabBriefById" parameterType="Long" resultMap="NlpLabBriefResult">
+        <include refid="selectNlpLabBriefVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertNlpLabBrief" parameterType="NlpLabBrief" useGeneratedKeys="true" keyProperty="id">
+        insert into nlp_lab_brief
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="recordContent != null">record_content,</if>
+            <if test="postSort != null">post_sort,</if>
+            <if test="status != null">status,</if>
+            <if test="creatBy != null">creat_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updataTime != null">updata_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="recordContent != null">#{recordContent},</if>
+            <if test="postSort != null">#{postSort},</if>
+            <if test="status != null">#{status},</if>
+            <if test="creatBy != null">#{creatBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updataTime != null">#{updataTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateNlpLabBrief" parameterType="NlpLabBrief">
+        update nlp_lab_brief
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="recordContent != null">record_content = #{recordContent},</if>
+            <if test="postSort != null">post_sort = #{postSort},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="creatBy != null">creat_by = #{creatBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updataTime != null">updata_time = #{updataTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteNlpLabBriefById" parameterType="Long">
+        delete from nlp_lab_brief where id = #{id}
+    </delete>
+
+    <delete id="deleteNlpLabBriefByIds" parameterType="String">
+        delete from nlp_lab_brief where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
