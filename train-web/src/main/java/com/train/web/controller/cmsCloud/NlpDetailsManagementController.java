@@ -1,4 +1,4 @@
-package com.train.cmsCloud.controller;
+package com.train.web.controller.cmsCloud;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;

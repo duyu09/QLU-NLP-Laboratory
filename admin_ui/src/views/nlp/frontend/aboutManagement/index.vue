@@ -93,9 +93,8 @@
 
     <el-table v-loading="loading" :data="frontendAboutManagementList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-<!--      <el-table-column label="主键" align="center" prop="id" />-->
-      <el-table-column label="展示顺序" align="center" prop="postSort" />
       <el-table-column label="名字" align="center" prop="name" />
+      <el-table-column label="展示顺序" align="center" prop="postSort" />
       <el-table-column label="详细内容" align="center" prop="recordContent" >
         <template slot-scope="scope">
           <p v-if="scope.row.recordContent === ''" >请填写详细内容</p>

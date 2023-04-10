@@ -20,24 +20,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-<!--      <el-form-item label="链接地址" prop="linkUrl">-->
-<!--        <el-input-->
-<!--          v-model="queryParams.linkUrl"-->
-<!--          placeholder="请输入链接地址"-->
-<!--          clearable-->
-<!--          size="small"-->
-<!--          @keyup.enter.native="handleQuery"-->
-<!--        />-->
-<!--      </el-form-item>-->
-<!--      <el-form-item label="展示顺序" prop="postSort">-->
-<!--        <el-input-->
-<!--          v-model="queryParams.postSort"-->
-<!--          placeholder="请输入展示顺序"-->
-<!--          clearable-->
-<!--          size="small"-->
-<!--          @keyup.enter.native="handleQuery"-->
-<!--        />-->
-<!--      </el-form-item>-->
+
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -92,15 +75,14 @@
 
     <el-table v-loading="loading" :data="frontendLinkList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-<!--      <el-table-column label="id" align="center" prop="id" />-->
       <el-table-column label="展示顺序" align="center" prop="postSort" />
       <el-table-column label="链接名称" align="center" prop="linkName" />
       <el-table-column label="链接地址" align="center" prop="linkUrl" >
-        <template slot-scope="scope">
-          <p v-if="scope.row.linkUrl === ''" >请填写链接地址</p>
-          <p v-else-if="scope.row.linkUrl === null" >请填写链接地址</p>
-          <a v-else style="color:#1890ff" @click="openLinkUrl(scope.row.linkUrl)">点击查看</a>
-        </template>
+<!--        <template slot-scope="scope">-->
+<!--          <p v-if="scope.row.linkUrl === ''" >请填写链接地址</p>-->
+<!--          <p v-else-if="scope.row.linkUrl === null" >请填写链接地址</p>-->
+<!--          <a v-else style="color:#1890ff" @click="openLinkUrl(scope.row.linkUrl)">点击查看</a>-->
+<!--        </template>-->
       </el-table-column>
       <el-table-column label="是否使用" align="center" prop="status">
         <template slot-scope="scope">
@@ -157,7 +139,7 @@
 <!--        <el-form-item label="展示顺序" prop="postSort">-->
 <!--          <el-input v-model="form.postSort" placeholder="请输入展示顺序" />-->
 <!--        </el-form-item>-->
-        <el-form-item label="轮播图排序" prop="postSort">
+        <el-form-item label="排序" prop="postSort">
           <el-input-number v-model="form.postSort" controls-position="right" :min="0" />
         </el-form-item>
         <el-form-item label="备注" prop="remark">
@@ -170,10 +152,10 @@
       </div>
     </el-dialog>
 
-    <!--    友链预览框-->
-    <el-dialog title="友链地址" :visible.sync="ifShowLinkUrl" @close="closeLinkUrl">
-      <v-md-preview :text="showLinkUrl"></v-md-preview>
-    </el-dialog>
+<!--    &lt;!&ndash;    友链预览框&ndash;&gt;-->
+<!--    <el-dialog title="友链地址" :visible.sync="ifShowLinkUrl" @close="closeLinkUrl">-->
+<!--      <v-md-preview :text="showLinkUrl"></v-md-preview>-->
+<!--    </el-dialog>-->
   </div>
 </template>
 
