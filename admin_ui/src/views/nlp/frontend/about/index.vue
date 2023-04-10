@@ -113,16 +113,18 @@
     />
 
     <!-- 添加或修改联系我们对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="名字" prop="name">
           <el-input v-model="form.name" placeholder="请输入名字" />
         </el-form-item>
         <el-form-item label="展示顺序" prop="postSort">
-          <el-input v-model="form.postSort" placeholder="请输入展示顺序" />
+<!--          <el-input v-model="form.postSort" placeholder="请输入展示顺序" />-->
+          <el-input-number v-model="form.postSort" controls-position="right" :min="0" />
         </el-form-item>
         <el-form-item label="详细内容">
-          <editor v-model="form.recordContent" :min-height="192"/>
+<!--          <editor v-model="form.recordContent" :min-height="192"/>-->
+          <MarkdownEditor v-model="form.recordContent"></MarkdownEditor>
         </el-form-item>
         <el-form-item label="详情类型" prop="type">
           <el-select v-model="form.type" placeholder="请选择详情类型">
@@ -234,7 +236,7 @@ export default {
         id: null,
         name: null,
         postSort: null,
-        recordContent: null,
+        recordContent: '',
         type: null,
         status: "0",
         createBy: null,
