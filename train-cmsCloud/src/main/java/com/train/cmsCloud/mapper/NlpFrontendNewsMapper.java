@@ -66,6 +66,7 @@ public interface NlpFrontendNewsMapper
     public int deleteNlpFrontendNewsByIds(Long[] ids);
 
 
+    //置顶
     public List<NlpFrontendNews> setTopNews(NlpFrontendNews nlpFrontendNews);
 
 }
