@@ -30,6 +30,7 @@
             <if test="postSort != null "> and post_sort = #{postSort}</if>
             <if test="status != null  and status != ''"> and status = #{status}</if>
         </where>
+        order by post_sort asc
     </select>
 
     <select id="selectNlpDetailsById" parameterType="Integer" resultMap="NlpDetailsResult">
