@@ -1,8 +1,36 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="是否使用" prop="status">
-        <el-select v-model="queryParams.status" placeholder="请选择是否使用" clearable size="small">
+      <el-form-item label="项目名" prop="name">
+        <el-input
+          v-model="queryParams.name"
+          placeholder="请输入项目名"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="显示顺序" prop="postSort">
+        <el-input
+          v-model="queryParams.postSort"
+          placeholder="请输入显示顺序"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="完成情况" prop="projectStatus">
+        <el-select v-model="queryParams.projectStatus" placeholder="请选择0为进行中，1为已完成" clearable size="small">
+          <el-option
+            v-for="dict in dict.type.nlp_project_status"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="状态" prop="status">
+        <el-select v-model="queryParams.status" placeholder="请选择0为正常，1为停用" clearable size="small">
           <el-option
             v-for="dict in dict.type.sys_normal_disable"
             :key="dict.value"
@@ -11,16 +39,23 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="链接名称" prop="linkName">
+      <el-form-item label="创建者" prop="creatBy">
         <el-input
-          v-model="queryParams.linkName"
-          placeholder="请输入链接名称"
+          v-model="queryParams.creatBy"
+          placeholder="请输入创建者"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-
+      <el-form-item label="更新时间" prop="updataTime">
+        <el-date-picker clearable size="small"
+          v-model="queryParams.updataTime"
+          type="date"
+          value-format="yyyy-MM-dd"
+          placeholder="选择更新时间">
+        </el-date-picker>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -35,7 +70,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['nlp:frontend:link:add']"
+          v-hasPermi="['nlp:project:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -46,7 +81,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['nlp:frontend:link:edit']"
+          v-hasPermi="['nlp:project:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -57,7 +92,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['nlp:frontend:link:remove']"
+          v-hasPermi="['nlp:project:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -67,29 +102,33 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['nlp:frontend:link:export']"
+          v-hasPermi="['nlp:project:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="frontendLinkList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="projectList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="展示顺序" align="center" prop="postSort" />
-      <el-table-column label="链接名称" align="center" prop="linkName" />
-      <el-table-column label="链接地址" align="center" prop="linkUrl" >
-<!--        <template slot-scope="scope">-->
-<!--          <p v-if="scope.row.linkUrl === ''" >请填写链接地址</p>-->
-<!--          <p v-else-if="scope.row.linkUrl === null" >请填写链接地址</p>-->
-<!--          <a v-else style="color:#1890ff" @click="openLinkUrl(scope.row.linkUrl)">点击查看</a>-->
-<!--        </template>-->
+      <el-table-column label="项目名" align="center" prop="name" />
+      <el-table-column label="项目的介绍" align="center" prop="recordContent" />
+      <el-table-column label="显示顺序" align="center" prop="postSort" />
+      <el-table-column label="0为进行中，1为已完成" align="center" prop="projectStatus">
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.nlp_project_status" :value="scope.row.projectStatus"/>
+        </template>
       </el-table-column>
-      <el-table-column label="是否使用" align="center" prop="status">
+      <el-table-column label="0为正常，1为停用" align="center" prop="status">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
         </template>
       </el-table-column>
-      <el-table-column label="备注" align="center" prop="remark" />
+      <el-table-column label="创建者" align="center" prop="creatBy" />
+      <el-table-column label="更新时间" align="center" prop="updataTime" width="180">
+        <template slot-scope="scope">
+          <span>{{ parseTime(scope.row.updataTime, '{y}-{m}-{d}') }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -97,14 +136,14 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['nlp:frontend:link:edit']"
+            v-hasPermi="['nlp:project:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['nlp:frontend:link:remove']"
+            v-hasPermi="['nlp:project:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
@@ -118,32 +157,46 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改友情链接对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="60%"  append-to-body>
+    <!-- 添加或修改项目管理对话框 -->
+    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="是否使用">
+        <el-form-item label="项目名" prop="name">
+          <el-input v-model="form.name" placeholder="请输入项目名" />
+        </el-form-item>
+        <el-form-item label="项目的介绍">
+          <editor v-model="form.recordContent" :min-height="192"/>
+        </el-form-item>
+        <el-form-item label="显示顺序" prop="postSort">
+          <el-input-number v-model="form.postSort" controls-position="right" ></el-input-number>
+        </el-form-item>
+        <el-form-item label="完成情况">
+          <el-radio-group v-model="form.projectStatus">
+            <el-radio
+              v-for="dict in dict.type.nlp_project_status"
+              :key="dict.value"
+:label="dict.value"
+            >{{dict.label}}</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="状态">
           <el-radio-group v-model="form.status">
             <el-radio
               v-for="dict in dict.type.sys_normal_disable"
               :key="dict.value"
-              :label="dict.value"
+:label="dict.value"
             >{{dict.label}}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="链接名称" prop="linkName">
-          <el-input v-model="form.linkName" placeholder="请输入链接名称" />
+        <el-form-item label="创建者" prop="creatBy">
+          <el-input v-model="form.creatBy" placeholder="请输入创建者" />
         </el-form-item>
-        <el-form-item label="链接地址" prop="linkUrl">
-          <el-input v-model="form.linkUrl" placeholder="请输入链接地址" />
-        </el-form-item>
-<!--        <el-form-item label="展示顺序" prop="postSort">-->
-<!--          <el-input v-model="form.postSort" placeholder="请输入展示顺序" />-->
-<!--        </el-form-item>-->
-        <el-form-item label="排序" prop="postSort">
-          <el-input-number v-model="form.postSort" controls-position="right" :min="0" />
-        </el-form-item>
-        <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
+        <el-form-item label="更新时间" prop="updataTime">
+          <el-date-picker clearable size="small"
+            v-model="form.updataTime"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="选择更新时间">
+          </el-date-picker>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -151,20 +204,15 @@
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
-
-<!--    &lt;!&ndash;    友链预览框&ndash;&gt;-->
-<!--    <el-dialog title="友链地址" :visible.sync="ifShowLinkUrl" @close="closeLinkUrl">-->
-<!--      <v-md-preview :text="showLinkUrl"></v-md-preview>-->
-<!--    </el-dialog>-->
   </div>
 </template>
 
 <script>
-import { listFrontendLink, getFrontendLink, delFrontendLink, addFrontendLink, updateFrontendLink } from "@/api/nlp/frontend/link";
+import { listProject, getProject, delProject, addProject, updateProject } from "@/api/nlp/project";
 
 export default {
-  name: "FrontendLink",
-  dicts: ['sys_normal_disable'],
+  name: "Project",
+  dicts: ['nlp_project_status', 'sys_normal_disable'],
   data() {
     return {
       // 遮罩层
@@ -179,38 +227,33 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 友情链接表格数据
-      frontendLinkList: [],
+      // 项目管理表格数据
+      projectList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
       open: false,
-      // 详细介绍是否展示
-      ifShowLinkUrl: false,
-      //详细介绍内容
-      showLinkUrl: '',
       // 查询参数
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        status: null,
-        linkName: null,
-        linkUrl: null,
+        name: null,
+        recordContent: null,
         postSort: null,
+        projectStatus: null,
+        status: null,
+        creatBy: null,
+        updataTime: null
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
-
-        linkName: [
-          { required: true, message: "请输入友链名称", trigger: "blur" }
-        ],
-        linkUrl: [
-          { required: true, message: "友链地址不能为空", trigger: "blur" }
-        ],
         postSort: [
-          { required: true, message: "显示顺序不能为空", trigger: "change" }
+          { required: true, message: "显示顺序不能为空", trigger: "blur" }
+        ],
+        status: [
+          { required: true, message: "0为正常，1为停用不能为空", trigger: "blur" }
         ],
       }
     };
@@ -219,11 +262,11 @@ export default {
     this.getList();
   },
   methods: {
-    /** 查询友情链接列表 */
+    /** 查询项目管理列表 */
     getList() {
       this.loading = true;
-      listFrontendLink(this.queryParams).then(response => {
-        this.frontendLinkList = response.rows;
+      listProject(this.queryParams).then(response => {
+        this.projectList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
@@ -237,15 +280,15 @@ export default {
     reset() {
       this.form = {
         id: null,
-        status: "0",
-        linkName: null,
-        linkUrl: null,
+        name: null,
+        recordContent: null,
         postSort: null,
-        createBy: null,
+        projectStatus: "0",
+        status: "0",
+        creatBy: null,
         createTime: null,
         updateBy: null,
-        updateTime: null,
-        remark: null
+        updataTime: null
       };
       this.resetForm("form");
     },
@@ -269,16 +312,16 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加友情链接";
+      this.title = "添加项目管理";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
       const id = row.id || this.ids
-      getFrontendLink(id).then(response => {
+      getProject(id).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改友情链接";
+        this.title = "修改项目管理";
       });
     },
     /** 提交按钮 */
@@ -286,13 +329,13 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.id != null) {
-            updateFrontendLink(this.form).then(response => {
+            updateProject(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addFrontendLink(this.form).then(response => {
+            addProject(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -304,8 +347,8 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除友情链接编号为"' + ids + '"的数据项？').then(function() {
-        return delFrontendLink(ids);
+      this.$modal.confirm('是否确认删除项目管理编号为"' + ids + '"的数据项？').then(function() {
+        return delProject(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
@@ -313,19 +356,10 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('nlp/frontend/link/export', {
+      this.download('nlp/project/export', {
         ...this.queryParams
-      }, `frontendLink_${new Date().getTime()}.xlsx`)
-    },
-    // 详情展示 打开
-    openLinkUrl(data) {
-      this.ifShowLinkUrl = true;
-      this.showLinkUrl = data;
-    },
-    // 详情展示 关闭
-    closeLinkUrl() {
-      this.showLinkUrl = '';
-    },
+      }, `project_${new Date().getTime()}.xlsx`)
+    }
   }
 };
 </script>

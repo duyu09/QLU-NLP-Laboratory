@@ -10,15 +10,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-<!--      <el-form-item label="展示顺序" prop="postSort">-->
-<!--        <el-input-->
-<!--          v-model="queryParams.postSort"-->
-<!--          placeholder="请输入展示顺序"-->
-<!--          clearable-->
-<!--          size="small"-->
-<!--          @keyup.enter.native="handleQuery"-->
-<!--        />-->
-<!--      </el-form-item>-->
+
       <el-form-item label="详情类型" prop="type">
         <el-select v-model="queryParams.type" placeholder="请选择详情类型" clearable size="small">
           <el-option
@@ -47,14 +39,7 @@
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-<!--        <el-button-->
-<!--          type="primary"-->
-<!--          plain-->
-<!--          icon="el-icon-plus"-->
-<!--          size="mini"-->
-<!--          @click="handleAdd"-->
-<!--          v-hasPermi="['nlp:frontend:about:add']"-->
-<!--        >新增</el-button>-->
+
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -68,25 +53,10 @@
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
-<!--        <el-button-->
-<!--          type="danger"-->
-<!--          plain-->
-<!--          icon="el-icon-delete"-->
-<!--          size="mini"-->
-<!--          :disabled="multiple"-->
-<!--          @click="handleDelete"-->
-<!--          v-hasPermi="['nlp:frontend:about:remove']"-->
-<!--        >删除</el-button>-->
+
       </el-col>
       <el-col :span="1.5">
-<!--        <el-button-->
-<!--          type="warning"-->
-<!--          plain-->
-<!--          icon="el-icon-download"-->
-<!--          size="mini"-->
-<!--          @click="handleExport"-->
-<!--          v-hasPermi="['nlp:frontend:about:export']"-->
-<!--        >导出</el-button>-->
+
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
@@ -94,8 +64,8 @@
     <el-table v-loading="loading" :data="frontendAboutList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
 <!--      <el-table-column label="主键" align="center" prop="id" />-->
-      <el-table-column label="展示顺序" align="center" prop="postSort" />
       <el-table-column label="名字" align="center" prop="name" />
+      <el-table-column label="展示顺序" align="center" prop="postSort" />
       <el-table-column label="详细内容" align="center" prop="recordContent" >
         <template slot-scope="scope">
           <p v-if="scope.row.recordContent === ''" >请填写详细内容</p>
@@ -143,16 +113,18 @@
     />
 
     <!-- 添加或修改联系我们对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="名字" prop="name">
           <el-input v-model="form.name" placeholder="请输入名字" />
         </el-form-item>
         <el-form-item label="展示顺序" prop="postSort">
-          <el-input v-model="form.postSort" placeholder="请输入展示顺序" />
+<!--          <el-input v-model="form.postSort" placeholder="请输入展示顺序" />-->
+          <el-input-number v-model="form.postSort" controls-position="right" :min="0" />
         </el-form-item>
         <el-form-item label="详细内容">
-          <editor v-model="form.recordContent" :min-height="192"/>
+<!--          <editor v-model="form.recordContent" :min-height="192"/>-->
+          <MarkdownEditor v-model="form.recordContent"></MarkdownEditor>
         </el-form-item>
         <el-form-item label="详情类型" prop="type">
           <el-select v-model="form.type" placeholder="请选择详情类型">
@@ -264,7 +236,7 @@ export default {
         id: null,
         name: null,
         postSort: null,
-        recordContent: null,
+        recordContent: '',
         type: null,
         status: "0",
         createBy: null,

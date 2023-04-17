@@ -64,9 +64,6 @@
 
     <el-table v-loading="loading" :data="carouselList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-<!--      <el-table-column label="轮播图ID" align="center" prop="id" />-->
-      <el-table-column label="轮播图顺序" align="center" prop="postSort" />
-      <el-table-column label="轮播图名称" align="center" prop="carouselName" width="110px"/>
       <el-table-column label="轮播图" align="center" prop="carouselImg" >
         <template slot-scope="scope">
           <div style="width: 100px; height: 100px">
@@ -79,6 +76,8 @@
           </div>
         </template>
       </el-table-column>
+      <el-table-column label="轮播图顺序" align="center" prop="postSort" />
+      <el-table-column label="轮播图名称" align="center" prop="carouselName" width="110px"/>
       <el-table-column label="是否为外链 " align="center" prop="isFrame" >
         <template slot-scope="scope">
           <dict-tag :options="dict.type.nlp_isFrame_yes_no" :value="scope.row.isFrame"/>

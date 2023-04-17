@@ -1,15 +1,7 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-<!--      <el-form-item label="新闻插图" prop="newsImg">-->
-<!--        <el-input-->
-<!--          v-model="queryParams.newsImg"-->
-<!--          placeholder="请输入新闻插图"-->
-<!--          clearable-->
-<!--          size="small"-->
-<!--          @keyup.enter.native="handleQuery"-->
-<!--        />-->
-<!--      </el-form-item>-->
+
       <el-form-item label="标题" prop="title">
         <el-input
           v-model="queryParams.title"
@@ -19,24 +11,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-<!--      <el-form-item label="是否置顶" prop="isStick">-->
-<!--        <el-input-->
-<!--          v-model="queryParams.isStick"-->
-<!--          placeholder="请输入是否置顶"-->
-<!--          clearable-->
-<!--          size="small"-->
-<!--          @keyup.enter.native="handleQuery"-->
-<!--        />-->
-<!--      </el-form-item>-->
-<!--      <el-form-item label="展示顺序" prop="postSort">-->
-<!--        <el-input-->
-<!--          v-model="queryParams.postSort"-->
-<!--          placeholder="请输入展示顺序"-->
-<!--          clearable-->
-<!--          size="small"-->
-<!--          @keyup.enter.native="handleQuery"-->
-<!--        />-->
-<!--      </el-form-item>-->
+
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -92,7 +67,6 @@
     <el-table v-loading="loading" :data="nlpFrontendNewsList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
 <!--      <el-table-column label="新闻ID" align="center" prop="id" />-->
-      <el-table-column label="展示顺序" align="center" prop="postSort" />
       <el-table-column label="新闻插图" align="center" prop="newsImg" >
         <template slot-scope="scope">
           <div style="width: 100px; height: 100px">
@@ -105,15 +79,27 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="标题" align="center" prop="title" />
-
-      <el-table-column label="简介内容" align="center" prop="synopsisContent" >
+      <el-table-column label="是否置顶" align="center" prop="isStick">
         <template slot-scope="scope">
-          <p v-if="scope.row.synopsisContent === ''" >请填写简介内容</p>
-          <p v-else-if="scope.row.synopsisContent === null" >请填写简介内容</p>
-          <a v-else style="color:#1890ff" @click="openSynopsisContent(scope.row.synopsisContent)">点击查看</a>
+          <dict-tag :options="dict.type.nlp_isFrame_yes_no" :value="scope.row.isStick"/>
         </template>
       </el-table-column>
+      <el-table-column label="状态" align="center" prop="status" >
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
+        </template>
+      </el-table-column>
+      <el-table-column label="展示顺序" align="center" prop="postSort" />
+      <el-table-column label="标题" align="center" prop="title" />
+
+<!--      <el-table-column label="简介内容" align="center" prop="synopsisContent" >-->
+<!--        <template slot-scope="scope">-->
+<!--          <p v-if="scope.row.synopsisContent === ''" >请填写简介内容</p>-->
+<!--          <p v-else-if="scope.row.synopsisContent === null" >请填写简介内容</p>-->
+<!--          <a v-else style="color:#1890ff" @click="openSynopsisContent(scope.row.synopsisContent)">点击查看</a>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
+      <el-table-column label="简介内容" align="center" prop="synopsisContent" />
 
       <el-table-column label="详细内容" align="center" prop="recordContent" >
         <template slot-scope="scope">
@@ -123,18 +109,6 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="是否置顶" align="center" prop="isStick">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.nlp_isFrame_yes_no" :value="scope.row.isStick"/>
-        </template>
-
-      </el-table-column>
-
-      <el-table-column label="状态" align="center" prop="status" >
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
-        </template>
-      </el-table-column>
       <el-table-column label="备注" align="center" prop="remark" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
@@ -174,8 +148,11 @@
         <el-form-item label="标题" prop="title">
           <el-input v-model="form.title" placeholder="请输入title标题" />
         </el-form-item>
+<!--        <el-form-item label="简介内容">-->
+<!--          <MarkdownEditor v-model="form.synopsisContent" :min-height="192"/>-->
+<!--        </el-form-item>-->
         <el-form-item label="简介内容">
-          <MarkdownEditor v-model="form.synopsisContent" :min-height="192"/>
+          <editor v-model="form.synopsisContent" :min-height="192"/>
         </el-form-item>
         <el-form-item label="详细内容">
           <MarkdownEditor v-model="form.recordContent" :min-height="192"/>
