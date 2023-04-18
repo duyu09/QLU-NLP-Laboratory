@@ -24,27 +24,32 @@ public class ShowNlpFrontendNewsServiceImpl implements IShowNlpFrontendNewsServi
      */
     @Override
     public NlpFrontendNewsDTO selectNlpFrontendNewsById(Long id) {
+        // 查询所有数据
         List<NlpFrontendNews> list = nlpFrontendNewsMapper.selectNlpFrontendNewsList(new NlpFrontendNews());
-        NlpFrontendNewsDTO frontendNews = new NlpFrontendNewsDTO();
 
+        // 初始化设置基础数据
+        NlpFrontendNewsDTO frontendNews = new NlpFrontendNewsDTO();
+        // 上一页数据对象暂存
         NlpFrontendNews beforeNews = new NlpFrontendNews();
+        // 下一页数据对象暂存
         NlpFrontendNews afterNews = new NlpFrontendNews();
 
+        // 数据配置逻辑
         for (NlpFrontendNews news : list) {
-            if (id.equals(news.getId())){
-                if (id.equals(frontendNews.getId())) {
-                    afterNews = news;
-                    break;
-                }
-            }else {
-                beforeNews = frontendNews;
-                frontendNews = (NlpFrontendNewsDTO) news;
+            if (frontendNews.getId().equals(id)) {
+                afterNews = news;
+                break;
             }
+            beforeNews = frontendNews;
+            frontendNews = (NlpFrontendNewsDTO) news;
         }
+
+        // 基础数据填充 判断是否拥有上一条
         if (StringUtils.isNotEmpty(beforeNews.getTitle())){
             frontendNews.setBeforeId(beforeNews.getId());
             frontendNews.setBeforeTitle(beforeNews.getTitle());
         }
+        // 基础数据填充 判断是否拥有下一条
         if (StringUtils.isNotEmpty(afterNews.getTitle())){
             frontendNews.setAfterId(afterNews.getId());
             frontendNews.setAfterTitle(afterNews.getTitle());
