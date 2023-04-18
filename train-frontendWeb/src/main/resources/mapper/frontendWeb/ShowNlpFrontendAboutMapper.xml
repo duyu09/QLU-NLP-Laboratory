@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.train.frontendWeb.mapper.ShowNlpFrontendAboutMapper">
+
+    <resultMap type="NlpFrontendAbout" id="NlpFrontendAboutResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="postSort"    column="post_sort"    />
+        <result property="recordContent"    column="record_content"    />
+        <result property="type"    column="type"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectNlpFrontendAboutVo">
+        select id, name, post_sort, record_content, type, status, create_by, create_time, update_by, update_time, remark from nlp_frontend_about
+    </sql>
+
+    <select id="selectNlpFrontendAboutList" parameterType="NlpFrontendAbout" resultMap="NlpFrontendAboutResult">
+        <include refid="selectNlpFrontendAboutVo"/>
+        <where>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="postSort != null "> and post_sort = #{postSort}</if>
+            <if test="recordContent != null  and recordContent != ''"> and record_content = #{recordContent}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+        order by post_sort asc ,create_time asc
+    </select>
+
+    <select id="selectNlpFrontendAboutById" parameterType="Long" resultMap="NlpFrontendAboutResult">
+        <include refid="selectNlpFrontendAboutVo"/>
+        where id = #{id}
+    </select>
+</mapper>

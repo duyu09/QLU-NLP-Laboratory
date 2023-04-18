@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.train.frontendWeb.mapper.ShowNlpFrontendNewsMapper">
+
+    <resultMap type="NlpFrontendNews" id="NlpFrontendNewsResult">
+        <result property="id"    column="id"    />
+        <result property="newsImg"    column="news_img"    />
+        <result property="title"    column="title"    />
+        <result property="synopsisContent"    column="synopsis_content"    />
+        <result property="recordContent"    column="record_content"    />
+        <result property="isStick"    column="is_stick"    />
+        <result property="postSort"    column="post_sort"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectNlpFrontendNewsVo">
+        select id, news_img, title, synopsis_content, record_content, is_stick, post_sort, status, create_by, create_time, update_by, update_time, remark from nlp_frontend_news
+    </sql>
+
+    <select id="selectNlpFrontendNewsList" parameterType="NlpFrontendNews" resultMap="NlpFrontendNewsResult">
+        <include refid="selectNlpFrontendNewsVo"/>
+        <where>
+            <if test="newsImg != null  and newsImg != ''"> and news_img = #{newsImg}</if>
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="synopsisContent != null  and synopsisContent != ''"> and synopsis_content = #{synopsisContent}</if>
+            <if test="recordContent != null  and recordContent != ''"> and record_content = #{recordContent}</if>
+            <if test="isStick != null  and isStick != ''"> and is_stick = #{isStick}</if>
+            <if test="postSort != null "> and post_sort = #{postSort}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+
+    <select id="selectNlpFrontendNewsById" parameterType="Long" resultMap="NlpFrontendNewsResult">
+        <include refid="selectNlpFrontendNewsVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="setTopNews" parameterType="NlpFrontendNews" resultMap="NlpFrontendNewsResult">
+        select * from nlp_frontend_news
+        order by is_stick asc ,create_time asc
+    </select>
+
+    <select id="nextOneNews" resultType="com.train.common.domain.NlpFrontendNews">
+        select id, news_img, title, synopsis_content, record_content, is_stick, post_sort, status, create_by, create_time, update_by, update_time, remark from nlp_frontend_news
+        where create_time =
+              (select create_time form nlp_frontend_news where create_time &lt; ${create_time}
+                order by create_time asc limit 1
+              )
+    </select>
+
+    <select id="previousOneNews" resultType="com.train.common.domain.NlpFrontendNews">
+        select id, news_img, title, synopsis_content, record_content, is_stick, post_sort, status, create_by, create_time, update_by, update_time, remark from nlp_frontend_news
+        where create_time =
+              (select create_time form nlp_frontend_news where create_time &gt; ${create_time}
+        order by create_time asc limit 1
+            )
+    </select>
+</mapper>
