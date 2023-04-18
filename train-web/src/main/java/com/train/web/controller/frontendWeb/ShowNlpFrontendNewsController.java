@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-//@RequestMapping("/nlp/frontend/news")
-//@RequestMapping("/news")
+@RequestMapping("/show/nlp/news")
 public class ShowNlpFrontendNewsController extends BaseController {
+
     @Autowired
     private IShowNlpFrontendNewsService nlpFrontendNewsService;
 
@@ -21,11 +21,11 @@ public class ShowNlpFrontendNewsController extends BaseController {
      * 查询新闻动态管理列表
      * 包含置顶的新闻
      */
-//    @GetMapping("/list")
+    @GetMapping("/list")
     public TableDataInfo list(NlpFrontendNews nlpFrontendNews)
     {
         startPage();
-        List<NlpFrontendNews> list = nlpFrontendNewsService.setTopNews(nlpFrontendNews);
+        List<NlpFrontendNews> list = nlpFrontendNewsService.selectNlpFrontendNewsList(nlpFrontendNews);
         return getDataTable(list);
     }
 
@@ -33,39 +33,10 @@ public class ShowNlpFrontendNewsController extends BaseController {
     /**
      * 获取新闻动态管理详细信息
      */
-//    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
         return AjaxResult.success(nlpFrontendNewsService.selectNlpFrontendNewsById(id));
     }
-
-    /**
-     * 获取下一条
-     * @param nlpFrontendNews
-     * @return
-     */
-//    @GetMapping("/list")
-//    @RequestMapping("/next")
-    public TableDataInfo nextOne(NlpFrontendNews nlpFrontendNews)
-    {
-        startPage();
-        List<NlpFrontendNews> list = nlpFrontendNewsService.nextOneNews(nlpFrontendNews);
-        return getDataTable(list);
-    }
-
-    /**
-     * 获取上一条
-     * @param nlpFrontendNews
-     * @return
-     */
-//    @GetMapping("/list")
-//    @RequestMapping("/before")
-    public TableDataInfo previousOne(NlpFrontendNews nlpFrontendNews)
-    {
-        startPage();
-        List<NlpFrontendNews> list = nlpFrontendNewsService.previousOneNews(nlpFrontendNews);
-        return getDataTable(list);
-    }
-
 
 }

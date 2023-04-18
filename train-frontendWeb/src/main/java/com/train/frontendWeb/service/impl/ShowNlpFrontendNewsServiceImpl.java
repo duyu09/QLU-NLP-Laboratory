@@ -1,6 +1,8 @@
 package com.train.frontendWeb.service.impl;
 
 import com.train.common.domain.NlpFrontendNews;
+import com.train.common.utils.StringUtils;
+import com.train.frontendWeb.dto.NlpFrontendNewsDTO;
 import com.train.frontendWeb.mapper.ShowNlpFrontendNewsMapper;
 import com.train.frontendWeb.service.IShowNlpFrontendNewsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +23,34 @@ public class ShowNlpFrontendNewsServiceImpl implements IShowNlpFrontendNewsServi
      * @return 新闻动态管理
      */
     @Override
-    public NlpFrontendNews selectNlpFrontendNewsById(Long id) {
-        return nlpFrontendNewsMapper.selectNlpFrontendNewsById(id);
+    public NlpFrontendNewsDTO selectNlpFrontendNewsById(Long id) {
+        List<NlpFrontendNews> list = nlpFrontendNewsMapper.selectNlpFrontendNewsList(new NlpFrontendNews());
+        NlpFrontendNewsDTO frontendNews = new NlpFrontendNewsDTO();
+
+        NlpFrontendNews beforeNews = new NlpFrontendNews();
+        NlpFrontendNews afterNews = new NlpFrontendNews();
+
+        for (NlpFrontendNews news : list) {
+            if (id.equals(news.getId())){
+                if (id.equals(frontendNews.getId())) {
+                    afterNews = news;
+                    break;
+                }
+            }else {
+                beforeNews = frontendNews;
+                frontendNews = (NlpFrontendNewsDTO) news;
+            }
+        }
+        if (StringUtils.isNotEmpty(beforeNews.getTitle())){
+            frontendNews.setBeforeId(beforeNews.getId());
+            frontendNews.setBeforeTitle(beforeNews.getTitle());
+        }
+        if (StringUtils.isNotEmpty(afterNews.getTitle())){
+            frontendNews.setAfterId(afterNews.getId());
+            frontendNews.setAfterTitle(afterNews.getTitle());
+        }
+
+        return frontendNews;
     }
 
     /**
@@ -36,35 +64,4 @@ public class ShowNlpFrontendNewsServiceImpl implements IShowNlpFrontendNewsServi
         return nlpFrontendNewsMapper.selectNlpFrontendNewsList(nlpFrontendNews);
     }
 
-    /**
-     * 查询新闻动态
-     * 包含置顶操作
-     *
-     * @param nlpFrontendNews
-     * @return
-     */
-    @Override
-    public List<NlpFrontendNews> setTopNews(NlpFrontendNews nlpFrontendNews) {
-        return nlpFrontendNewsMapper.setTopNews(nlpFrontendNews);
-    }
-
-    /**
-     * 下一条数据
-     * @param nlpFrontendNews
-     * @return
-     */
-    @Override
-    public List<NlpFrontendNews> nextOneNews(NlpFrontendNews nlpFrontendNews) {
-        return nlpFrontendNewsMapper.nextOneNews(nlpFrontendNews);
-    }
-
-    /**
-     * 上一条数据
-     * @param nlpFrontendNews
-     * @return
-     */
-    @Override
-    public List<NlpFrontendNews> previousOneNews(NlpFrontendNews nlpFrontendNews) {
-        return nlpFrontendNewsMapper.previousOneNews(nlpFrontendNews);
-    }
 }

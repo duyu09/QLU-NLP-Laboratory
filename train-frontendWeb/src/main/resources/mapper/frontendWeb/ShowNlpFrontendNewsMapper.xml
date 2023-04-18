@@ -27,39 +27,12 @@
     <select id="selectNlpFrontendNewsList" parameterType="NlpFrontendNews" resultMap="NlpFrontendNewsResult">
         <include refid="selectNlpFrontendNewsVo"/>
         <where>
-            <if test="newsImg != null  and newsImg != ''"> and news_img = #{newsImg}</if>
-            <if test="title != null  and title != ''"> and title = #{title}</if>
-            <if test="synopsisContent != null  and synopsisContent != ''"> and synopsis_content = #{synopsisContent}</if>
-            <if test="recordContent != null  and recordContent != ''"> and record_content = #{recordContent}</if>
+            <if test="title != null  and title != ''"> and title like ('%', #{title}, '%')</if>
             <if test="isStick != null  and isStick != ''"> and is_stick = #{isStick}</if>
             <if test="postSort != null "> and post_sort = #{postSort}</if>
             <if test="status != null  and status != ''"> and status = #{status}</if>
         </where>
+        order by is_stick asc, post_sort asc, create_time desc
     </select>
 
-    <select id="selectNlpFrontendNewsById" parameterType="Long" resultMap="NlpFrontendNewsResult">
-        <include refid="selectNlpFrontendNewsVo"/>
-        where id = #{id}
-    </select>
-
-    <select id="setTopNews" parameterType="NlpFrontendNews" resultMap="NlpFrontendNewsResult">
-        select * from nlp_frontend_news
-        order by is_stick asc ,create_time asc
-    </select>
-
-    <select id="nextOneNews" resultType="com.train.common.domain.NlpFrontendNews">
-        select id, news_img, title, synopsis_content, record_content, is_stick, post_sort, status, create_by, create_time, update_by, update_time, remark from nlp_frontend_news
-        where create_time =
-              (select create_time form nlp_frontend_news where create_time &lt; ${create_time}
-                order by create_time asc limit 1
-              )
-    </select>
-
-    <select id="previousOneNews" resultType="com.train.common.domain.NlpFrontendNews">
-        select id, news_img, title, synopsis_content, record_content, is_stick, post_sort, status, create_by, create_time, update_by, update_time, remark from nlp_frontend_news
-        where create_time =
-              (select create_time form nlp_frontend_news where create_time &gt; ${create_time}
-        order by create_time asc limit 1
-            )
-    </select>
 </mapper>
