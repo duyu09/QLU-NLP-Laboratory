@@ -33,6 +33,7 @@
             <if test="atSchool != null  and atSchool != ''"> and at_school = #{atSchool}</if>
             <if test="status != null  and status != ''"> and status = #{status}</if>
         </where>
+        order by post_sort asc
     </select>
 
     <select id="selectNlpAdmissionStudentById" parameterType="Integer" resultMap="NlpAdmissionStudentResult">

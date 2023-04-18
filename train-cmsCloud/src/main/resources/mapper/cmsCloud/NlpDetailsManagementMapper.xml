@@ -29,6 +29,7 @@
             <if test="configId != null  and configId != ''"> and config_id = #{configId}</if>
             <if test="status != null  and status != ''"> and status = #{status}</if>
         </where>
+        order by post_sort asc
     </select>
 
     <select id="selectNlpDetailsManagementById" parameterType="Integer" resultMap="NlpDetailsManagementResult">
