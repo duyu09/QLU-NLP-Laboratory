@@ -2,6 +2,8 @@
   <div>
 <!--    <div>Train Modeling</div>-->
     <h2>QLUOJ信息管理 后台</h2>
+    {{imgPath}}
+    <CutImage @nowImg="getImg" :imgPath = "form.imgPath" :autoCropWidth="200" :autoCropHeight="300"/>
   </div>
 </template>
 
@@ -12,11 +14,19 @@ export default {
     return {
       // 版本号
       version: "3.8.0",
+      form: {
+        imgPath: "",
+      }
     };
   },
   methods: {
     goTarget(href) {
       window.open(href, "_blank");
+    },
+
+    // nowImg是由子组件传入的
+    getImg(nowImg) {
+      this.form.imgPath = nowImg;
     },
   },
 };

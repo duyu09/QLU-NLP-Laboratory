@@ -99,6 +99,8 @@ import DictData from '@/components/DictData'
 import MyTooltip from '@/components/view/MyTooltip'
 // markdown 文本组件
 import MarkdownEditor from '@/components/MarkdownEditor'
+// 裁切照片组件
+import CutImage from '@/components/CutImage'
 
 // 全局方法挂载
 Vue.prototype.getDicts = getDicts
@@ -122,6 +124,7 @@ Vue.component('ImagePreview', ImagePreview)
 Vue.component('MyTooltip', MyTooltip)
 Vue.component('MarkdownEditor', MarkdownEditor)
 Vue.component("v-md-editor",VMdEditor)
+Vue.component("CutImage",CutImage)
 
 Vue.use(directive)
 Vue.use(plugins)
