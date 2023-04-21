@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.train.cmsCloud.mapper.NlpAdmissionTeamOverviewImgMapper">
+
+    <resultMap type="NlpAdmissionTeamOverviewImg" id="NlpAdmissionTeamOverviewImgResult">
+        <result property="id"    column="id"    />
+        <result property="titleId"    column="title_id"    />
+        <result property="imgUrl"    column="img_url"    />
+        <result property="imgName"    column="img_name"    />
+        <result property="postSort"    column="post_sort"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectNlpAdmissionTeamOverviewImgVo">
+        select id, title_id, img_url, img_name, post_sort, status, create_by, create_time, update_by, update_time from nlp_admission_team_overview_img
+    </sql>
+
+    <select id="selectNlpAdmissionTeamOverviewImgList" parameterType="NlpAdmissionTeamOverviewImg" resultMap="NlpAdmissionTeamOverviewImgResult">
+        <include refid="selectNlpAdmissionTeamOverviewImgVo"/>
+        <where>
+            <if test="titleId != null "> and title_id = #{titleId}</if>
+            <if test="imgName != null  and imgName != ''"> and img_name like concat('%', #{imgName}, '%')</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+        order by post_sort asc
+    </select>
+
+    <select id="selectNlpAdmissionTeamOverviewImgById" parameterType="Integer" resultMap="NlpAdmissionTeamOverviewImgResult">
+        <include refid="selectNlpAdmissionTeamOverviewImgVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertNlpAdmissionTeamOverviewImg" parameterType="NlpAdmissionTeamOverviewImg" useGeneratedKeys="true" keyProperty="id">
+        insert into nlp_admission_team_overview_img
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="titleId != null">title_id,</if>
+            <if test="imgUrl != null">img_url,</if>
+            <if test="imgName != null">img_name,</if>
+            <if test="postSort != null">post_sort,</if>
+            <if test="status != null and status != ''">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="titleId != null">#{titleId},</if>
+            <if test="imgUrl != null">#{imgUrl},</if>
+            <if test="imgName != null">#{imgName},</if>
+            <if test="postSort != null">#{postSort},</if>
+            <if test="status != null and status != ''">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateNlpAdmissionTeamOverviewImg" parameterType="NlpAdmissionTeamOverviewImg">
+        update nlp_admission_team_overview_img
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="titleId != null">title_id = #{titleId},</if>
+            <if test="imgUrl != null">img_url = #{imgUrl},</if>
+            <if test="imgName != null">img_name = #{imgName},</if>
+            <if test="postSort != null">post_sort = #{postSort},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteNlpAdmissionTeamOverviewImgById" parameterType="Integer">
+        delete from nlp_admission_team_overview_img where id = #{id}
+    </delete>
+
+    <delete id="deleteNlpAdmissionTeamOverviewImgByIds" parameterType="String">
+        delete from nlp_admission_team_overview_img where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -83,7 +83,6 @@
 
     <el-table v-loading="loading" :data="detailsManagementList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="主键" align="center" prop="id" />
       <el-table-column label="标题" align="center" prop="title" />
       <el-table-column label="展示内容" align="center" prop="recordContent" />
       <el-table-column label="详情类别" align="center" prop="configId">

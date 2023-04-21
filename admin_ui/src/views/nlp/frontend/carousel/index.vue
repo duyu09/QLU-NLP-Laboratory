@@ -130,7 +130,7 @@
     <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="轮播图">
-          <imageUpload v-model="form.carouselImg":limit="1"/>
+          <imageUpload v-model="form.carouselImg" :limit="1"/>
         </el-form-item>
         <el-form-item label="轮播图名称" prop="carouselName">
           <el-input v-model="form.carouselName" placeholder="请输入轮播图名称" />
