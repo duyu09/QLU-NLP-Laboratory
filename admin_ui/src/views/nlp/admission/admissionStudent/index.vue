@@ -102,7 +102,6 @@
 
     <el-table v-loading="loading" :data="admissionStudentList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="主键" align="center" prop="id" />
       <el-table-column label="姓名" align="center" prop="name" />
       <el-table-column label="性别" align="center" prop="sex">
         <template slot-scope="scope">
@@ -182,7 +181,7 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="显示顺序" prop="postSort">
-          <el-input v-model="form.postSort" placeholder="请输入显示顺序" />
+          <el-input-number v-model="form.postSort" controls-position="right" :min="0" />
         </el-form-item>
         <el-form-item label="状态">
           <el-radio-group v-model="form.status">
