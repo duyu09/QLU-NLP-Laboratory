@@ -157,6 +157,7 @@
 
       <el-divider />
 
+      <!-- TeamOverviewImg.index.vue -->
       <TeamOverviewImg/>
     </el-dialog>
 

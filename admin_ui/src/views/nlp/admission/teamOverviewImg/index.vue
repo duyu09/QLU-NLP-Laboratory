@@ -1,16 +1,6 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="掠影分类标题id" prop="titleId">
-        <el-input
-          v-model="queryParams.titleId"
-          placeholder="请输入掠影分类标题id"
-          disabled
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
       <el-form-item label="图片名称" prop="imgName">
         <el-input
           v-model="queryParams.imgName"
@@ -74,7 +64,6 @@
 
     <el-table v-loading="loading" :data="teamOverviewImgList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="掠影分类标题id" align="center" prop="titleId" />
       <el-table-column label="图片" align="center" prop="imgUrl" >
         <template slot-scope="scope">
           <div style="width: 100px; height: 100px">

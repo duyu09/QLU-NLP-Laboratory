@@ -84,8 +84,18 @@
     <el-table v-loading="loading" :data="detailsManagementList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="标题" align="center" prop="title" />
-      <el-table-column label="展示内容" align="center" prop="recordContent" />
-      <el-table-column label="详情类别" align="center" prop="configId">
+      <el-table-column label="展示内容" align="center" prop="recordContent" >
+        <template slot-scope="scope">
+          <p v-if="scope.row.recordContent === '' || scope.row.recordContent === null" style="color:#b1b3b8">
+            请填写详细内容
+          </p>
+          <p v-else style="color:#409EFF; transition: 1s">
+            <a @click="openRecordContent(scope.row.recordContent)">
+              点击查看
+            </a>
+          </p>
+        </template>
+      </el-table-column>      <el-table-column label="详情类别" align="center" prop="configId">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.nlp_details" :value="scope.row.configId"/>
         </template>
@@ -161,6 +171,12 @@
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
+
+    <!-- 详细内容预览框 -->
+    <el-dialog title="展示内容" :visible.sync="ifShowRecordContent" @close="closeRecordContent">
+      <v-md-preview :text="showRecordContent"></v-md-preview>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -190,6 +206,10 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
+      // 详细介绍是否展示
+      ifShowRecordContent: false,
+      // 详细介绍内容
+      showRecordContent: '',
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -316,7 +336,24 @@ export default {
       this.download('nlp/admission/detailsManagement/export', {
         ...this.queryParams
       }, `detailsManagement_${new Date().getTime()}.xlsx`)
-    }
+    },
+    /** 详情展示操作 */
+    // 详情展示 打开
+    openRecordContent(data) {
+      this.ifShowRecordContent = true;
+      this.showRecordContent = data;
+    },
+    // 详情展示 关闭
+    closeRecordContent() {
+      this.showRecordContent = '';
+    },
   }
 };
 </script>
+
+<style>
+a:hover {
+  color: #79bbff;
+  transition: 0.3s;
+}
+</style>
