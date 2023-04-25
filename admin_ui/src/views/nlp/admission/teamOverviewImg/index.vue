@@ -114,9 +114,6 @@
     <!-- 添加或修改团队掠影 图片 (img)对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="掠影分类标题id" prop="titleId">
-          <el-input v-model="form.titleId" placeholder="请输入掠影分类标题id" disabled/>
-        </el-form-item>
         <el-form-item label="图片上传">
           <imageUpload v-model="form.imgUrl" :limit="1"/>
         </el-form-item>

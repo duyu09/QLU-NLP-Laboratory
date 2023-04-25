@@ -64,90 +64,146 @@
       </el-form-item>
     </el-form>
 
-    <el-row :gutter="10" class="mb8">
-      <el-col :span="1.5">
-        <el-button
-          type="primary"
-          plain
-          icon="el-icon-plus"
-          size="mini"
-          @click="handleAdd"
-          v-hasPermi="['nlp:admission:admissionStudent:add']"
-        >新增</el-button>
+    <el-row :gutter="20">
+      <!-- Add Edit Delete -->
+      <el-col :span="24" :xs="24">
+        <el-row :gutter="10" class="mb8">
+          <el-col :span="1.5">
+            <el-button
+              type="primary"
+              plain
+              icon="el-icon-plus"
+              size="mini"
+              @click="handleAdd"
+              v-hasPermi="['nlp:admission:admissionStudent:add']"
+            >新增</el-button>
+          </el-col>
+          <el-col :span="1.5">
+            <el-button
+              type="success"
+              plain
+              icon="el-icon-edit"
+              size="mini"
+              :disabled="single"
+              @click="handleUpdate"
+              v-hasPermi="['nlp:admission:admissionStudent:edit']"
+            >修改</el-button>
+          </el-col>
+          <el-col :span="1.5">
+            <el-button
+              type="danger"
+              plain
+              icon="el-icon-delete"
+              size="mini"
+              :disabled="multiple"
+              @click="handleDelete"
+              v-hasPermi="['nlp:admission:admissionStudent:remove']"
+            >删除</el-button>
+          </el-col>
+          <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+        </el-row>
+
+        <!-- Table -->
+        <el-table v-loading="loading" :data="admissionStudentList" @selection-change="handleSelectionChange">
+          <el-table-column type="selection" width="55" align="center" />
+          <el-table-column label="姓名" align="center" prop="name" />
+          <el-table-column label="性别" align="center" prop="sex">
+            <template slot-scope="scope">
+              <dict-tag :options="dict.type.sys_user_sex" :value="scope.row.sex"/>
+            </template>
+          </el-table-column>
+          <el-table-column label="年级" align="center" prop="grade" />
+          <el-table-column label="学历" align="center" prop="education" />
+          <el-table-column label="是否在读" align="center" prop="atSchool">
+            <template slot-scope="scope">
+              <dict-tag :options="dict.type.nlp_admission_student" :value="scope.row.atSchool"/>
+            </template>
+          </el-table-column>
+          <el-table-column label="显示顺序" align="center" prop="postSort" />
+          <el-table-column label="状态" align="center" prop="status">
+            <template slot-scope="scope">
+              <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+            <template slot-scope="scope">
+              <el-button
+                size="mini"
+                type="text"
+                icon="el-icon-edit"
+                @click="handleUpdate(scope.row)"
+                v-hasPermi="['nlp:admission:admissionStudent:edit']"
+              >修改</el-button>
+              <el-button
+                size="mini"
+                type="text"
+                icon="el-icon-delete"
+                @click="handleDelete(scope.row)"
+                v-hasPermi="['nlp:admission:admissionStudent:remove']"
+              >删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+
+        <pagination
+          v-show="total>0"
+          :total="total"
+          :page.sync="queryParams.pageNum"
+          :limit.sync="queryParams.pageSize"
+          @pagination="getList"
+        />
+
       </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="success"
-          plain
-          icon="el-icon-edit"
-          size="mini"
-          :disabled="single"
-          @click="handleUpdate"
-          v-hasPermi="['nlp:admission:admissionStudent:edit']"
-        >修改</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="danger"
-          plain
-          icon="el-icon-delete"
-          size="mini"
-          :disabled="multiple"
-          @click="handleDelete"
-          v-hasPermi="['nlp:admission:admissionStudent:remove']"
-        >删除</el-button>
-      </el-col>
-      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="admissionStudentList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="姓名" align="center" prop="name" />
-      <el-table-column label="性别" align="center" prop="sex">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.sys_user_sex" :value="scope.row.sex"/>
-        </template>
-      </el-table-column>
-      <el-table-column label="年级" align="center" prop="grade" />
-      <el-table-column label="学历" align="center" prop="education" />
-      <el-table-column label="是否在读" align="center" prop="atSchool">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.nlp_admission_student" :value="scope.row.atSchool"/>
-        </template>
-      </el-table-column>
-      <el-table-column label="显示顺序" align="center" prop="postSort" />
-      <el-table-column label="状态" align="center" prop="status">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
-        <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleUpdate(scope.row)"
-            v-hasPermi="['nlp:admission:admissionStudent:edit']"
-          >修改</el-button>
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-delete"
-            @click="handleDelete(scope.row)"
-            v-hasPermi="['nlp:admission:admissionStudent:remove']"
-          >删除</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+<!--    <el-table v-loading="loading" :data="admissionStudentList" @selection-change="handleSelectionChange">-->
+<!--      <el-table-column type="selection" width="55" align="center" />-->
+<!--      <el-table-column label="姓名" align="center" prop="name" />-->
+<!--      <el-table-column label="性别" align="center" prop="sex">-->
+<!--        <template slot-scope="scope">-->
+<!--          <dict-tag :options="dict.type.sys_user_sex" :value="scope.row.sex"/>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
+<!--      <el-table-column label="年级" align="center" prop="grade" />-->
+<!--      <el-table-column label="学历" align="center" prop="education" />-->
+<!--      <el-table-column label="是否在读" align="center" prop="atSchool">-->
+<!--        <template slot-scope="scope">-->
+<!--          <dict-tag :options="dict.type.nlp_admission_student" :value="scope.row.atSchool"/>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
+<!--      <el-table-column label="显示顺序" align="center" prop="postSort" />-->
+<!--      <el-table-column label="状态" align="center" prop="status">-->
+<!--        <template slot-scope="scope">-->
+<!--          <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
+<!--      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">-->
+<!--        <template slot-scope="scope">-->
+<!--          <el-button-->
+<!--            size="mini"-->
+<!--            type="text"-->
+<!--            icon="el-icon-edit"-->
+<!--            @click="handleUpdate(scope.row)"-->
+<!--            v-hasPermi="['nlp:admission:admissionStudent:edit']"-->
+<!--          >修改</el-button>-->
+<!--          <el-button-->
+<!--            size="mini"-->
+<!--            type="text"-->
+<!--            icon="el-icon-delete"-->
+<!--            @click="handleDelete(scope.row)"-->
+<!--            v-hasPermi="['nlp:admission:admissionStudent:remove']"-->
+<!--          >删除</el-button>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
+<!--    </el-table>-->
 
-    <pagination
-      v-show="total>0"
-      :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
-      @pagination="getList"
-    />
+<!--    <pagination-->
+<!--      v-show="total>0"-->
+<!--      :total="total"-->
+<!--      :page.sync="queryParams.pageNum"-->
+<!--      :limit.sync="queryParams.pageSize"-->
+<!--      @pagination="getList"-->
+<!--    />-->
 
     <!-- 添加或修改学生 数据对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
@@ -313,7 +369,7 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加学生 数据";
+      this.title = "添加 新学生数据";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
@@ -322,7 +378,7 @@ export default {
       getAdmissionStudent(id).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改学生 数据";
+        this.title = "修改 " + this.form.name + " 数据";
       });
     },
     /** 提交按钮 */

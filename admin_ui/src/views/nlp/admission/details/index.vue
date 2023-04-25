@@ -256,7 +256,7 @@ export default {
       getDetails(id).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改招生详情 培养计划 招聘详情 数据";
+        this.title = "修改 " + this.form.title + " 数据";
       });
     },
     /** 提交按钮 */
@@ -282,7 +282,7 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除招生详情 培养计划 招聘详情 数据编号为"' + ids + '"的数据项？').then(function() {
+      this.$modal.confirm('是否确认删除数据编号为"' + ids + '"的数据项？').then(function() {
         return delDetails(ids);
       }).then(() => {
         this.getList();
