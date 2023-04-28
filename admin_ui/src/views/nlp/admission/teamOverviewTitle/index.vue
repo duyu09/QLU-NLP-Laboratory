@@ -59,12 +59,13 @@
           v-hasPermi="['nlp:admission:teamOverviewTitle:remove']"
         >删除</el-button>
       </el-col>
-      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+      <right-toolbar :showSearch.sync="showSearch" @queryTable="getListTitle"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="teamOverviewTitleList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="掠影分类标题" align="center" prop="title" />
+      <el-table-column label="Id" align="center" prop="id" />
+      <el-table-column label="掠影分类标题" align="center" prop="title" id="twinkling"/>
       <el-table-column label="显示顺序" align="center" prop="postSort" />
       <el-table-column label="状态" align="center" prop="status">
         <template slot-scope="scope">
@@ -87,6 +88,7 @@
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
             v-hasPermi="['nlp:admission:teamOverviewTitle:remove']"
+            class="twinkling"
           >删除分类</el-button>
         </template>
       </el-table-column>
@@ -97,7 +99,7 @@
       :total="total"
       :page.sync="queryParams.pageNum"
       :limit.sync="queryParams.pageSize"
-      @pagination="getList"
+      @pagination="getListTitle"
     />
 
     <!-- 新增团队掠影 标题 (title)对话框 -->
@@ -166,6 +168,7 @@
 
 <script>
 import { listTeamOverviewTitle, getTeamOverviewTitle, delTeamOverviewTitle, addTeamOverviewTitle, updateTeamOverviewTitle } from "@/api/nlp/admission/teamOverviewTitle";
+import { listTeamOverviewImg } from "@/api/nlp/admission/teamOverviewImg";
 import TeamOverviewImg from "@/views/nlp/admission/teamOverviewImg/index.vue";
 import {teamOverview} from "@/store/teamOverview";
 
@@ -188,13 +191,18 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
+      totalImg: 0,
       // 团队掠影 标题 (title)表格数据
       teamOverviewTitleList: [],
+      // 团队掠影 图片 (img)表格数据
+      teamOverviewImgList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
       open: false,
       openAdd: false,
+      // 每行掠影分类标题里是否有图片
+      hasImg: null,
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -216,23 +224,17 @@ export default {
     };
   },
   created() {
-    this.getList();
-    // 如果是 自己跳转自己 就打开弹出层
-    if (teamOverview.titleRow != null && teamOverview.auto === true) {
-      // 关闭自动打开 只打开一次
-      teamOverview.auto = false;
-      // 设置选中数组
-      this.ids = teamOverview.titleIds;
-
-      this.handleUpdateAuto(teamOverview.titleRow);
-    }
+    // 查询团队掠影 标题 (title)列表
+    this.getListTitle();
+    // 点击修改后 刷新页面 -> teamOverview.auto = true -> 打开弹出层
+    this.autoOpenUpdatePage();
   },
   methods: {
 
       /** ----- title 操作 ----- */
 
     /** 查询团队掠影 标题 (title)列表 */
-    getList() {
+    getListTitle() {
       this.loading = true;
       listTeamOverviewTitle(this.queryParams).then(response => {
         this.teamOverviewTitleList = response.rows;
@@ -264,7 +266,7 @@ export default {
     /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.pageNum = 1;
-      this.getList();
+      this.getListTitle();
     },
     /** 重置按钮操作 */
     resetQuery() {
@@ -289,11 +291,8 @@ export default {
       const id = row.id || this.ids
       getTeamOverviewTitle(id).then(response => {
         this.form = response.data;
-        this.open = true;
-        this.title = "修改 " + this.form.title;
 
         teamOverview.titleId = this.form.id;
-        // alert(teamOverview.titleId + "Title");
 
         // 设置 index 的 open 为 true
         teamOverview.indexOpen = true;
@@ -302,13 +301,6 @@ export default {
         teamOverview.titleIds = this.ids;
         // 设置 auto 为 true 以自动打开编辑页面
         teamOverview.auto = true;
-
-        // 检测当前路径有无/index 跳转自己 刷新
-        // if (this.$route.path === '/nlp/admission/teamOverviewTitle') {
-        //   this.$router.push({path: '/nlp/admission/teamOverviewTitle/index'});
-        // } else {
-        //   this.$router.push({path: '/nlp/admission/teamOverviewTitle'});
-        // }
 
         // 直接刷新
         this.reload();
@@ -323,8 +315,18 @@ export default {
         this.title = "修改 " + this.form.title;
 
         teamOverview.titleId = this.form.id;
-        // alert(teamOverview.titleId + "auto");
       });
+    },
+    /** 刷新后自动打开修改页面 */
+    autoOpenUpdatePage() {
+      if (teamOverview.titleRow != null && teamOverview.auto === true) {
+        // 关闭自动打开 只打开一次
+        teamOverview.auto = false;
+        // 设置选中数组
+        this.ids = teamOverview.titleIds;
+
+        this.handleUpdateAuto(teamOverview.titleRow);
+      }
     },
     /** 提交按钮 */
     submitForm() {
@@ -335,14 +337,14 @@ export default {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.openAdd = false;
-              this.getList();
+              this.getListTitle();
             });
           } else {
             addTeamOverviewTitle(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.openAdd = false;
-              this.getList();
+              this.getListTitle();
             });
           }
         }
@@ -350,13 +352,50 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除团队掠影 标题 编号为"' + ids + '"的数据项？').then(function() {
-        return delTeamOverviewTitle(ids);
-      }).then(() => {
-        this.getList();
-        this.$modal.msgSuccess("删除成功");
-      }).catch(() => {});
+      this.queryParams.titleId = '';
+      listTeamOverviewImg().then(response => {
+        this.teamOverviewImgList = response.rows;
+
+        // 判断 所选中的团队掠影 中是否有图片
+        this.totalImg = response.total;
+
+        let hasImg = new Map;
+        for (let i = 0; i < this.totalImg; i++) {
+          let teamOverviewImg = this.teamOverviewImgList[i];
+          let teamOverviewImgArray = Object.values(teamOverviewImg);
+          let teamOverviewImgId = teamOverviewImgArray[8];
+          hasImg.set(teamOverviewImgId, true);
+        }
+
+        let ids = row.id || this.ids;
+
+        if (!Array.isArray(ids)) {
+          ids = Array.of(ids);
+        }
+
+        let needDeleteImg = [];
+        for (let i = 0; i < ids.length; i++) {
+          if (hasImg.get(ids[i]) === true) {
+            needDeleteImg.push(ids[i]);
+          }
+        }
+
+        if (needDeleteImg.length > 0) {
+          // 如果有图片则提示
+          this.$modal.msgWarning('请先删除Id为"' + needDeleteImg + '"的分类中的图片~');
+        } else {
+          // 没有图片则进入删除流程
+          this.$modal.confirm('是否确认删除Id为"' + ids + '"的数据项？').then(function() {
+            return delTeamOverviewTitle(ids);
+          }).then(() => {
+            this.getListTitle();
+            this.$modal.msgSuccess("删除成功");
+          }).catch(() => {});
+        }
+
+        // twinkling闪烁1s
+        this.twinkling();
+      });
     },
     /** 导出按钮操作 */
     handleExport() {
