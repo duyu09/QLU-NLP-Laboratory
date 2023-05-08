@@ -66,7 +66,6 @@
 
     <el-table v-loading="loading" :data="nlpFrontendNewsList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-<!--      <el-table-column label="新闻ID" align="center" prop="id" />-->
       <el-table-column label="新闻插图" align="center" prop="newsImg" >
         <template slot-scope="scope">
           <div style="width: 100px; height: 100px">
@@ -79,6 +78,7 @@
           </div>
         </template>
       </el-table-column>
+      <el-table-column label="标题" align="center" prop="title" />
       <el-table-column label="是否置顶" align="center" prop="isStick">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.nlp_isFrame_yes_no" :value="scope.row.isStick"/>
@@ -89,16 +89,7 @@
           <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
         </template>
       </el-table-column>
-      <el-table-column label="展示顺序" align="center" prop="postSort" />
-      <el-table-column label="标题" align="center" prop="title" />
 
-<!--      <el-table-column label="简介内容" align="center" prop="synopsisContent" >-->
-<!--        <template slot-scope="scope">-->
-<!--          <p v-if="scope.row.synopsisContent === ''" >请填写简介内容</p>-->
-<!--          <p v-else-if="scope.row.synopsisContent === null" >请填写简介内容</p>-->
-<!--          <a v-else style="color:#1890ff" @click="openSynopsisContent(scope.row.synopsisContent)">点击查看</a>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
       <el-table-column label="简介内容" align="center" prop="synopsisContent" />
 
       <el-table-column label="详细内容" align="center" prop="recordContent" >
@@ -109,6 +100,7 @@
         </template>
       </el-table-column>
 
+      <el-table-column label="展示顺序" align="center" prop="postSort" />
       <el-table-column label="备注" align="center" prop="remark" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">

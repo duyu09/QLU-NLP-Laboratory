@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.train.common.domain.NlpFrontendLink;
 import com.train.frontendWeb.service.IShowNlpFrontendLinkService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,7 +21,7 @@ import com.train.common.core.page.TableDataInfo;
  * @date 2023-04-07
  */
 @RestController
-//@RequestMapping("/nlp/frontend/link")
+//@RequestMapping("/show/nlp/link")
 public class ShowNlpFrontendLinkController extends BaseController
 {
     @Autowired

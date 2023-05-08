@@ -1,5 +1,6 @@
 package com.train.cmsCloud.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.train.common.domain.NlpFrontendAboutManagement;
@@ -94,4 +95,5 @@ public class NlpFrontendAboutManagementServiceImpl implements INlpFrontendAboutM
     {
         return nlpFrontendAboutManagementMapper.deleteNlpFrontendAboutManagementById(id);
     }
+
 }

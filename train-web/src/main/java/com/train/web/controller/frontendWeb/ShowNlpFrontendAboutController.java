@@ -4,7 +4,9 @@ import java.util.List;
 import com.train.common.domain.NlpFrontendAbout;
 import com.train.frontendWeb.service.IShowNlpFrontendAboutService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.train.common.core.controller.BaseController;
 import com.train.common.core.domain.AjaxResult;
@@ -23,17 +25,16 @@ public class ShowNlpFrontendAboutController extends BaseController
     @Autowired
     private IShowNlpFrontendAboutService nlpFrontendAboutService;
 
-    /**
-     * 查询联系我们列表
-     */
-//    @GetMapping("/list")
-    public TableDataInfo list(NlpFrontendAbout nlpFrontendAbout)
-    {
-        startPage();
-        List<NlpFrontendAbout> list = nlpFrontendAboutService.selectNlpFrontendAboutList(nlpFrontendAbout);
-        return getDataTable(list);
-    }
-
+//    /**
+//     * 查询联系我们列表
+//     */
+////    @GetMapping("/list")
+//    public TableDataInfo list(NlpFrontendAbout nlpFrontendAbout)
+//    {
+//        startPage();
+//        List<NlpFrontendAbout> list = nlpFrontendAboutService.selectNlpFrontendAboutList(nlpFrontendAbout);
+//        return getDataTable(list);
+//    }
 
     /**
      * 获取联系我们详细信息

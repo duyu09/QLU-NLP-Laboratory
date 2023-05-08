@@ -58,4 +58,6 @@ public interface INlpFrontendAboutManagementService
      * @return 结果
      */
     public int deleteNlpFrontendAboutManagementById(Long id);
+
+
 }
