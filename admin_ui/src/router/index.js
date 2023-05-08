@@ -5,6 +5,7 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '@/layout'
+import aboutManagement from "@/views/nlp/frontend/aboutManagement";
 
 /**
  * Note: 路由配置项

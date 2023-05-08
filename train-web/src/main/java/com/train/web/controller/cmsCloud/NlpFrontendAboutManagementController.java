@@ -3,6 +3,7 @@ package com.train.web.controller.cmsCloud;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.train.common.constant.UserConstants;
 import com.train.common.domain.NlpFrontendAboutManagement;
 import com.train.common.utils.poi.ExcelUtil;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -78,6 +79,7 @@ public class NlpFrontendAboutManagementController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody NlpFrontendAboutManagement nlpFrontendAboutManagement)
     {
+//        if (UserConstants.NOT_UNIQUE.equals(nlpFrontendAboutManagementService.))
         return toAjax(nlpFrontendAboutManagementService.insertNlpFrontendAboutManagement(nlpFrontendAboutManagement));
     }
 
@@ -102,4 +104,6 @@ public class NlpFrontendAboutManagementController extends BaseController
     {
         return toAjax(nlpFrontendAboutManagementService.deleteNlpFrontendAboutManagementByIds(ids));
     }
+
+
 }

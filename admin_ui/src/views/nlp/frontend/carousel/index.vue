@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="100px">
       <el-form-item label="轮播图名称" prop="carouselName">
         <el-input
           v-model="queryParams.carouselName"
@@ -76,11 +76,16 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="轮播图顺序" align="center" prop="postSort" />
       <el-table-column label="轮播图名称" align="center" prop="carouselName" width="110px"/>
       <el-table-column label="是否为外链 " align="center" prop="isFrame" >
         <template slot-scope="scope">
           <dict-tag :options="dict.type.nlp_isFrame_yes_no" :value="scope.row.isFrame"/>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="轮播图状态" align="center" prop="status">
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
         </template>
       </el-table-column>
       <el-table-column label="路由地址" align="center" prop="urlPath" />
@@ -92,11 +97,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="轮播图状态" align="center" prop="status">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
-        </template>
-      </el-table-column>
+      <el-table-column label="轮播图顺序" align="center" prop="postSort" />
       <el-table-column label="备注" align="center" prop="remark" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">

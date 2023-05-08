@@ -10,15 +10,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-<!--      <el-form-item label="展示顺序" prop="postSort">-->
-<!--        <el-input-->
-<!--          v-model="queryParams.postSort"-->
-<!--          placeholder="请输入展示顺序"-->
-<!--          clearable-->
-<!--          size="small"-->
-<!--          @keyup.enter.native="handleQuery"-->
-<!--        />-->
-<!--      </el-form-item>-->
+
       <el-form-item label="详情类型" prop="type">
         <el-select v-model="queryParams.type" placeholder="请选择详情类型" clearable size="small">
           <el-option
@@ -54,7 +46,8 @@
           size="mini"
           @click="handleAdd"
           v-hasPermi="['nlp:frontend:aboutManagement:add']"
-        >新增</el-button>
+        >新增
+        </el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -65,7 +58,8 @@
           :disabled="single"
           @click="handleUpdate"
           v-hasPermi="['nlp:frontend:aboutManagement:edit']"
-        >修改</el-button>
+        >修改
+        </el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -76,7 +70,8 @@
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['nlp:frontend:aboutManagement:remove']"
-        >删除</el-button>
+        >删除
+        </el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -86,33 +81,36 @@
           size="mini"
           @click="handleExport"
           v-hasPermi="['nlp:frontend:aboutManagement:export']"
-        >导出</el-button>
+        >导出
+        </el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="frontendAboutManagementList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="名字" align="center" prop="name" />
-      <el-table-column label="展示顺序" align="center" prop="postSort" />
-      <el-table-column label="详细内容" align="center" prop="recordContent" >
+      <el-table-column type="selection" width="55" align="center"/>
+      <el-table-column label="名字" align="center" prop="name"/>
+      <el-table-column label="展示顺序" align="center" prop="postSort"/>
+      <el-table-column label="详细内容" align="center" prop="recordContent">
         <template slot-scope="scope">
-          <p v-if="scope.row.recordContent === ''" >请填写详细内容</p>
-          <p v-else-if="scope.row.recordContent === null" >请填写详细内容</p>
+          <p v-if="scope.row.recordContent === ''">请填写详细内容</p>
+          <p v-else-if="scope.row.recordContent === null">请填写详细内容</p>
           <a v-else style="color:#1890ff" @click="openRecordContent(scope.row.recordContent)">点击查看</a>
         </template>
       </el-table-column>
-      <el-table-column label="详情类型" align="center" prop="type">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.nlp_frontend_markdown" :value="scope.row.type"/>
-        </template>
-      </el-table-column>
+      <!--      <el-table-column label="详情类型" align="center" prop="type">-->
+      <!--        <template slot-scope="scope">-->
+      <!--          <dict-tag :options="dict.type.nlp_frontend_markdown" :value="scope.row.type"/>-->
+      <!--        </template>-->
+      <!--      </el-table-column>-->
+      <el-table-column label="详情类型" align="center" prop="type"/>
+
       <el-table-column label="状态" align="center" prop="status">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
         </template>
       </el-table-column>
-      <el-table-column label="备注" align="center" prop="remark" />
+      <el-table-column label="备注" align="center" prop="remark"/>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -121,14 +119,16 @@
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['nlp:frontend:aboutManagement:edit']"
-          >修改</el-button>
+          >修改
+          </el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
             v-hasPermi="['nlp:frontend:aboutManagement:remove']"
-          >删除</el-button>
+          >删除
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -145,25 +145,26 @@
     <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="名字" prop="name">
-          <el-input v-model="form.name" placeholder="请输入名字" />
+          <el-input v-model="form.name" placeholder="请输入名字"/>
         </el-form-item>
         <el-form-item label="展示顺序" prop="postSort">
-<!--          <el-input v-model="form.postSort" placeholder="请输入展示顺序" />-->
-          <el-input-number v-model="form.postSort" controls-position="right" :min="0" />
+          <el-input-number v-model="form.postSort" controls-position="right" :min="0"/>
         </el-form-item>
         <el-form-item label="详细内容">
-<!--          <editor v-model="form.recordContent" :min-height="192"/>-->
+          <!--          <editor v-model="form.recordContent" :min-height="192"/>-->
           <MarkdownEditor v-model="form.recordContent"></MarkdownEditor>
         </el-form-item>
         <el-form-item label="详情类型" prop="type">
-          <el-select v-model="form.type" placeholder="请选择详情类型">
-            <el-option
-              v-for="dict in dict.type.nlp_frontend_markdown"
-              :key="dict.value"
-              :label="dict.label"
-              :value="dict.value"
-            ></el-option>
-          </el-select>
+          <!--          <el-select v-model="form.type" placeholder="请选择详情类型">-->
+          <!--            <el-option-->
+          <!--              v-for="dict in dict.type.nlp_frontend_markdown"-->
+          <!--              :key="dict.value"-->
+          <!--              :label="dict.label"-->
+          <!--              :value="dict.value"-->
+          <!--            ></el-option>-->
+          <!--          </el-select>-->
+
+          <el-input v-model="form.type" placeholder="请输入类型"/>
         </el-form-item>
         <el-form-item label="状态">
           <el-radio-group v-model="form.status">
@@ -171,11 +172,12 @@
               v-for="dict in dict.type.sys_normal_disable"
               :key="dict.value"
               :label="dict.value"
-            >{{dict.label}}</el-radio>
+            >{{ dict.label }}
+            </el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
+          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -236,17 +238,18 @@ export default {
       // 表单校验
       rules: {
         name: [
-          { required: true, message: "请输入名字", trigger: "blur" }
+          {required: true, message: "请输入名字", trigger: "blur"}
         ],
         type: [
-          { required: true, message: "所属类别不能为空", trigger: "blur" }
+          {required: true, message: "所属类别不能为空", trigger: "blur"},
         ],
         postSort: [
-          { required: true, message: "显示顺序不能为空", trigger: "blur" }
+          {required: true, message: "显示顺序不能为空", trigger: "blur"}
         ],
         status: [
-          { required: true, message: "状态不能为空", trigger: "blur" }
+          {required: true, message: "状态不能为空", trigger: "blur"}
         ],
+
       }
     };
   },
@@ -298,7 +301,7 @@ export default {
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.id)
-      this.single = selection.length!==1
+      this.single = selection.length !== 1
       this.multiple = !selection.length
     },
     /** 新增按钮操作 */
@@ -312,6 +315,7 @@ export default {
       this.reset();
       const id = row.id || this.ids
       getFrontendAboutManagement(id).then(response => {
+        this.behaviourCode = response.behaviourCode;
         this.form = response.data;
         this.open = true;
         this.title = "修改联系我们(管理)";
@@ -340,12 +344,13 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除联系我们(管理)编号为"' + ids + '"的数据项？').then(function() {
+      this.$modal.confirm('是否确认删除联系我们(管理)编号为"' + ids + '"的数据项？').then(function () {
         return delFrontendAboutManagement(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
-      }).catch(() => {});
+      }).catch(() => {
+      });
     },
     /** 导出按钮操作 */
     handleExport() {

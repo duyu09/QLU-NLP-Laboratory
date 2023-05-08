@@ -12,8 +12,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @date 2023-04-07
  */
 @Mapper
-public interface NlpFrontendAboutManagementMapper
-{
+public interface NlpFrontendAboutManagementMapper {
     /**
      * 查询联系我们(管理)
      *
@@ -62,3 +61,4 @@ public interface NlpFrontendAboutManagementMapper
      */
     public int deleteNlpFrontendAboutManagementByIds(Long[] ids);
 }
+
