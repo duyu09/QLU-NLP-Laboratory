@@ -144,7 +144,8 @@
 <!--          <MarkdownEditor v-model="form.synopsisContent" :min-height="192"/>-->
 <!--        </el-form-item>-->
         <el-form-item label="简介内容">
-          <editor v-model="form.synopsisContent" :min-height="192"/>
+<!--          <editor v-model="form.synopsisContent" :min-height="192"/>-->
+          <el-input v-model="form.synopsisContent" type="textarea" placeholder="请输入简介内容" />
         </el-form-item>
         <el-form-item label="详细内容">
           <MarkdownEditor v-model="form.recordContent" :min-height="192"/>
