@@ -73,11 +73,12 @@
           <a v-else style="color:#1890ff" @click="openRecordContent(scope.row.recordContent)">点击查看</a>
         </template>
       </el-table-column>
-      <el-table-column label="详情类型" align="center" prop="type">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.nlp_frontend_markdown" :value="scope.row.type"/>
-        </template>
-      </el-table-column>
+<!--      <el-table-column label="详情类型" align="center" prop="type">-->
+<!--        <template slot-scope="scope">-->
+<!--          <dict-tag :options="dict.type.nlp_frontend_markdown" :value="scope.row.type"/>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
+      <el-table-column label="详情类型" align="center" prop="type"/>
       <el-table-column label="状态" align="center" prop="status">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
