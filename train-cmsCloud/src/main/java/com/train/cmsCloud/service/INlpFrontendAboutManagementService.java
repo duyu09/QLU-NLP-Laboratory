@@ -1,6 +1,8 @@
 package com.train.cmsCloud.service;
 
 import java.util.List;
+
+import com.train.common.core.domain.entity.SysUser;
 import com.train.common.domain.NlpFrontendAboutManagement;
 
 /**
@@ -59,5 +61,20 @@ public interface INlpFrontendAboutManagementService
      */
     public int deleteNlpFrontendAboutManagementById(Long id);
 
+
+    /**
+     * 检验类型是否唯一
+     *
+     * @param type 类型
+     * @return
+     */
+    public String checkTypeUnique(String type);
+
+    /**
+     * 检验是否可以修改type
+     *
+     * @param
+     */
+    public void checkTypeAllowed(NlpFrontendAboutManagement nlpFrontendAboutManagement);
 
 }

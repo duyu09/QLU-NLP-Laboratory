@@ -60,5 +60,14 @@ public interface NlpFrontendAboutManagementMapper {
      * @return 结果
      */
     public int deleteNlpFrontendAboutManagementByIds(Long[] ids);
+
+
+    /**
+     * 检验type是否唯一
+     *
+     * @param type
+     * @return
+     */
+    public int checkTypeUnique(String type);
 }
 

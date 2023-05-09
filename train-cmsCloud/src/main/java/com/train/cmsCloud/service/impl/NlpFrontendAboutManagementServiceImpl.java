@@ -3,8 +3,12 @@ package com.train.cmsCloud.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.train.common.constant.UserConstants;
+import com.train.common.core.domain.entity.SysUser;
 import com.train.common.domain.NlpFrontendAboutManagement;
+import com.train.common.exception.ServiceException;
 import com.train.common.utils.DateUtils;
+import com.train.common.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.train.cmsCloud.mapper.NlpFrontendAboutManagementMapper;
@@ -96,4 +100,31 @@ public class NlpFrontendAboutManagementServiceImpl implements INlpFrontendAboutM
         return nlpFrontendAboutManagementMapper.deleteNlpFrontendAboutManagementById(id);
     }
 
+
+    /**
+     * 检验type是否唯一
+     *
+     * @param type 类型
+     * @return
+     */
+    @Override
+    public String checkTypeUnique(String type)
+    {
+        int count = nlpFrontendAboutManagementMapper.checkTypeUnique(type);
+        if (count > 0)
+        {
+            return UserConstants.NOT_UNIQUE;
+        }
+        return UserConstants.UNIQUE;
+    }
+
+    /**
+     * 检验是否可以修改type
+     * @param nlpFrontendAboutManagement
+     */
+    @Override
+    public void checkTypeAllowed(NlpFrontendAboutManagement nlpFrontendAboutManagement)
+    {
+
+    }
 }

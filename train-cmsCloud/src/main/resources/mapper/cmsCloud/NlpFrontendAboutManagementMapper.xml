@@ -39,6 +39,11 @@
         where id = #{id}
     </select>
 
+
+    <select id="checkTypeUnique" parameterType="String" resultType="int">
+        select count(1) from nlp_frontend_about where type = #{type} limit 1
+    </select>
+
     <insert id="insertNlpFrontendAboutManagement" parameterType="NlpFrontendAboutManagement" useGeneratedKeys="true" keyProperty="id">
         insert into nlp_frontend_about
         <trim prefix="(" suffix=")" suffixOverrides=",">

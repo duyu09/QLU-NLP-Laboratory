@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.train.common.constant.UserConstants;
 import com.train.common.domain.NlpFrontendAboutManagement;
+import com.train.common.utils.StringUtils;
 import com.train.common.utils.poi.ExcelUtil;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,7 +80,11 @@ public class NlpFrontendAboutManagementController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody NlpFrontendAboutManagement nlpFrontendAboutManagement)
     {
-//        if (UserConstants.NOT_UNIQUE.equals(nlpFrontendAboutManagementService.))
+        if (UserConstants.NOT_UNIQUE.equals(nlpFrontendAboutManagementService.checkTypeUnique(nlpFrontendAboutManagement.getType())))
+        {
+            return AjaxResult.error("新增类型失败，该类型已存在");
+        }
+        nlpFrontendAboutManagement.setType(nlpFrontendAboutManagement.getType());
         return toAjax(nlpFrontendAboutManagementService.insertNlpFrontendAboutManagement(nlpFrontendAboutManagement));
     }
 
@@ -91,6 +96,13 @@ public class NlpFrontendAboutManagementController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody NlpFrontendAboutManagement nlpFrontendAboutManagement)
     {
+        nlpFrontendAboutManagementService.checkTypeAllowed(nlpFrontendAboutManagement);
+        if (StringUtils.isNotEmpty(nlpFrontendAboutManagement.getType())
+                && UserConstants.NOT_UNIQUE.equals(nlpFrontendAboutManagementService.checkTypeUnique(nlpFrontendAboutManagement.getType())))
+        {
+            return AjaxResult.error("修改失败，类型重复，请重试");
+        }
+
         return toAjax(nlpFrontendAboutManagementService.updateNlpFrontendAboutManagement(nlpFrontendAboutManagement));
     }
 
