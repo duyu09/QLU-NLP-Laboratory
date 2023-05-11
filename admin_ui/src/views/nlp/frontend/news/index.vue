@@ -359,7 +359,7 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除新闻动态管理编号为"' + ids + '"的数据项？').then(function () {
+      this.$modal.confirm('是否确认删除').then(function () {
         return delNlpFrontendNews(ids);
       }).then(() => {
         this.getList();
