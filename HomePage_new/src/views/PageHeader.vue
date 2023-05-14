@@ -44,7 +44,7 @@ export default
             </el-dropdown>
 
 
-            
+
             <el-dropdown>
               <span class="el-dropdown-link" style="font-size: larger;outline: none;">
                     实验室概况
@@ -98,17 +98,16 @@ export default
 
         </div>
   <div id="headTitle-d01">
-          
+
         <div id="headTitle01">
-          <!-- <span style="font-family: maozedong;"><nobr>齐鲁工业大学 (山东省科学院)</nobr></span> -->
           <img src="../assets/images/logo.svg" style="height:3.35rem;">
         </div>
         <div id="headTitle02">
-            自然语言处理及认知计算实验室<br>
-            <span id="headTitle-englishName"><nobr>Laboratory of Natural Language Processing </nobr><wbr><nobr>and Cognitive Computing</nobr></span>
+            自然语言处理及认知计算研究团队<br>
+            <span id="headTitle-englishName"><nobr>Research Group for Natural Language Processing </nobr><wbr><nobr>and Cognitive Computing</nobr></span>
         </div>
         <div id="headTitle03"></div>
-        
+
   </div>
 </template>
 <style>
@@ -164,7 +163,7 @@ export default
     font-size: 1.8rem;
     outline: 0;
   }
-  @media screen and (max-width: 40rem) 
+  @media screen and (max-width: 40rem)
   {
     #headTitle-d01
     {
@@ -200,7 +199,7 @@ export default
   {
     outline: 0;
   }
-  #headTitle-shortname .example-showcase .el-dropdown-link 
+  #headTitle-shortname .example-showcase .el-dropdown-link
   {
   cursor: pointer;
   display: flex;
@@ -209,9 +208,5 @@ export default
   @font-face {
     font-family: censcbk;
     src: url("../assets/fonts/censcbk.woff");
-  }
-  @font-face {
-    font-family: maozedong;
-    src: url("../assets/fonts/maozedong.woff");
   }
 </style>
