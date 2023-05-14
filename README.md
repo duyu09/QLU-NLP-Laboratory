@@ -2,12 +2,6 @@
 
 Source code tree of official website of Research Group for Natural Language Processing and Cognitive Computing of Qilu University of Technology (Shandong Academy of Science)
 
-### 站点著作权声明
-
-齐鲁工业大学(山东省科学院) 自然语言处理与认知计算研究团队 保留所有权利。
-
-&copy; 2023 Research Group for Natural Language Processing and Cognitive Computing of Qilu University of Technology(Shandong Academy of Science).
-
 ### 团队简介
 
 &nbsp;&nbsp;&nbsp;&nbsp;齐鲁工业大学（山东省科学院）自然语言处理与认知计算研究团队，依托于计算机科学与技术学部、国家超级计算济南中心。团队面向国家和社会重大需求，聚焦于语言信息处理与多模态认知计算，重点探索文本语义分析、医疗健康信息处理与数据挖掘、多模态认知计算及推荐系统等领域的基础理论与关键技术。
@@ -44,4 +38,13 @@ Source code tree of official website of Research Group for Natural Language Proc
 邮编：250353
 
 邮箱：wenpeng.lu@qlu.edu.cn
+
+-----
+
+&copy; 2023 RESEARCH GROUP FOR NATURAL LANGUAGE PROCESSING AND COGNITIVE COMPUTING OF QILU UNIVERSITY OF TECHNOLOGY (SHANDONG ACADEMY OF SCIENCE).
+
+![齐鲁工业大学 (山东省科学院)](https://github.com/duyu09/QLU-NLP-Laboratory/assets/92843163/b2886e8b-c929-4b74-902f-d535d842807b)
+
+齐鲁工业大学(山东省科学院) 自然语言处理与认知计算研究团队 保留所有权利。
+
 
