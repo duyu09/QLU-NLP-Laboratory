@@ -21,7 +21,7 @@ import com.train.common.core.page.TableDataInfo;
  * @date 2023-04-07
  */
 @RestController
-//@RequestMapping("/show/nlp/link")
+@RequestMapping("/show/nlp/link")
 public class ShowNlpFrontendLinkController extends BaseController
 {
     @Autowired
@@ -30,7 +30,7 @@ public class ShowNlpFrontendLinkController extends BaseController
     /**
      * 查询友情链接列表
      */
-//    @GetMapping("/list")
+    @GetMapping("/list")
     public TableDataInfo list(NlpFrontendLink nlpFrontendLink)
     {
         startPage();
@@ -42,7 +42,7 @@ public class ShowNlpFrontendLinkController extends BaseController
     /**
      * 获取友情链接详细信息
      */
-//    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
         return AjaxResult.success(nlpFrontendLinkService.selectNlpFrontendLinkById(id));

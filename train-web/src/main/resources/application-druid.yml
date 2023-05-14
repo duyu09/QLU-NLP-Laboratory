@@ -6,9 +6,9 @@ spring:
         druid:
             # 主库数据源
 #            master:
-#                url: jdbc:mysql://localhost:3306/addqluoj?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+#                url: jdbc:mysql://localhost:3306/train_model_db?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
 #                username: root
-#                password: root
+#                password:
             master:
                 url: jdbc:mysql://121.41.25.9:3307/train_model_db?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
                 username: root

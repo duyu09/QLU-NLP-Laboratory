@@ -233,6 +233,13 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+//.v-md-editor__toolbar-item v-md-icon-preview v-md-editor__toolbar-item-preview v-md-editor__toolbar-item--active {
+//  display: none;
+//}
+.v-md-editor__toolbar-right {
+  li.v-md-editor__toolbar-item v-md-icon-preview v-md-editor__toolbar-item-preview{
+    display: none !important;
+  }
+}
 </style>

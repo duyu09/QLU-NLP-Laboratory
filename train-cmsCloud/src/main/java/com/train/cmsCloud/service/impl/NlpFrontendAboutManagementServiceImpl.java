@@ -108,11 +108,16 @@ public class NlpFrontendAboutManagementServiceImpl implements INlpFrontendAboutM
      * @return
      */
     @Override
-    public String checkTypeUnique(String type)
+    public String checkTypeUnique(String type,Long id)
     {
-        int count = nlpFrontendAboutManagementMapper.checkTypeUnique(type);
-        if (count > 0)
+        NlpFrontendAboutManagement management = new NlpFrontendAboutManagement();
+        management.setType(type);
+        List<NlpFrontendAboutManagement> list =  nlpFrontendAboutManagementMapper.selectNlpFrontendAboutManagementList(management);
+        if (list.size() > 0)
         {
+            if (list.size() == 1 && id.equals(list.get(0).getId())) {
+                return UserConstants.UNIQUE;
+            }
             return UserConstants.NOT_UNIQUE;
         }
         return UserConstants.UNIQUE;

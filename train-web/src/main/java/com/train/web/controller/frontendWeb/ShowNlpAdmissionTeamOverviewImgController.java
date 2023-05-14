@@ -22,7 +22,7 @@ import java.util.List;
  * @date 2023-04-21
  */
 @RestController
-@RequestMapping("/show/nlp/admission/teamOverviewImg")
+@RequestMapping("/show/nlp/teamOverviewImg")
 public class ShowNlpAdmissionTeamOverviewImgController extends BaseController
 {
     @Autowired
@@ -31,7 +31,6 @@ public class ShowNlpAdmissionTeamOverviewImgController extends BaseController
     /**
      * 查询团队掠影 图片 (img)列表
      */
-    @PreAuthorize("@ss.hasPermi('nlp:admission:teamOverviewImg:list')")
     @GetMapping("/list")
     public TableDataInfo list(NlpAdmissionTeamOverviewImg nlpAdmissionTeamOverviewImg)
     {
@@ -41,58 +40,12 @@ public class ShowNlpAdmissionTeamOverviewImgController extends BaseController
     }
 
     /**
-     * 导出团队掠影 图片 (img)列表
-     */
-    @PreAuthorize("@ss.hasPermi('nlp:admission:teamOverviewImg:export')")
-    @Log(title = "团队掠影 图片 (img)", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
-    public void export(HttpServletResponse response, NlpAdmissionTeamOverviewImg nlpAdmissionTeamOverviewImg)
-    {
-        List<NlpAdmissionTeamOverviewImg> list = nlpAdmissionTeamOverviewImgService.selectNlpAdmissionTeamOverviewImgList(nlpAdmissionTeamOverviewImg);
-        ExcelUtil<NlpAdmissionTeamOverviewImg> util = new ExcelUtil<NlpAdmissionTeamOverviewImg>(NlpAdmissionTeamOverviewImg.class);
-        util.exportExcel(response, list, "团队掠影 图片 (img)数据");
-    }
-
-    /**
      * 获取团队掠影 图片 (img)详细信息
      */
-    @PreAuthorize("@ss.hasPermi('nlp:admission:teamOverviewImg:query')")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Integer id)
     {
         return AjaxResult.success(nlpAdmissionTeamOverviewImgService.selectNlpAdmissionTeamOverviewImgById(id));
     }
 
-    /**
-     * 新增团队掠影 图片 (img)
-     */
-    @PreAuthorize("@ss.hasPermi('nlp:admission:teamOverviewImg:add')")
-    @Log(title = "团队掠影 图片 (img)", businessType = BusinessType.INSERT)
-    @PostMapping
-    public AjaxResult add(@RequestBody NlpAdmissionTeamOverviewImg nlpAdmissionTeamOverviewImg)
-    {
-        return toAjax(nlpAdmissionTeamOverviewImgService.insertNlpAdmissionTeamOverviewImg(nlpAdmissionTeamOverviewImg));
-    }
-
-    /**
-     * 修改团队掠影 图片 (img)
-     */
-    @PreAuthorize("@ss.hasPermi('nlp:admission:teamOverviewImg:edit')")
-    @Log(title = "团队掠影 图片 (img)", businessType = BusinessType.UPDATE)
-    @PutMapping
-    public AjaxResult edit(@RequestBody NlpAdmissionTeamOverviewImg nlpAdmissionTeamOverviewImg)
-    {
-        return toAjax(nlpAdmissionTeamOverviewImgService.updateNlpAdmissionTeamOverviewImg(nlpAdmissionTeamOverviewImg));
-    }
-
-    /**
-     * 删除团队掠影 图片 (img)
-     */
-    @PreAuthorize("@ss.hasPermi('nlp:admission:teamOverviewImg:remove')")
-    @Log(title = "团队掠影 图片 (img)", businessType = BusinessType.DELETE)
-    @DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Integer[] ids)
-    {
-        return toAjax(nlpAdmissionTeamOverviewImgService.deleteNlpAdmissionTeamOverviewImgByIds(ids));
-    }
 }

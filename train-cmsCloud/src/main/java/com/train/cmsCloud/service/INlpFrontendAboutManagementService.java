@@ -68,7 +68,7 @@ public interface INlpFrontendAboutManagementService
      * @param type 类型
      * @return
      */
-    public String checkTypeUnique(String type);
+    public String checkTypeUnique(String type, Long id);
 
     /**
      * 检验是否可以修改type

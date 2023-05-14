@@ -22,7 +22,7 @@ import java.util.List;
  * @date 2023-04-21
  */
 @RestController
-@RequestMapping("/show/nlp/admission/teamOverviewTitle")
+@RequestMapping("/show/nlp/teamOverviewTitle")
 public class ShowNlpAdmissionTeamOverviewTitleController extends BaseController
 {
     @Autowired
@@ -31,7 +31,6 @@ public class ShowNlpAdmissionTeamOverviewTitleController extends BaseController
     /**
      * 查询团队掠影 标题 (title)列表
      */
-    @PreAuthorize("@ss.hasPermi('nlp:admission:teamOverviewTitle:list')")
     @GetMapping("/list")
     public TableDataInfo list(NlpAdmissionTeamOverviewTitle nlpAdmissionTeamOverviewTitle)
     {
@@ -41,58 +40,12 @@ public class ShowNlpAdmissionTeamOverviewTitleController extends BaseController
     }
 
     /**
-     * 导出团队掠影 标题 (title)列表
-     */
-    @PreAuthorize("@ss.hasPermi('nlp:admission:teamOverviewTitle:export')")
-    @Log(title = "团队掠影 标题 (title)", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
-    public void export(HttpServletResponse response, NlpAdmissionTeamOverviewTitle nlpAdmissionTeamOverviewTitle)
-    {
-        List<NlpAdmissionTeamOverviewTitle> list = nlpAdmissionTeamOverviewTitleService.selectNlpAdmissionTeamOverviewTitleList(nlpAdmissionTeamOverviewTitle);
-        ExcelUtil<NlpAdmissionTeamOverviewTitle> util = new ExcelUtil<NlpAdmissionTeamOverviewTitle>(NlpAdmissionTeamOverviewTitle.class);
-        util.exportExcel(response, list, "团队掠影 标题 (title)数据");
-    }
-
-    /**
      * 获取团队掠影 标题 (title)详细信息
      */
-    @PreAuthorize("@ss.hasPermi('nlp:admission:teamOverviewTitle:query')")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Integer id)
     {
         return AjaxResult.success(nlpAdmissionTeamOverviewTitleService.selectNlpAdmissionTeamOverviewTitleById(id));
     }
 
-    /**
-     * 新增团队掠影 标题 (title)
-     */
-    @PreAuthorize("@ss.hasPermi('nlp:admission:teamOverviewTitle:add')")
-    @Log(title = "团队掠影 标题 (title)", businessType = BusinessType.INSERT)
-    @PostMapping
-    public AjaxResult add(@RequestBody NlpAdmissionTeamOverviewTitle nlpAdmissionTeamOverviewTitle)
-    {
-        return toAjax(nlpAdmissionTeamOverviewTitleService.insertNlpAdmissionTeamOverviewTitle(nlpAdmissionTeamOverviewTitle));
-    }
-
-    /**
-     * 修改团队掠影 标题 (title)
-     */
-    @PreAuthorize("@ss.hasPermi('nlp:admission:teamOverviewTitle:edit')")
-    @Log(title = "团队掠影 标题 (title)", businessType = BusinessType.UPDATE)
-    @PutMapping
-    public AjaxResult edit(@RequestBody NlpAdmissionTeamOverviewTitle nlpAdmissionTeamOverviewTitle)
-    {
-        return toAjax(nlpAdmissionTeamOverviewTitleService.updateNlpAdmissionTeamOverviewTitle(nlpAdmissionTeamOverviewTitle));
-    }
-
-    /**
-     * 删除团队掠影 标题 (title)
-     */
-    @PreAuthorize("@ss.hasPermi('nlp:admission:teamOverviewTitle:remove')")
-    @Log(title = "团队掠影 标题 (title)", businessType = BusinessType.DELETE)
-    @DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Integer[] ids)
-    {
-        return toAjax(nlpAdmissionTeamOverviewTitleService.deleteNlpAdmissionTeamOverviewTitleByIds(ids));
-    }
 }

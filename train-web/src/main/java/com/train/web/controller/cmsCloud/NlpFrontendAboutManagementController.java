@@ -80,7 +80,7 @@ public class NlpFrontendAboutManagementController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody NlpFrontendAboutManagement nlpFrontendAboutManagement)
     {
-        if (UserConstants.NOT_UNIQUE.equals(nlpFrontendAboutManagementService.checkTypeUnique(nlpFrontendAboutManagement.getType())))
+        if (UserConstants.NOT_UNIQUE.equals(nlpFrontendAboutManagementService.checkTypeUnique(nlpFrontendAboutManagement.getType(), -1l)))
         {
             return AjaxResult.error("新增类型失败，该类型已存在");
         }
@@ -98,7 +98,7 @@ public class NlpFrontendAboutManagementController extends BaseController
     {
         nlpFrontendAboutManagementService.checkTypeAllowed(nlpFrontendAboutManagement);
         if (StringUtils.isNotEmpty(nlpFrontendAboutManagement.getType())
-                && UserConstants.NOT_UNIQUE.equals(nlpFrontendAboutManagementService.checkTypeUnique(nlpFrontendAboutManagement.getType())))
+                && UserConstants.NOT_UNIQUE.equals(nlpFrontendAboutManagementService.checkTypeUnique(nlpFrontendAboutManagement.getType(), nlpFrontendAboutManagement.getId())))
         {
             return AjaxResult.error("修改失败，类型重复，请重试");
         }

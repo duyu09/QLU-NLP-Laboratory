@@ -22,7 +22,7 @@ import java.util.List;
  * @date 2023-04-05
  */
 @RestController
-@RequestMapping("/show/nlp/admission/detailsManagement")
+@RequestMapping("/show/nlp/detailsManagement")
 public class ShowNlpDetailsManagementController extends BaseController
 {
     @Autowired
@@ -31,7 +31,6 @@ public class ShowNlpDetailsManagementController extends BaseController
     /**
      * 查询招生详情 培养计划 招聘详情 数据（管理）列表
      */
-    @PreAuthorize("@ss.hasPermi('nlp:admission:detailsManagement:list')")
     @GetMapping("/list")
     public TableDataInfo list(NlpDetailsManagement nlpDetailsManagement)
     {
@@ -40,59 +39,14 @@ public class ShowNlpDetailsManagementController extends BaseController
         return getDataTable(list);
     }
 
-    /**
-     * 导出招生详情 培养计划 招聘详情 数据（管理）列表
-     */
-    @PreAuthorize("@ss.hasPermi('nlp:admission:detailsManagement:export')")
-    @Log(title = "招生详情 培养计划 招聘详情 数据（管理）", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
-    public void export(HttpServletResponse response, NlpDetailsManagement nlpDetailsManagement)
-    {
-        List<NlpDetailsManagement> list = nlpDetailsManagementService.selectNlpDetailsManagementList(nlpDetailsManagement);
-        ExcelUtil<NlpDetailsManagement> util = new ExcelUtil<NlpDetailsManagement>(NlpDetailsManagement.class);
-        util.exportExcel(response, list, "招生详情 培养计划 招聘详情 数据（管理）数据");
-    }
 
     /**
      * 获取招生详情 培养计划 招聘详情 数据（管理）详细信息
      */
-    @PreAuthorize("@ss.hasPermi('nlp:admission:detailsManagement:query')")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Integer id)
     {
         return AjaxResult.success(nlpDetailsManagementService.selectNlpDetailsManagementById(id));
     }
 
-    /**
-     * 新增招生详情 培养计划 招聘详情 数据（管理）
-     */
-    @PreAuthorize("@ss.hasPermi('nlp:admission:detailsManagement:add')")
-    @Log(title = "招生详情 培养计划 招聘详情 数据（管理）", businessType = BusinessType.INSERT)
-    @PostMapping
-    public AjaxResult add(@RequestBody NlpDetailsManagement nlpDetailsManagement)
-    {
-        return toAjax(nlpDetailsManagementService.insertNlpDetailsManagement(nlpDetailsManagement));
-    }
-
-    /**
-     * 修改招生详情 培养计划 招聘详情 数据（管理）
-     */
-    @PreAuthorize("@ss.hasPermi('nlp:admission:detailsManagement:edit')")
-    @Log(title = "招生详情 培养计划 招聘详情 数据（管理）", businessType = BusinessType.UPDATE)
-    @PutMapping
-    public AjaxResult edit(@RequestBody NlpDetailsManagement nlpDetailsManagement)
-    {
-        return toAjax(nlpDetailsManagementService.updateNlpDetailsManagement(nlpDetailsManagement));
-    }
-
-    /**
-     * 删除招生详情 培养计划 招聘详情 数据（管理）
-     */
-    @PreAuthorize("@ss.hasPermi('nlp:admission:detailsManagement:remove')")
-    @Log(title = "招生详情 培养计划 招聘详情 数据（管理）", businessType = BusinessType.DELETE)
-    @DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Integer[] ids)
-    {
-        return toAjax(nlpDetailsManagementService.deleteNlpDetailsManagementByIds(ids));
-    }
 }

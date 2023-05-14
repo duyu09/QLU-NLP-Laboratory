@@ -19,27 +19,26 @@ import com.train.common.core.page.TableDataInfo;
  * @date 2023-04-07
  */
 @RestController
-//@RequestMapping("/nlp/frontend/about")
+@RequestMapping("/show/nlp/about")
 public class ShowNlpFrontendAboutController extends BaseController
 {
     @Autowired
     private IShowNlpFrontendAboutService nlpFrontendAboutService;
 
-//    /**
-//     * 查询联系我们列表
-//     */
-////    @GetMapping("/list")
-//    public TableDataInfo list(NlpFrontendAbout nlpFrontendAbout)
-//    {
-//        startPage();
-//        List<NlpFrontendAbout> list = nlpFrontendAboutService.selectNlpFrontendAboutList(nlpFrontendAbout);
-//        return getDataTable(list);
-//    }
+    /**
+     * 查询联系我们列表
+     */
+    @GetMapping("/list")
+    public AjaxResult list(NlpFrontendAbout nlpFrontendAbout)
+    {
+        List<NlpFrontendAbout> list = nlpFrontendAboutService.selectNlpFrontendAboutList(nlpFrontendAbout);
+        return AjaxResult.success(list);
+    }
 
     /**
      * 获取联系我们详细信息
      */
-//    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
         return AjaxResult.success(nlpFrontendAboutService.selectNlpFrontendAboutById(id));

@@ -11,25 +11,27 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-//@RequestMapping("/nlp/frontend/carousel")
+@RequestMapping("/show/nlp/carousel")
 public class ShowNlpFrontendCarouselController extends BaseController {
     @Autowired
     private IShowNlpFrontendCarouselService nlpFrontendCarouselService;
 
     /**
      * 查询轮播图列表
+     *
+     * /show/nlp/carousel/list 查询轮播图列表
      */
-//    @GetMapping("/list")
-    public TableDataInfo list(NlpFrontendCarousel nlpFrontendCarousel) {
-        startPage();
+
+    @GetMapping("/list")
+    public AjaxResult list(NlpFrontendCarousel nlpFrontendCarousel) {
         List<NlpFrontendCarousel> list = nlpFrontendCarouselService.selectNlpFrontendCarouselList(nlpFrontendCarousel);
-        return getDataTable(list);
+        return AjaxResult.success(list);
     }
 
     /**
      * 获取轮播图详细信息
      */
-//    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id) {
         return AjaxResult.success(nlpFrontendCarouselService.selectNlpFrontendCarouselById(id));
     }
