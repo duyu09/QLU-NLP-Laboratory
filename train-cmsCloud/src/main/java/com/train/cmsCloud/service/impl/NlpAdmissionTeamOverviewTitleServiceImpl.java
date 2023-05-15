@@ -147,7 +147,7 @@ public class NlpAdmissionTeamOverviewTitleServiceImpl implements INlpAdmissionTe
             Integer titleIndex = titleIdToIndex.get(titleId);
 
             // 添加 img 到对应 title 的 DTO
-            nlpAdmissionTeamOverviewTitleDTOListResult.get(titleIndex).setImgList(nlpAdmissionTeamOverviewImgList);
+            nlpAdmissionTeamOverviewTitleDTOListResult.get(titleIndex).addImg(nlpAdmissionTeamOverviewImg);
         }
 
         return nlpAdmissionTeamOverviewTitleDTOListResult;

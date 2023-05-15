@@ -17,4 +17,8 @@ public class NlpAdmissionTeamOverviewTitleDTO extends NlpAdmissionTeamOverviewTi
         this.imgList = imgList;
     }
 
+    public void addImg(NlpAdmissionTeamOverviewImg nlpAdmissionTeamOverviewImg) {
+        imgList.add(nlpAdmissionTeamOverviewImg);
+    }
+
 }
