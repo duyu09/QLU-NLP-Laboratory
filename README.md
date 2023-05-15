@@ -43,7 +43,7 @@ Source code tree of official website of Research Group for Natural Language Proc
 
 &copy; 2023 RESEARCH GROUP FOR NATURAL LANGUAGE PROCESSING AND COGNITIVE COMPUTING OF QILU UNIVERSITY OF TECHNOLOGY (SHANDONG ACADEMY OF SCIENCE).
 
-![齐鲁工业大学 (山东省科学院)](https://github.com/duyu09/QLU-NLP-Laboratory/assets/92843163/b2886e8b-c929-4b74-902f-d535d842807b)
+<img src="https://github.com/duyu09/QLU-NLP-Laboratory/assets/92843163/b2886e8b-c929-4b74-902f-d535d842807b" style="width:70%;">
 
 齐鲁工业大学(山东省科学院) 自然语言处理与认知计算研究团队 保留所有权利。
 
