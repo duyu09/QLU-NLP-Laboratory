@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import com.train.common.core.domain.entity.SysUser;
 import com.train.common.core.domain.model.LoginUser;
-import com.train.common.enums.UserStatus;
+import com.train.common.enums.DataStatus;
 import com.train.common.exception.ServiceException;
 import com.train.common.utils.StringUtils;
 import com.train.system.service.ISysUserService;
@@ -39,12 +39,12 @@ public class UserDetailsServiceImpl implements UserDetailsService
             log.info("登录用户：{} 不存在.", username);
             throw new ServiceException("登录用户：" + username + " 不存在");
         }
-        else if (UserStatus.DELETED.getCode().equals(user.getDelFlag()))
+        else if (DataStatus.DELETED.getCode().equals(user.getDelFlag()))
         {
             log.info("登录用户：{} 已被删除.", username);
             throw new ServiceException("对不起，您的账号：" + username + " 已被删除");
         }
-        else if (UserStatus.DISABLE.getCode().equals(user.getStatus()))
+        else if (DataStatus.DISABLE.getCode().equals(user.getStatus()))
         {
             log.info("登录用户：{} 已被停用.", username);
             throw new ServiceException("对不起，您的账号：" + username + " 已停用");

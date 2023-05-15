@@ -3,6 +3,7 @@ package com.train.web.controller.frontendWeb;
 import com.train.cmsCloud.service.INlpLabBriefService;
 import com.train.common.core.domain.AjaxResult;
 import com.train.common.domain.NlpLabBrief;
+import com.train.common.enums.DataStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +31,7 @@ public class ShowNlpLabBriefController {
     @GetMapping("/list")
     public AjaxResult list(NlpLabBrief nlpLabBrief)
     {
+        nlpLabBrief.setStatus(DataStatus.OK.getCode());
         List<NlpLabBrief> list = nlpLabBriefService.selectNlpLabBriefList(nlpLabBrief);
         return AjaxResult.success(list);
     }

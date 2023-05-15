@@ -1,18 +1,18 @@
 package com.train.common.enums;
 
 /**
- * 用户状态
+ * 数据状态
  * 
  * @author relief
  */
-public enum UserStatus
+public enum DataStatus
 {
     OK("0", "正常"), DISABLE("1", "停用"), DELETED("2", "删除");
 
     private final String code;
     private final String info;
 
-    UserStatus(String code, String info)
+    DataStatus(String code, String info)
     {
         this.code = code;
         this.info = info;
