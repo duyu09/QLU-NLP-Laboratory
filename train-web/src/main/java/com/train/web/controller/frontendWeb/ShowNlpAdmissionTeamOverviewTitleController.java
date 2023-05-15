@@ -6,6 +6,7 @@ import com.train.common.core.controller.BaseController;
 import com.train.common.core.domain.AjaxResult;
 import com.train.common.core.page.TableDataInfo;
 import com.train.common.domain.NlpAdmissionTeamOverviewTitle;
+import com.train.common.domain.dto.NlpAdmissionTeamOverviewTitleDTO;
 import com.train.common.enums.BusinessType;
 import com.train.common.utils.poi.ExcelUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,4 +49,14 @@ public class ShowNlpAdmissionTeamOverviewTitleController extends BaseController
         return AjaxResult.success(nlpAdmissionTeamOverviewTitleService.selectNlpAdmissionTeamOverviewTitleById(id));
     }
 
+    /**
+     * 查询团队掠影 标题和图片 对应的列表
+     */
+    @GetMapping("/all")
+    public TableDataInfo all()
+    {
+        startPage();
+        List<NlpAdmissionTeamOverviewTitleDTO> list = nlpAdmissionTeamOverviewTitleService.selectNlpAdmissionTeamOverviewTitleDTOList();
+        return getDataTable(list);
+    }
 }

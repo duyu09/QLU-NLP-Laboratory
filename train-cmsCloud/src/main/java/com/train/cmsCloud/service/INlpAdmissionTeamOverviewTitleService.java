@@ -2,6 +2,7 @@ package com.train.cmsCloud.service;
 
 import java.util.List;
 import com.train.common.domain.NlpAdmissionTeamOverviewTitle;
+import com.train.common.domain.dto.NlpAdmissionTeamOverviewTitleDTO;
 
 /**
  * 团队掠影 标题 (title)Service接口
@@ -58,4 +59,11 @@ public interface INlpAdmissionTeamOverviewTitleService
      * @return 结果
      */
     public int deleteNlpAdmissionTeamOverviewTitleById(Integer id);
+
+    /**
+     * 查询团队掠影 标题和图片 对应的列表
+     *
+     * @return 结果
+     */
+    List<NlpAdmissionTeamOverviewTitleDTO> selectNlpAdmissionTeamOverviewTitleDTOList();
 }
