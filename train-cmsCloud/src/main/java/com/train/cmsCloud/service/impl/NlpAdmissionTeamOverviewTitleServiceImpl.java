@@ -5,11 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ch.qos.logback.core.joran.util.beans.BeanUtil;
 import com.train.cmsCloud.mapper.NlpAdmissionTeamOverviewImgMapper;
 import com.train.common.domain.NlpAdmissionTeamOverviewImg;
 import com.train.common.domain.dto.NlpAdmissionTeamOverviewTitleDTO;
-import com.train.common.enums.DataStatus;
+import com.train.common.enums.UserStatus;
 import com.train.common.utils.DateUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,8 +116,8 @@ public class NlpAdmissionTeamOverviewTitleServiceImpl implements INlpAdmissionTe
         NlpAdmissionTeamOverviewImg img = new NlpAdmissionTeamOverviewImg();
 
         // 设置状态 只查询正常
-        title.setStatus(DataStatus.OK.getCode());
-        img.setStatus(DataStatus.OK.getCode());
+        title.setStatus(UserStatus.OK.getCode());
+        img.setStatus(UserStatus.OK.getCode());
 
         List<NlpAdmissionTeamOverviewTitle> nlpAdmissionTeamOverviewTitleList =
                 nlpAdmissionTeamOverviewTitleMapper.selectNlpAdmissionTeamOverviewTitleList(title);
