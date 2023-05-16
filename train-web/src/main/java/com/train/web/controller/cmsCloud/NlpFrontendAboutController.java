@@ -3,7 +3,9 @@ package com.train.web.controller.cmsCloud;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.train.common.constant.UserConstants;
 import com.train.common.domain.NlpFrontendAbout;
+import com.train.common.utils.StringUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -89,6 +91,13 @@ public class NlpFrontendAboutController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody NlpFrontendAbout nlpFrontendAbout)
     {
+        nlpFrontendAboutService.checkTypeAllowed(nlpFrontendAbout);
+        if (StringUtils.isNotEmpty(nlpFrontendAbout.getType())
+                && UserConstants.NOT_UNIQUE.equals(nlpFrontendAboutService.checkTypeUnique(nlpFrontendAbout.getType(), nlpFrontendAbout.getId())))
+        {
+            return AjaxResult.error("修改失败，类型重复，请重试");
+        }
+
         return toAjax(nlpFrontendAboutService.updateNlpFrontendAbout(nlpFrontendAbout));
     }
 
@@ -101,5 +110,17 @@ public class NlpFrontendAboutController extends BaseController
     public AjaxResult remove(@PathVariable Long[] ids)
     {
         return toAjax(nlpFrontendAboutService.deleteNlpFrontendAboutByIds(ids));
+    }
+
+    /**
+     * 获取type
+     *
+     * type类型
+     */
+    @PreAuthorize("@ss.hasPermi('nlp:frontend:about:type')")
+    @GetMapping(value = "/byType/{type}")
+    public AjaxResult getInfo(@PathVariable("type") String type)
+    {
+        return AjaxResult.success(nlpFrontendAboutService.selectNlpFrontendAboutByType(type));
     }
 }

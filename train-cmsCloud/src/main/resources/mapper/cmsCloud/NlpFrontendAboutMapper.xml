@@ -39,6 +39,11 @@
         where id = #{id}
     </select>
 
+    <select id="selectNlpFrontendAboutByType" resultType="com.train.common.domain.NlpFrontendAbout">
+        <include refid="selectNlpFrontendAboutVo"/>
+        where type = #{type}
+    </select>
+
     <insert id="insertNlpFrontendAbout" parameterType="NlpFrontendAbout" useGeneratedKeys="true" keyProperty="id">
         insert into nlp_frontend_about
         <trim prefix="(" suffix=")" suffixOverrides=",">

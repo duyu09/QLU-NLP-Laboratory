@@ -1,141 +1,14 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="名字" prop="name">
-        <el-input
-          v-model="queryParams.name"
-          placeholder="请输入名字"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-
-      <el-form-item label="详情类型" prop="type">
-        <el-select v-model="queryParams.type" placeholder="请选择详情类型" clearable size="small">
-          <el-option
-            v-for="dict in dict.type.nlp_frontend_markdown"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="状态" prop="status">
-        <el-select v-model="queryParams.status" placeholder="请选择状态" clearable size="small">
-          <el-option
-            v-for="dict in dict.type.sys_normal_disable"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
-      </el-form-item>
-    </el-form>
-
-    <el-row :gutter="10" class="mb8">
-      <el-col :span="1.5">
-
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="success"
-          plain
-          icon="el-icon-edit"
-          size="mini"
-          :disabled="single"
-          @click="handleUpdate"
-          v-hasPermi="['nlp:frontend:about:edit']"
-        >修改</el-button>
-      </el-col>
-      <el-col :span="1.5">
-
-      </el-col>
-      <el-col :span="1.5">
-
-      </el-col>
-      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
-    </el-row>
-
-    <el-table v-loading="loading" :data="frontendAboutList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
-<!--      <el-table-column label="主键" align="center" prop="id" />-->
-      <el-table-column label="名字" align="center" prop="name" />
-      <el-table-column label="展示顺序" align="center" prop="postSort" />
-      <el-table-column label="详细内容" align="center" prop="recordContent" >
-        <template slot-scope="scope">
-          <p v-if="scope.row.recordContent === ''" >请填写详细内容</p>
-          <p v-else-if="scope.row.recordContent === null" >请填写详细内容</p>
-          <a v-else style="color:#1890ff" @click="openRecordContent(scope.row.recordContent)">点击查看</a>
-        </template>
-      </el-table-column>
-<!--      <el-table-column label="详情类型" align="center" prop="type">-->
-<!--        <template slot-scope="scope">-->
-<!--          <dict-tag :options="dict.type.nlp_frontend_markdown" :value="scope.row.type"/>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
-      <el-table-column label="详情类型" align="center" prop="type"/>
-      <el-table-column label="状态" align="center" prop="status">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
-        </template>
-      </el-table-column>
-      <el-table-column label="备注" align="center" prop="remark" />
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
-        <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleUpdate(scope.row)"
-            v-hasPermi="['nlp:frontend:about:edit']"
-          >修改</el-button>
-<!--          <el-button-->
-<!--            size="mini"-->
-<!--            type="text"-->
-<!--            icon="el-icon-delete"-->
-<!--            @click="handleDelete(scope.row)"-->
-<!--            v-hasPermi="['nlp:frontend:about:remove']"-->
-<!--          >删除</el-button>-->
-        </template>
-      </el-table-column>
-    </el-table>
-
-    <pagination
-      v-show="total>0"
-      :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
-      @pagination="getList"
-    />
-
-    <!-- 添加或修改联系我们对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="名字" prop="name">
           <el-input v-model="form.name" placeholder="请输入名字" />
         </el-form-item>
-        <el-form-item label="展示顺序" prop="postSort">
-<!--          <el-input v-model="form.postSort" placeholder="请输入展示顺序" />-->
-          <el-input-number v-model="form.postSort" controls-position="right" :min="0" />
-        </el-form-item>
         <el-form-item label="详细内容">
-<!--          <editor v-model="form.recordContent" :min-height="192"/>-->
           <MarkdownEditor v-model="form.recordContent"></MarkdownEditor>
         </el-form-item>
         <el-form-item label="详情类型" prop="type">
-          <el-select v-model="form.type" placeholder="请选择详情类型">
-            <el-option
-              v-for="dict in dict.type.nlp_frontend_markdown"
-              :key="dict.value"
-              :label="dict.label"
-              :value="dict.value"
-            ></el-option>
-          </el-select>
+          <el-input v-model="form.type" placeholder="请输入类型"/>
         </el-form-item>
         <el-form-item label="状态">
           <el-radio-group v-model="form.status">
@@ -154,8 +27,6 @@
         <el-button type="primary" @click="submitForm">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
       </div>
-    </el-dialog>
-
     <!--    详细内容预览框-->
     <el-dialog title="详情内容" :visible.sync="ifShowRecordContent" @close="closeRecordContent">
       <v-md-preview :text="showRecordContent"></v-md-preview>
@@ -164,7 +35,7 @@
 </template>
 
 <script>
-import { listFrontendAbout, getFrontendAbout, delFrontendAbout, addFrontendAbout, updateFrontendAbout } from "@/api/nlp/frontend/about";
+import { listFrontendAbout, getFrontendAbout, delFrontendAbout, addFrontendAbout, updateFrontendAbout, getByType} from "@/api/nlp/frontend/about";
 
 export default {
   name: "FrontendAbout",
@@ -207,15 +78,26 @@ export default {
       form: {},
       // 表单校验
       rules: {
+        name: [
+          {required: true, message: "请输入名字", trigger: "blur"}
+        ],
+        type: [
+          {required: true, message: "所属类别不能为空", trigger: "blur"},
+        ],
+        postSort: [
+          {required: true, message: "显示顺序不能为空", trigger: "blur"}
+        ],
         status: [
-          { required: true, message: "状态不能为空", trigger: "blur" }
+          {required: true, message: "状态不能为空", trigger: "blur"}
         ],
       }
     };
   },
+  // 查一下这个 created 这个能理解为进入这个页面之后默认执行的 可以是去调用js方法
   created() {
-    this.getList();
+    this.getInfoByType(this.$route.query.type);
   },
+  // 查一下这个 methods  这里是写js方法的
   methods: {
     /** 查询联系我们列表 */
     getList() {
@@ -223,6 +105,14 @@ export default {
       listFrontendAbout(this.queryParams).then(response => {
         this.frontendAboutList = response.rows;
         this.total = response.total;
+        this.loading = false;
+      });
+    },
+    /** 查询联系我们列表 */
+    getInfoByType(type) {
+      this.loading = true;
+      getByType(type).then(response => {
+        this.form = response.data;
         this.loading = false;
       });
     },
@@ -258,12 +148,15 @@ export default {
       this.resetForm("queryForm");
       this.handleQuery();
     },
+
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.id)
-      this.single = selection.length!==1
+      this.single = selection.length !== 1
       this.multiple = !selection.length
     },
+
+
     /** 新增按钮操作 */
     handleAdd() {
       this.reset();

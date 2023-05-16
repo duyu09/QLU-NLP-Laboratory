@@ -60,4 +60,13 @@ public interface NlpFrontendAboutMapper
      * @return 结果
      */
     public int deleteNlpFrontendAboutByIds(Long[] ids);
+
+
+    /**
+     * 查询  type
+     *
+     * @param type 类型
+     * @return 联系我们
+     */
+    public NlpFrontendAbout selectNlpFrontendAboutByType(String type);
 }

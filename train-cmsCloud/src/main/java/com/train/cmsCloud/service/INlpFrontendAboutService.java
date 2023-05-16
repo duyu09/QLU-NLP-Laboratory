@@ -2,6 +2,7 @@ package com.train.cmsCloud.service;
 
 import java.util.List;
 import com.train.common.domain.NlpFrontendAbout;
+import com.train.common.domain.NlpFrontendAboutManagement;
 
 /**
  * 联系我们Service接口
@@ -58,4 +59,28 @@ public interface INlpFrontendAboutService
      * @return 结果
      */
     public int deleteNlpFrontendAboutById(Long id);
+
+
+    /**
+     * 查询
+     *
+     * @param type 类型
+     * @return 联系我们
+     */
+    public NlpFrontendAbout selectNlpFrontendAboutByType(String type);
+
+    /**
+     * 检验是否可以修改type
+     *
+     * @param
+     */
+    public void checkTypeAllowed(NlpFrontendAbout nlpFrontendAbout);
+
+    /**
+     * 检验类型是否唯一
+     *
+     * @param type 类型
+     * @return
+     */
+    public String checkTypeUnique(String type, Long id);
 }

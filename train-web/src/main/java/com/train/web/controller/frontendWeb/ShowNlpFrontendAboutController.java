@@ -2,6 +2,7 @@ package com.train.web.controller.frontendWeb;
 
 import java.util.List;
 import com.train.common.domain.NlpFrontendAbout;
+import com.train.common.enums.DataStatus;
 import com.train.frontendWeb.service.IShowNlpFrontendAboutService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +32,7 @@ public class ShowNlpFrontendAboutController extends BaseController
     @GetMapping("/list")
     public AjaxResult list(NlpFrontendAbout nlpFrontendAbout)
     {
+        nlpFrontendAbout.setStatus(DataStatus.OK.getCode());
         List<NlpFrontendAbout> list = nlpFrontendAboutService.selectNlpFrontendAboutList(nlpFrontendAbout);
         return AjaxResult.success(list);
     }

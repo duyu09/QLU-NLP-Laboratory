@@ -4,6 +4,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import com.train.common.domain.NlpFrontendLink;
+import com.train.common.enums.DataStatus;
 import com.train.frontendWeb.service.IShowNlpFrontendLinkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import com.train.common.core.page.TableDataInfo;
 /**
  * 友情链接Controller
  *
+ * /show/nlp/link/list 友链list
  * @author relief
  * @date 2023-04-07
  */
@@ -31,11 +33,11 @@ public class ShowNlpFrontendLinkController extends BaseController
      * 查询友情链接列表
      */
     @GetMapping("/list")
-    public TableDataInfo list(NlpFrontendLink nlpFrontendLink)
+    public AjaxResult list(NlpFrontendLink nlpFrontendLink)
     {
-        startPage();
+        nlpFrontendLink.setStatus(DataStatus.OK.getCode());
         List<NlpFrontendLink> list = nlpFrontendLinkService.selectNlpFrontendLinkList(nlpFrontendLink);
-        return getDataTable(list);
+        return AjaxResult.success(list);
     }
 
 

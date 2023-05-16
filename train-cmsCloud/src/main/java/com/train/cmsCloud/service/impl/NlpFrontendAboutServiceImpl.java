@@ -2,7 +2,9 @@ package com.train.cmsCloud.service.impl;
 
 import java.util.List;
 
+import com.train.common.constant.UserConstants;
 import com.train.common.domain.NlpFrontendAbout;
+import com.train.common.domain.NlpFrontendAboutManagement;
 import com.train.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -93,5 +95,31 @@ public class NlpFrontendAboutServiceImpl implements INlpFrontendAboutService
     public int deleteNlpFrontendAboutById(Long id)
     {
         return nlpFrontendAboutMapper.deleteNlpFrontendAboutById(id);
+    }
+
+    @Override
+    public NlpFrontendAbout selectNlpFrontendAboutByType(String type) {
+        return nlpFrontendAboutMapper.selectNlpFrontendAboutByType(type);
+    }
+
+    @Override
+    public void checkTypeAllowed(NlpFrontendAbout nlpFrontendAbout) {
+
+    }
+
+
+    @Override
+    public String checkTypeUnique(String type, Long id) {
+        NlpFrontendAbout management = new NlpFrontendAbout();
+        management.setType(type);
+        List<NlpFrontendAbout> list =  nlpFrontendAboutMapper.selectNlpFrontendAboutList(management);
+        if (list.size() > 0)
+        {
+            if (list.size() == 1 && id.equals(list.get(0).getId())) {
+                return UserConstants.UNIQUE;
+            }
+            return UserConstants.NOT_UNIQUE;
+        }
+        return UserConstants.UNIQUE;
     }
 }

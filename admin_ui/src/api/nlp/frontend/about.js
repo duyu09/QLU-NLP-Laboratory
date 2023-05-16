@@ -42,3 +42,14 @@ export function delFrontendAbout(id) {
     method: 'delete'
   })
 }
+
+
+// 查询type
+export function getByType(type){
+  return request({
+    url: '/nlp/frontend/about/byType/' + type,
+    method: 'get'
+  })
+}
+
+
