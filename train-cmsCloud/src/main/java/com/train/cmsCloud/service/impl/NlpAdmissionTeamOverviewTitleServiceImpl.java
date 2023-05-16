@@ -5,10 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ch.qos.logback.core.joran.util.beans.BeanUtil;
 import com.train.cmsCloud.mapper.NlpAdmissionTeamOverviewImgMapper;
 import com.train.common.domain.NlpAdmissionTeamOverviewImg;
 import com.train.common.domain.dto.NlpAdmissionTeamOverviewTitleDTO;
+import com.train.common.enums.DataStatus;
 import com.train.common.utils.DateUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.train.cmsCloud.mapper.NlpAdmissionTeamOverviewTitleMapper;
@@ -110,11 +113,17 @@ public class NlpAdmissionTeamOverviewTitleServiceImpl implements INlpAdmissionTe
      */
     @Override
     public List<NlpAdmissionTeamOverviewTitleDTO> selectNlpAdmissionTeamOverviewTitleDTOList() {
+        NlpAdmissionTeamOverviewTitle title = new NlpAdmissionTeamOverviewTitle();
+        NlpAdmissionTeamOverviewImg img = new NlpAdmissionTeamOverviewImg();
+
+        // 设置状态 只查询正常
+        title.setStatus(DataStatus.OK.getCode());
+        img.setStatus(DataStatus.OK.getCode());
 
         List<NlpAdmissionTeamOverviewTitle> nlpAdmissionTeamOverviewTitleList =
-                nlpAdmissionTeamOverviewTitleMapper.selectNlpAdmissionTeamOverviewTitleList(null);
+                nlpAdmissionTeamOverviewTitleMapper.selectNlpAdmissionTeamOverviewTitleList(title);
         List<NlpAdmissionTeamOverviewImg> nlpAdmissionTeamOverviewImgList =
-                nlpAdmissionTeamOverviewImgMapper.selectNlpAdmissionTeamOverviewImgList(null);
+                nlpAdmissionTeamOverviewImgMapper.selectNlpAdmissionTeamOverviewImgList(img);
 
         List<NlpAdmissionTeamOverviewTitleDTO> nlpAdmissionTeamOverviewTitleDTOListResult = new ArrayList<>(
                 nlpAdmissionTeamOverviewTitleList.size());
@@ -125,15 +134,7 @@ public class NlpAdmissionTeamOverviewTitleServiceImpl implements INlpAdmissionTe
             NlpAdmissionTeamOverviewTitleDTO nlpAdmissionTeamOverviewTitleDTO = new NlpAdmissionTeamOverviewTitleDTO();
 
             // 赋值
-            nlpAdmissionTeamOverviewTitleDTO.setId(nlpAdmissionTeamOverviewTitle.getId());
-            nlpAdmissionTeamOverviewTitleDTO.setTitle(nlpAdmissionTeamOverviewTitle.getTitle());
-            nlpAdmissionTeamOverviewTitleDTO.setPostSort(nlpAdmissionTeamOverviewTitle.getPostSort());
-            nlpAdmissionTeamOverviewTitleDTO.setStatus(nlpAdmissionTeamOverviewTitle.getStatus());
-            nlpAdmissionTeamOverviewTitleDTO.setCreateTime(nlpAdmissionTeamOverviewTitle.getCreateTime());
-            nlpAdmissionTeamOverviewTitleDTO.setCreateBy(nlpAdmissionTeamOverviewTitle.getCreateBy());
-            nlpAdmissionTeamOverviewTitleDTO.setUpdateTime(nlpAdmissionTeamOverviewTitle.getUpdateTime());
-            nlpAdmissionTeamOverviewTitleDTO.setUpdateBy(nlpAdmissionTeamOverviewTitle.getUpdateBy());
-            nlpAdmissionTeamOverviewTitleDTO.setRemark(nlpAdmissionTeamOverviewTitle.getRemark());
+            BeanUtils.copyProperties(nlpAdmissionTeamOverviewTitle, nlpAdmissionTeamOverviewTitleDTO);
 
             // 添加到结果集
             nlpAdmissionTeamOverviewTitleDTOListResult.add(nlpAdmissionTeamOverviewTitleDTO);
@@ -147,7 +148,9 @@ public class NlpAdmissionTeamOverviewTitleServiceImpl implements INlpAdmissionTe
             Integer titleIndex = titleIdToIndex.get(titleId);
 
             // 添加 img 到对应 title 的 DTO
-            nlpAdmissionTeamOverviewTitleDTOListResult.get(titleIndex).addImg(nlpAdmissionTeamOverviewImg);
+            if (titleIdToIndex.containsKey(titleId)) {
+                nlpAdmissionTeamOverviewTitleDTOListResult.get(titleIndex).addImg(nlpAdmissionTeamOverviewImg);
+            }
         }
 
         return nlpAdmissionTeamOverviewTitleDTOListResult;
