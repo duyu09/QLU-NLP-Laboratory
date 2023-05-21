@@ -19,6 +19,27 @@ export default
                 {name:'人才管理',anchor:'/'}
             ]
        }
+    },
+    methods:{
+      goTo(url)
+      {
+        if(url=='home')
+        {
+          this.$router.push('/')
+        }
+        else if(url=='studentmanage')
+        {
+          this.$router.push('/studentmanage')
+        }
+        else if(url=='studentcultivation')
+        {
+          this.$router.push('/studentcultivation')
+        }
+        else if(url=='teamoverview')
+        {
+          this.$router.push('/teamoverview')
+        }
+      }
     }
 }
 </script>
@@ -28,7 +49,7 @@ export default
 
         <div>
             <el-dropdown>
-              <span class="el-dropdown-link" style="font-size: larger;outline: 0 !important;">
+              <span class="el-dropdown-link" style="font-size: larger;outline: 0 !important;" @click="goTo('home')">
                     首页
                 <el-icon class="el-icon--right">
                     <arrow-down />
@@ -72,16 +93,16 @@ export default
         
         <div>
             <el-dropdown>
-              <span class="el-dropdown-link" style="font-size: larger;outline: 0 !important;">
-                    人才管理
+              <span class="el-dropdown-link" style="font-size: larger;outline: 0 !important;" @click="goTo('studentmanage')">
+                    学生管理
                 <el-icon class="el-icon--right">
                     <arrow-down />
                 </el-icon>
               </span>
               <template #dropdown>
                 <el-dropdown-menu>
-                  <el-dropdown-item>人才培养</el-dropdown-item>
-                  <el-dropdown-item>人才招聘</el-dropdown-item>
+                  <el-dropdown-item @click="goTo('studentcultivation')">人才培养</el-dropdown-item>
+                  <el-dropdown-item @click="goTo('teamoverview')">团队掠影</el-dropdown-item>
                   <!-- <el-dropdown-item disabled>Action 4</el-dropdown-item>
                   <el-dropdown-item divided>Action 5</el-dropdown-item> -->
                 </el-dropdown-menu>
@@ -126,6 +147,12 @@ export default
   {
     background-color: #acccff;
   }
+}
+@media screen and (max-width: 40rem)
+{
+    #mainDynamicMenu{
+        display: none;
+    }
 }
 
 </style>

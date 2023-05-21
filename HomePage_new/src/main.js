@@ -20,13 +20,12 @@ import VueAxios from 'vue-axios';
 
 import App from './App.vue';
 import axios from "axios";
-
-
+import router from "../src/router/index";
 const app = createApp(App);
 
 app.use(VMdPreview);
 app.use(VueAxios, axios);
-
+app.use(router);
 app.use(ElementPlus);
 //app.use(marked);
 app.mount('#app');

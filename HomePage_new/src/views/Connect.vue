@@ -2,12 +2,30 @@
 import { RouterLink, RouterView } from 'vue-router'
 import 'element-plus/dist/index.css';
 import { Link } from '@element-plus/icons-vue';
+import {getFriendLink} from "../api";
 export default
 {
     name:'Connect',
     components:
     {
         "Link":Link,
+    },
+    data(){
+        return{
+            linklist:[]
+        }
+    },
+    mounted() {
+        getFriendLink()
+        .then(res=>{
+            console.log(res.data.data)
+            this.linklist=res.data.data
+        })
+    },
+    methods:{
+        golink(url){
+            window.location.href=url;
+        }
     }
 }
 </script>
@@ -19,16 +37,12 @@ export default
         <el-divider border-style="dotted" style="margin: 0;padding: 0;" />
         <el-divider border-style="dashed" style="margin: 0;padding: 0;" />
         <div id="conn-div01">
-            <div><nobr><el-icon><Link /></el-icon>齐鲁工大</nobr></div>
-            <div><nobr><el-icon><Link /></el-icon>齐鲁工大计算学部</nobr></div>
-            <div><nobr><el-icon><Link /></el-icon>省科学院</nobr></div>
-            <div><nobr><el-icon><Link /></el-icon>中国科学院</nobr></div>
-            <div><nobr><el-icon><Link /></el-icon>中国工程院</nobr></div>
-            <div><nobr><el-icon><Link /></el-icon>中国高性能计算协会</nobr></div>
-            <div><nobr><el-icon><Link /></el-icon>中国科技部</nobr></div>
-            <div><nobr><el-icon><Link /></el-icon>山东科技厅</nobr></div>
-            <div><nobr><el-icon><Link /></el-icon>中国工信部</nobr></div>
-
+            <div v-for="item in linklist" key="item.id" @click="golink(item.linkUrl)">
+                <nobr>
+                    <el-icon><Link /></el-icon>
+                    <span>{{item.linkName}}</span>
+                </nobr>
+            </div>
         </div>
     </div>
 </template>
@@ -41,6 +55,10 @@ export default
 #conn-div01 > div
 {
     height: 2rem;
+}
+#conn-div01 span
+{
+    cursor: pointer;
 }
 @media screen and (max-width: 40rem) 
 {
