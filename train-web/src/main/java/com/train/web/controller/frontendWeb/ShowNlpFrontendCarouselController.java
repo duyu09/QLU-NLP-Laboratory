@@ -2,7 +2,6 @@ package com.train.web.controller.frontendWeb;
 
 import com.train.common.core.controller.BaseController;
 import com.train.common.core.domain.AjaxResult;
-import com.train.common.core.page.TableDataInfo;
 import com.train.common.domain.NlpFrontendCarousel;
 
 import com.train.common.enums.UserStatus;

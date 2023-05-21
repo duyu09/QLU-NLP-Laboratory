@@ -1,17 +1,15 @@
 package com.train.cmsCloud.mapper;
 
 
-import com.train.common.domain.NlpFrontendAbout;
 import com.train.common.domain.NlpFrontendRecource;
-import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
-@Mapper
+
 /**
  * 学术资源Mapper接口
  *
  * @author relief
- * @date 2023-05-17
+ * @date 2023-05-21
  */
 public interface NlpFrontendRecourceMapper
 {
@@ -62,12 +60,4 @@ public interface NlpFrontendRecourceMapper
      * @return 结果
      */
     public int deleteNlpFrontendRecourceByIds(Long[] ids);
-
-    /**
-     * 查询  type
-     *
-     * @param type 类型
-     * @return 联系我们
-     */
-    public NlpFrontendRecource selectNlpFrontendRecourceByType(String type);
 }

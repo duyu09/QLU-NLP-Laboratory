@@ -3,6 +3,7 @@ package com.train.web.controller.cmsCloud;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.train.cmsCloud.service.INlpFrontendRecourceService;
 import com.train.common.domain.NlpFrontendRecource;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,6 @@ import com.train.common.annotation.Log;
 import com.train.common.core.controller.BaseController;
 import com.train.common.core.domain.AjaxResult;
 import com.train.common.enums.BusinessType;
-import com.train.cmsCloud.service.INlpFrontendRecourceService;
 import com.train.common.utils.poi.ExcelUtil;
 import com.train.common.core.page.TableDataInfo;
 
@@ -26,7 +26,7 @@ import com.train.common.core.page.TableDataInfo;
  * 学术资源Controller
  *
  * @author relief
- * @date 2023-05-17
+ * @date 2023-05-21
  */
 @RestController
 @RequestMapping("/nlp/frontend/recource")
@@ -101,17 +101,5 @@ public class NlpFrontendRecourceController extends BaseController
     public AjaxResult remove(@PathVariable Long[] ids)
     {
         return toAjax(nlpFrontendRecourceService.deleteNlpFrontendRecourceByIds(ids));
-    }
-
-    /**
-     * 获取type
-     *
-     * type类型
-     */
-    @PreAuthorize("@ss.hasPermi('nlp:frontend:recource:type')")
-    @GetMapping(value = "/byType/{type}")
-    public AjaxResult getInfo(@PathVariable("type") String type)
-    {
-        return AjaxResult.success(nlpFrontendRecourceService.selectNlpFrontendRecourceByType(type));
     }
 }

@@ -6,37 +6,37 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
- * 学术资源对象 nlp_frontend_about
+ * 学术资源对象 nlp_frontend_recource
  *
  * @author relief
- * @date 2023-05-17
+ * @date 2023-05-21
  */
 public class NlpFrontendRecource extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** 主键 */
+    /** id */
     private Long id;
 
-    /** 名字 */
-    @Excel(name = "名字")
-    private String name;
+    /** 是否使用(0是 1否) */
+    @Excel(name = "是否使用(0是 1否)")
+    private String status;
 
-    /** 展示顺序 */
-    @Excel(name = "展示顺序")
-    private Long postSort;
+    /** 链接名称 */
+    @Excel(name = "链接名称")
+    private String recourceName;
 
     /** 详细内容 */
     @Excel(name = "详细内容")
     private String recordContent;
 
-    /** 详情类型 */
-    @Excel(name = "详情类型")
-    private String type;
+    /** 链接地址 */
+    @Excel(name = "链接地址")
+    private String recourceUrl;
 
-    /** 状态（0正常 1停用） */
-    @Excel(name = "状态", readConverterExp = "0=正常,1=停用")
-    private String status;
+    /** 展示顺序 */
+    @Excel(name = "展示顺序")
+    private Long postSort;
 
     public void setId(Long id)
     {
@@ -47,23 +47,23 @@ public class NlpFrontendRecource extends BaseEntity
     {
         return id;
     }
-    public void setName(String name)
+    public void setStatus(String status)
     {
-        this.name = name;
+        this.status = status;
     }
 
-    public String getName()
+    public String getStatus()
     {
-        return name;
+        return status;
     }
-    public void setPostSort(Long postSort)
+    public void setRecourceName(String recourceName)
     {
-        this.postSort = postSort;
+        this.recourceName = recourceName;
     }
 
-    public Long getPostSort()
+    public String getRecourceName()
     {
-        return postSort;
+        return recourceName;
     }
     public void setRecordContent(String recordContent)
     {
@@ -74,34 +74,34 @@ public class NlpFrontendRecource extends BaseEntity
     {
         return recordContent;
     }
-    public void setType(String type)
+    public void setRecourceUrl(String recourceUrl)
     {
-        this.type = type;
+        this.recourceUrl = recourceUrl;
     }
 
-    public String getType()
+    public String getRecourceUrl()
     {
-        return type;
+        return recourceUrl;
     }
-    public void setStatus(String status)
+    public void setPostSort(Long postSort)
     {
-        this.status = status;
+        this.postSort = postSort;
     }
 
-    public String getStatus()
+    public Long getPostSort()
     {
-        return status;
+        return postSort;
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
                 .append("id", getId())
-                .append("name", getName())
-                .append("postSort", getPostSort())
-                .append("recordContent", getRecordContent())
-                .append("type", getType())
                 .append("status", getStatus())
+                .append("recourceName", getRecourceName())
+                .append("recordContent", getRecordContent())
+                .append("recourceUrl", getRecourceUrl())
+                .append("postSort", getPostSort())
                 .append("createBy", getCreateBy())
                 .append("createTime", getCreateTime())
                 .append("updateBy", getUpdateBy())

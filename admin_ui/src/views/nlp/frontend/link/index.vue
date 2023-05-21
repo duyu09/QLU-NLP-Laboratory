@@ -121,6 +121,11 @@
     <!-- 添加或修改友情链接对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="60%"  append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+        <el-form-item label="温馨提示">
+          <div>
+            <el-tag type="danger" size="large" >链接地址需要写全，格式为：http://.../</el-tag>
+          </div>
+        </el-form-item>
         <el-form-item label="是否使用">
           <el-radio-group v-model="form.status">
             <el-radio

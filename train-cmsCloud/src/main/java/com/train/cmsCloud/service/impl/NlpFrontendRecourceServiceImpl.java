@@ -1,19 +1,19 @@
 package com.train.cmsCloud.service.impl;
 
-import java.util.List;
-
+import com.train.cmsCloud.mapper.NlpFrontendRecourceMapper;
+import com.train.cmsCloud.service.INlpFrontendRecourceService;
 import com.train.common.domain.NlpFrontendRecource;
 import com.train.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.train.cmsCloud.mapper.NlpFrontendRecourceMapper;
-import com.train.cmsCloud.service.INlpFrontendRecourceService;
+
+import java.util.List;
 
 /**
  * 学术资源Service业务层处理
  *
  * @author relief
- * @date 2023-05-17
+ * @date 2023-05-21
  */
 @Service
 public class NlpFrontendRecourceServiceImpl implements INlpFrontendRecourceService
@@ -93,10 +93,5 @@ public class NlpFrontendRecourceServiceImpl implements INlpFrontendRecourceServi
     public int deleteNlpFrontendRecourceById(Long id)
     {
         return nlpFrontendRecourceMapper.deleteNlpFrontendRecourceById(id);
-    }
-
-    @Override
-    public NlpFrontendRecource selectNlpFrontendRecourceByType(String type) {
-        return nlpFrontendRecourceMapper.selectNlpFrontendRecourceByType(type);
     }
 }

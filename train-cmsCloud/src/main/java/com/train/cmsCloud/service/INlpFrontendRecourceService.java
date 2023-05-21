@@ -1,15 +1,13 @@
 package com.train.cmsCloud.service;
 
-import com.train.common.domain.NlpFrontendAbout;
-import com.train.common.domain.NlpFrontendRecource;
-
 import java.util.List;
+import com.train.common.domain.NlpFrontendRecource;
 
 /**
  * 学术资源Service接口
  *
  * @author relief
- * @date 2023-05-17
+ * @date 2023-05-21
  */
 public interface INlpFrontendRecourceService
 {
@@ -60,12 +58,4 @@ public interface INlpFrontendRecourceService
      * @return 结果
      */
     public int deleteNlpFrontendRecourceById(Long id);
-
-    /**
-     * 查询
-     *
-     * @param type 类型
-     * @return 联系我们
-     */
-    public NlpFrontendRecource selectNlpFrontendRecourceByType(String type);
 }
