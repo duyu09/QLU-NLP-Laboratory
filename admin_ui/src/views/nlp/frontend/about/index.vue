@@ -93,11 +93,9 @@ export default {
       }
     };
   },
-  // 查一下这个 created 这个能理解为进入这个页面之后默认执行的 可以是去调用js方法
   created() {
     this.getInfoByType(this.$route.query.type);
   },
-  // 查一下这个 methods  这里是写js方法的
   methods: {
     /** 查询联系我们列表 */
     getList() {

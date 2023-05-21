@@ -15,6 +15,13 @@ public interface ShowNlpFrontendAboutMapper {
      * @return 联系我们
      */
     public NlpFrontendAbout selectNlpFrontendAboutById(Long id);
+    /**
+     * 查询类型
+     *
+     * @param
+     * @return 联系我们
+     */
+    public NlpFrontendAbout selectNlpFrontendAboutByType(String type);
 
     /**
      * 查询联系我们列表

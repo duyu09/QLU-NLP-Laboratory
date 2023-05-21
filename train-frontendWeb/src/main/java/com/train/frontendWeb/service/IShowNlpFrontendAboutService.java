@@ -27,4 +27,12 @@ public interface IShowNlpFrontendAboutService
      */
     public List<NlpFrontendAbout> selectNlpFrontendAboutList(NlpFrontendAbout nlpFrontendAbout);
 
+    /**
+     * 查询类型
+     *
+     * @param type 类型
+     * @return 联系我们
+     */
+    public NlpFrontendAbout selectNlpFrontendAboutByType(String type);
+
 }

@@ -38,4 +38,8 @@
         <include refid="selectNlpFrontendAboutVo"/>
         where id = #{id}
     </select>
+    <select id="selectNlpFrontendAboutByType" resultType="com.train.common.domain.NlpFrontendAbout">
+        <include refid="selectNlpFrontendAboutVo"/>
+        where type = #{type}
+    </select>
 </mapper>
