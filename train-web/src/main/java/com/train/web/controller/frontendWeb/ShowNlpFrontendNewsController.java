@@ -33,7 +33,7 @@ public class ShowNlpFrontendNewsController extends BaseController {
     /**
      * 获取新闻动态管理详细信息
      */
-    @GetMapping(value = "/byId/{id}")
+    @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
         return AjaxResult.success(nlpFrontendNewsService.selectNlpFrontendNewsById(id));

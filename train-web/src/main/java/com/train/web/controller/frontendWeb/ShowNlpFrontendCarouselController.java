@@ -33,7 +33,7 @@ public class ShowNlpFrontendCarouselController extends BaseController {
     /**
      * 获取轮播图详细信息
      */
-    @GetMapping(value = "/byId/{id}")
+    @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id) {
         return AjaxResult.success(nlpFrontendCarouselService.selectNlpFrontendCarouselById(id));
     }
