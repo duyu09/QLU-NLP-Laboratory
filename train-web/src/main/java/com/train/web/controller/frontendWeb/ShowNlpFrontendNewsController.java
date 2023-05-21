@@ -2,9 +2,8 @@ package com.train.web.controller.frontendWeb;
 
 import com.train.common.core.controller.BaseController;
 import com.train.common.core.domain.AjaxResult;
-import com.train.common.core.page.TableDataInfo;
 import com.train.common.domain.NlpFrontendNews;
-import com.train.common.enums.DataStatus;
+import com.train.common.enums.UserStatus;
 import com.train.frontendWeb.service.IShowNlpFrontendNewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +24,7 @@ public class ShowNlpFrontendNewsController extends BaseController {
     @GetMapping("/list")
     public AjaxResult list(NlpFrontendNews nlpFrontendNews)
     {
-        nlpFrontendNews.setStatus(DataStatus.OK.getCode());
+        nlpFrontendNews.setStatus(UserStatus.OK.getCode());
         List<NlpFrontendNews> list = nlpFrontendNewsService.selectNlpFrontendNewsList(nlpFrontendNews);
         return AjaxResult.success(list);
     }

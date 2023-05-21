@@ -5,10 +5,12 @@ import com.train.common.utils.StringUtils;
 import com.train.frontendWeb.dto.NlpFrontendNewsDTO;
 import com.train.frontendWeb.mapper.ShowNlpFrontendNewsMapper;
 import com.train.frontendWeb.service.IShowNlpFrontendNewsService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ShowNlpFrontendNewsServiceImpl implements IShowNlpFrontendNewsService {
@@ -36,12 +38,13 @@ public class ShowNlpFrontendNewsServiceImpl implements IShowNlpFrontendNewsServi
 
         // 数据配置逻辑
         for (NlpFrontendNews news : list) {
-            if (frontendNews.getId().equals(id)) {
-                afterNews = news;
+            if (Objects.equals(frontendNews.getId(), id)) {
+//                afterNews = news;
+                BeanUtils.copyProperties(news,afterNews);
                 break;
             }
-            beforeNews = frontendNews;
-            frontendNews = (NlpFrontendNewsDTO) news;
+            BeanUtils.copyProperties(frontendNews, beforeNews);
+            BeanUtils.copyProperties(news, frontendNews);
         }
 
         // 基础数据填充 判断是否拥有上一条
@@ -57,6 +60,13 @@ public class ShowNlpFrontendNewsServiceImpl implements IShowNlpFrontendNewsServi
 
         return frontendNews;
     }
+
+//    @Override
+//    public NlpFrontendNews selectNlpFrontendNewsById(Long id)
+//    {
+//        return nlpFrontendNewsMapper.selectNlpFrontendNewsById(id);
+//    }
+
 
     /**
      * 查询新闻动态管理列表
