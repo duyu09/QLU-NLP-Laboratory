@@ -39,13 +39,4 @@ public class ShowNlpAdmissionTeamOverviewImgController extends BaseController
         return getDataTable(list);
     }
 
-    /**
-     * 获取团队掠影 图片 (img)详细信息
-     */
-    @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Integer id)
-    {
-        return AjaxResult.success(nlpAdmissionTeamOverviewImgService.selectNlpAdmissionTeamOverviewImgById(id));
-    }
-
 }

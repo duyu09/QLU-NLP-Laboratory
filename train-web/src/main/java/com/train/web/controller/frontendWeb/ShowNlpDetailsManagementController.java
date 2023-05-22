@@ -38,15 +38,4 @@ public class ShowNlpDetailsManagementController extends BaseController
         List<NlpDetailsManagement> list = nlpDetailsManagementService.selectNlpDetailsManagementList(nlpDetailsManagement);
         return getDataTable(list);
     }
-
-
-    /**
-     * 获取招生详情 培养计划 招聘详情 数据（管理）详细信息
-     */
-    @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Integer id)
-    {
-        return AjaxResult.success(nlpDetailsManagementService.selectNlpDetailsManagementById(id));
-    }
-
 }
