@@ -49,7 +49,13 @@ export const constantRoutes = [
     name:'teamoverview',
     path:'/teamoverview',
     component:()=>import('../views/TeamOverview.vue')
-  }
+  },
+  //教师主页
+  {
+    name:"teacherPage",
+    path:'/teacherPage',
+    component:()=>import('../views/TeacherPage.vue')
+  },
 ]
 
 const router = createRouter({
