@@ -58,4 +58,11 @@ public interface INlpAdmissionStudentService
      * @return 结果
      */
     public int deleteNlpAdmissionStudentById(Integer id);
+
+    /**
+     * 查询学生 数据
+     *
+     * @return 学生数据 根据是否毕业分组
+     */
+    public List<List<NlpAdmissionStudent>> selectNlpAdmissionStudentSeparatelyList();
 }

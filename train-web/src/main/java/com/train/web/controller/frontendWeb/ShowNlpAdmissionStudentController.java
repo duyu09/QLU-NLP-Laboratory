@@ -39,15 +39,16 @@ public class ShowNlpAdmissionStudentController extends BaseController
         return getDataTable(list);
     }
 
-
     /**
-     * 获取学生 数据详细信息
+     * 查询学生 数据
+     *
+     * @return 学生数据 根据是否毕业分组
      */
-    @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Integer id)
+    @GetMapping("/listSeparately")
+    public TableDataInfo listSeparately()
     {
-        return AjaxResult.success(nlpAdmissionStudentService.selectNlpAdmissionStudentById(id));
+        startPage();
+        List<List<NlpAdmissionStudent>> list = nlpAdmissionStudentService.selectNlpAdmissionStudentSeparatelyList();
+        return getDataTable(list);
     }
-
-
 }

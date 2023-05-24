@@ -1,6 +1,8 @@
 package com.train.cmsCloud.service.impl;
 
 import java.util.List;
+
+import com.train.common.enums.UserStatus;
 import com.train.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -92,5 +94,18 @@ public class NlpDetailsServiceImpl implements INlpDetailsService
     public int deleteNlpDetailsById(Integer id)
     {
         return nlpDetailsMapper.deleteNlpDetailsById(id);
+    }
+
+    /**
+     * 查询招生详情 培养计划 招聘详情 数据列表
+     *
+     * @return 招生详情 培养计划 招聘详情 数据
+     */
+    @Override
+    public List<NlpDetails> selectNlpDetailsListShow()
+    {
+        NlpDetails nlpDetails = new NlpDetails();
+        nlpDetails.setStatus(UserStatus.OK.getCode());
+        return nlpDetailsMapper.selectNlpDetailsList(nlpDetails);
     }
 }

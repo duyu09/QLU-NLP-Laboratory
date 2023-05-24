@@ -32,21 +32,10 @@ public class ShowNlpDetailsController extends BaseController
      * 查询招生详情 培养计划 招聘详情 数据列表
      */
     @GetMapping("/list")
-    public TableDataInfo list(NlpDetails nlpDetails)
+    public TableDataInfo list()
     {
         startPage();
-        List<NlpDetails> list = nlpDetailsService.selectNlpDetailsList(nlpDetails);
+        List<NlpDetails> list = nlpDetailsService.selectNlpDetailsListShow();
         return getDataTable(list);
     }
-
-
-    /**
-     * 获取招生详情 培养计划 招聘详情 数据详细信息
-     */
-    @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Integer id)
-    {
-        return AjaxResult.success(nlpDetailsService.selectNlpDetailsById(id));
-    }
-
 }

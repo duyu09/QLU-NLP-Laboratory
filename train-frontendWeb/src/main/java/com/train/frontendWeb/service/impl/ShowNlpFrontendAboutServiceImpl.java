@@ -36,4 +36,16 @@ public class ShowNlpFrontendAboutServiceImpl implements IShowNlpFrontendAboutSer
     {
         return nlpFrontendAboutMapper.selectNlpFrontendAboutList(nlpFrontendAbout);
     }
+
+    /**
+     * 查询类型
+     *
+     * @param type 类型
+     * @return 联系我们
+     */
+    @Override
+    public NlpFrontendAbout selectNlpFrontendAboutByType(String type)
+    {
+        return nlpFrontendAboutMapper.selectNlpFrontendAboutByType(type);
+    }
 }

@@ -1,5 +1,6 @@
 package com.train.frontendWeb.service;
 
+import com.train.common.domain.NlpFrontendLink;
 import com.train.common.domain.NlpFrontendNews;
 import com.train.frontendWeb.dto.NlpFrontendNewsDTO;
 
@@ -13,6 +14,14 @@ public interface IShowNlpFrontendNewsService {
      * @return 新闻动态管理
      */
     public NlpFrontendNewsDTO selectNlpFrontendNewsById(Long id);
+
+//    /**
+//     * 查询新闻动态管理
+//     *
+//     * @param id 新闻动态管理主键
+//     * @return 新闻动态管理
+//     */
+//    public NlpFrontendNews selectNlpFrontendNewsById(Long id);
 
     /**
      * 查询新闻动态管理列表

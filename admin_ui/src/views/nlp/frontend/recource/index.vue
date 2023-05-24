@@ -1,26 +1,15 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="是否使用" prop="status">
-        <el-select v-model="queryParams.status" placeholder="请选择是否使用" clearable size="small">
-          <el-option
-            v-for="dict in dict.type.sys_normal_disable"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="链接名称" prop="linkName">
+      <el-form-item label="链接名称" prop="recourceName">
         <el-input
-          v-model="queryParams.linkName"
+          v-model="queryParams.recourceName"
           placeholder="请输入链接名称"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -35,7 +24,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['nlp:frontend:link:add']"
+          v-hasPermi="['nlp:frontend:recource:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -46,7 +35,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['nlp:frontend:link:edit']"
+          v-hasPermi="['nlp:frontend:recource:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -57,7 +46,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['nlp:frontend:link:remove']"
+          v-hasPermi="['nlp:frontend:recource:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -67,29 +56,25 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['nlp:frontend:link:export']"
+          v-hasPermi="['nlp:frontend:recource:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
-
-    <el-table v-loading="loading" :data="frontendLinkList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="recourceList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="展示顺序" align="center" prop="postSort" />
-      <el-table-column label="链接名称" align="center" prop="linkName" />
-      <el-table-column label="链接地址" align="center" prop="linkUrl" >
-<!--        <template slot-scope="scope">-->
-<!--          <p v-if="scope.row.linkUrl === ''" >请填写链接地址</p>-->
-<!--          <p v-else-if="scope.row.linkUrl === null" >请填写链接地址</p>-->
-<!--          <a v-else style="color:#1890ff" @click="openLinkUrl(scope.row.linkUrl)">点击查看</a>-->
-<!--        </template>-->
-      </el-table-column>
-      <el-table-column label="是否使用" align="center" prop="status">
+      <el-table-column label="id" align="center" prop="id" />
+      <el-table-column label="是否使用" align="center" prop="status" />
+      <el-table-column label="链接名称" align="center" prop="recourceName" />
+      <el-table-column label="详细内容" align="center" prop="recordContent" >
         <template slot-scope="scope">
-          <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
+          <p v-if="scope.row.recordContent === ''" >请填写详细内容</p>
+          <p v-else-if="scope.row.recordContent === null" >请填写详细内容</p>
+          <a v-else style="color:#1890ff" @click="openRecordContent(scope.row.recordContent)">点击查看</a>
         </template>
       </el-table-column>
-      <el-table-column label="备注" align="center" prop="remark" />
+      <el-table-column label="链接地址" align="center" prop="recourceUrl" />
+      <el-table-column label="展示顺序" align="center" prop="postSort" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -97,14 +82,14 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['nlp:frontend:link:edit']"
+            v-hasPermi="['nlp:frontend:recource:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['nlp:frontend:link:remove']"
+            v-hasPermi="['nlp:frontend:recource:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
@@ -118,34 +103,20 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改友情链接对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="60%"  append-to-body>
+    <!-- 添加或修改学术资源对话框 -->
+    <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="温馨提示">
-          <div>
-            <el-tag type="danger" size="large" >链接地址需要写全，格式为：http://.../</el-tag>
-          </div>
+        <el-form-item label="链接名称" prop="recourceName">
+          <el-input v-model="form.recourceName" placeholder="请输入链接名称" />
         </el-form-item>
-        <el-form-item label="是否使用">
-          <el-radio-group v-model="form.status">
-            <el-radio
-              v-for="dict in dict.type.sys_normal_disable"
-              :key="dict.value"
-              :label="dict.value"
-            >{{dict.label}}</el-radio>
-          </el-radio-group>
+        <el-form-item label="详细内容">
+          <MarkdownEditor v-model="form.recordContent" :min-height="192"/>
         </el-form-item>
-        <el-form-item label="链接名称" prop="linkName">
-          <el-input v-model="form.linkName" placeholder="请输入链接名称" />
+        <el-form-item label="链接地址" prop="recourceUrl">
+          <el-input v-model="form.recourceUrl" placeholder="请输入链接地址" />
         </el-form-item>
-        <el-form-item label="链接地址" prop="linkUrl">
-          <el-input v-model="form.linkUrl" placeholder="请输入链接地址" />
-        </el-form-item>
-<!--        <el-form-item label="展示顺序" prop="postSort">-->
-<!--          <el-input v-model="form.postSort" placeholder="请输入展示顺序" />-->
-<!--        </el-form-item>-->
-        <el-form-item label="排序" prop="postSort">
-          <el-input-number v-model="form.postSort" controls-position="right" :min="0" />
+        <el-form-item label="展示顺序" prop="postSort">
+          <el-input-number v-model="form.postSort" controls-position="right" :min="1" />
         </el-form-item>
         <el-form-item label="备注" prop="remark">
           <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
@@ -156,20 +127,18 @@
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
-
-<!--    &lt;!&ndash;    友链预览框&ndash;&gt;-->
-<!--    <el-dialog title="友链地址" :visible.sync="ifShowLinkUrl" @close="closeLinkUrl">-->
-<!--      <v-md-preview :text="showLinkUrl"></v-md-preview>-->
-<!--    </el-dialog>-->
+    <!--    详细内容预览框-->
+    <el-dialog title="详解内容" :visible.sync="ifShowRecordContent" @close="closeRecordContent">
+      <v-md-preview :text="showRecordContent"></v-md-preview>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { listFrontendLink, getFrontendLink, delFrontendLink, addFrontendLink, updateFrontendLink } from "@/api/nlp/frontend/link";
+import { listRecource, getRecource, delRecource, addRecource, updateRecource } from "@/api/nlp/frontend/recource";
 
 export default {
-  name: "FrontendLink",
-  dicts: ['sys_normal_disable'],
+  name: "Recource",
   data() {
     return {
       // 遮罩层
@@ -184,38 +153,41 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 友情链接表格数据
-      frontendLinkList: [],
+      // 学术资源表格数据
+      recourceList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
       open: false,
       // 详细介绍是否展示
-      ifShowLinkUrl: false,
+      ifShowRecordContent: false,
       //详细介绍内容
-      showLinkUrl: '',
+      showRecordContent: '',
       // 查询参数
       queryParams: {
         pageNum: 1,
         pageSize: 10,
         status: null,
-        linkName: null,
-        linkUrl: null,
+        recourceName: null,
+        recordContent: null,
+        recourceUrl: null,
         postSort: null,
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
-
-        linkName: [
-          { required: true, message: "请输入友链名称", trigger: "blur" }
+        recourceName: [
+          { required: true, message: "请输入链接名称", trigger: "blur" }
         ],
-        linkUrl: [
-          { required: true, message: "友链地址不能为空", trigger: "blur" }
+        recordContent: [
+          { required: true, message: "请输入详细内容", trigger: "blur" }
+        ],
+        status: [
+          { required: true, message: "状态不能为空", trigger: "change" }
         ],
         postSort: [
-          { required: true, message: "显示顺序不能为空", trigger: "change" }
+          { required: true, message: "顺序不能空", trigger: "blur" }
         ],
       }
     };
@@ -224,11 +196,11 @@ export default {
     this.getList();
   },
   methods: {
-    /** 查询友情链接列表 */
+    /** 查询学术资源列表 */
     getList() {
       this.loading = true;
-      listFrontendLink(this.queryParams).then(response => {
-        this.frontendLinkList = response.rows;
+      listRecource(this.queryParams).then(response => {
+        this.recourceList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
@@ -243,8 +215,9 @@ export default {
       this.form = {
         id: null,
         status: "0",
-        linkName: null,
-        linkUrl: null,
+        recourceName: null,
+        recordContent: '',
+        recourceUrl: null,
         postSort: null,
         createBy: null,
         createTime: null,
@@ -274,16 +247,16 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加友情链接";
+      this.title = "添加学术资源";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
       const id = row.id || this.ids
-      getFrontendLink(id).then(response => {
+      getRecource(id).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改友情链接";
+        this.title = "修改学术资源";
       });
     },
     /** 提交按钮 */
@@ -291,13 +264,13 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.id != null) {
-            updateFrontendLink(this.form).then(response => {
+            updateRecource(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addFrontendLink(this.form).then(response => {
+            addRecource(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -309,8 +282,8 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除').then(function() {
-        return delFrontendLink(ids);
+      this.$modal.confirm('是否确认删除学术资源编号为"' + ids + '"的数据项？').then(function() {
+        return delRecource(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
@@ -318,18 +291,18 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('nlp/frontend/link/export', {
+      this.download('nlp/frontend/recource/export', {
         ...this.queryParams
-      }, `frontendLink_${new Date().getTime()}.xlsx`)
+      }, `recource_${new Date().getTime()}.xlsx`)
     },
     // 详情展示 打开
-    openLinkUrl(data) {
-      this.ifShowLinkUrl = true;
-      this.showLinkUrl = data;
+    openRecordContent(data) {
+      this.ifShowRecordContent = true;
+      this.showRecordContent = data;
     },
     // 详情展示 关闭
-    closeLinkUrl() {
-      this.showLinkUrl = '';
+    closeRecordContent() {
+      this.showRecordContent = '';
     },
   }
 };

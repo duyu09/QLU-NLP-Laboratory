@@ -16,4 +16,14 @@ public interface ShowNlpFrontendNewsMapper {
      */
     public List<NlpFrontendNews> selectNlpFrontendNewsList(NlpFrontendNews nlpFrontendNews);
 
+
+    /**
+     * 查询id
+     *
+     * @param id
+     * @return
+     */
+    public NlpFrontendNews selectNlpFrontendNewsById(Long id);
+
+
 }

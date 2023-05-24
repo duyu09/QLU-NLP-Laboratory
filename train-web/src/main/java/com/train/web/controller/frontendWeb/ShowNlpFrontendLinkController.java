@@ -1,10 +1,9 @@
 package com.train.web.controller.frontendWeb;
 
 import java.util.List;
-import javax.servlet.http.HttpServletResponse;
 
 import com.train.common.domain.NlpFrontendLink;
-import com.train.common.enums.DataStatus;
+import com.train.common.enums.UserStatus;
 import com.train.frontendWeb.service.IShowNlpFrontendLinkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,7 +34,7 @@ public class ShowNlpFrontendLinkController extends BaseController
     @GetMapping("/list")
     public AjaxResult list(NlpFrontendLink nlpFrontendLink)
     {
-        nlpFrontendLink.setStatus(DataStatus.OK.getCode());
+        nlpFrontendLink.setStatus(UserStatus.OK.getCode());
         List<NlpFrontendLink> list = nlpFrontendLinkService.selectNlpFrontendLinkList(nlpFrontendLink);
         return AjaxResult.success(list);
     }
