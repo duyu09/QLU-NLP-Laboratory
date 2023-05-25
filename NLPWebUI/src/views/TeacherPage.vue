@@ -157,7 +157,7 @@ export default
 }
 .tp-cls01
 {
-  margin-top: 0.75rem;
+  /*margin-top: 0.75rem;*/
 }
 #tp-table01
 {
