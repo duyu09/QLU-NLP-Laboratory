@@ -1,6 +1,10 @@
 package com.train.cmsCloud.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import com.train.common.enums.UserStatus;
 import com.train.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -92,5 +96,39 @@ public class NlpAdmissionStudentServiceImpl implements INlpAdmissionStudentServi
     public int deleteNlpAdmissionStudentById(Integer id)
     {
         return nlpAdmissionStudentMapper.deleteNlpAdmissionStudentById(id);
+    }
+
+    /**
+     * 查询学生 数据
+     *
+     * @return 学生数据 根据是否毕业分组
+     */
+    @Override
+    public List<List<NlpAdmissionStudent>> selectNlpAdmissionStudentSeparatelyList()
+    {
+        List<List<NlpAdmissionStudent>> listResult = new ArrayList<>();
+
+        NlpAdmissionStudent student = new NlpAdmissionStudent();
+        student.setStatus(UserStatus.OK.getCode());
+        List<NlpAdmissionStudent> listAll = nlpAdmissionStudentMapper.selectNlpAdmissionStudentList(student);
+
+        List<NlpAdmissionStudent> list1 = new ArrayList<>();
+        List<NlpAdmissionStudent> list2 = new ArrayList<>();
+        for (NlpAdmissionStudent nlpAdmissionStudent : listAll)
+        {
+            if (Objects.equals(nlpAdmissionStudent.getAtSchool(), "0")) {
+                // 在校
+                list1.add(nlpAdmissionStudent);
+            }
+            else {
+                // 毕业
+                list2.add(nlpAdmissionStudent);
+            }
+        }
+
+        listResult.add(list1);
+        listResult.add(list2);
+
+        return listResult;
     }
 }

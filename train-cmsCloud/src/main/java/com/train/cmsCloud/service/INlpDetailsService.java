@@ -58,4 +58,11 @@ public interface INlpDetailsService
      * @return 结果
      */
     public int deleteNlpDetailsById(Integer id);
+
+    /**
+     * 查询招生详情 培养计划 招聘详情 数据列表
+     *
+     * @return 招生详情 培养计划 招聘详情 数据
+     */
+    public List<NlpDetails> selectNlpDetailsListShow();
 }
