@@ -21,132 +21,76 @@ export default
        }
     },
     methods:{
-      goTo(url)
+      handleSelect(url)
       {
-        if(url=='home')
+        if(url=='1')
         {
           this.$router.push('/')
         }
-        else if(url=='studentmanage')
+        else if(url=='4-1')
         {
           this.$router.push('/studentmanage')
         }
-        else if(url=='studentcultivation')
+        else if(url=='4-2')
         {
           this.$router.push('/studentcultivation')
         }
-        else if(url=='teamoverview')
+        else if(url=='5')
         {
-          this.$router.push('/teamoverview')
+            this.$router.push('newslist')
+        }
+        else if(url=='6') {
+            this.$router.push('/academicresource')
+        }
+        else if(url=='7')
+        {
+            this.$router.push('/studentmanage')
+        }
+        else if(url=='8')
+        {
+            this.$router.push('/teamoverview')
+        }
+        else if(url=='9')
+        {
+            this.$router.push('/studentcultivation')
         }
       }
     }
 }
 </script>
 <template>
+
     <div id="mainDynamicMenu">
-        <!-- <div v-for="item in MenuArray">{{ item.name }}</div> -->
+        <el-menu :default-active="1"
+                 class="mainDynamicMenu"
+                 mode="horizontal"
+                 @select="handleSelect"
+                 ellipsis=false>
+            <el-menu-item index="1">首页</el-menu-item>
+            <el-menu-item index="2">研究方向</el-menu-item>
+            <el-sub-menu index="3" >
+                <template #title>团队成员</template>
+                <el-menu-item index="3-1">学术顾问</el-menu-item>
+                <el-menu-item index="3-2">带头人</el-menu-item>
+                <el-menu-item index="3-3">团队教师</el-menu-item>
+                <el-menu-item index="3-4">合作专家</el-menu-item>
+                <el-menu-item index="3-5">在读学生</el-menu-item>
+            </el-sub-menu>
+            <el-menu-item index="4">科研成果</el-menu-item>
+            <el-menu-item index="5">团队新闻</el-menu-item>
+            <el-menu-item index="6">学术资源</el-menu-item>
+            <el-menu-item index="7">桃李芬芳</el-menu-item>
+            <el-menu-item index="8">团队掠影</el-menu-item>
+            <el-menu-item index="9">人才招聘</el-menu-item>
 
-        <div>
-            <el-dropdown>
-              <span class="el-dropdown-link" style="font-size: larger;outline: 0 !important;" @click="goTo('home')">
-                    首页
-                <el-icon class="el-icon--right">
-                    <arrow-down />
-                </el-icon>
-              </span>
-            </el-dropdown>
-        </div>
-
-        <div>
-            <el-dropdown>
-              <span class="el-dropdown-link" style="font-size: larger;outline: 0 !important;">
-                    实验室概况
-                <el-icon class="el-icon--right">
-                    <arrow-down />
-                </el-icon>
-              </span>
-              <template #dropdown>
-                <el-dropdown-menu>
-                  <el-dropdown-item>科研方向</el-dropdown-item>
-                  <el-dropdown-item>科研成果</el-dropdown-item>
-                  <el-dropdown-item>实验室简介</el-dropdown-item>
-                  <!-- <el-dropdown-item disabled>Action 4</el-dropdown-item>
-                  <el-dropdown-item divided>Action 5</el-dropdown-item> -->
-                </el-dropdown-menu>
-              </template>
-            </el-dropdown>
-        </div>
-
-        <div>
-            <el-dropdown>
-              <span class="el-dropdown-link" style="font-size: larger;outline: 0 !important;">
-                    科研项目
-                <el-icon class="el-icon--right">
-                    <arrow-down />
-                </el-icon>
-              </span>
-              <template #dropdown>
-              </template>
-            </el-dropdown>
-        </div>
-        
-        <div>
-            <el-dropdown>
-              <span class="el-dropdown-link" style="font-size: larger;outline: 0 !important;" @click="goTo('studentmanage')">
-                    学生管理
-                <el-icon class="el-icon--right">
-                    <arrow-down />
-                </el-icon>
-              </span>
-              <template #dropdown>
-                <el-dropdown-menu>
-                  <el-dropdown-item @click="goTo('studentcultivation')">人才培养</el-dropdown-item>
-                  <el-dropdown-item @click="goTo('teamoverview')">团队掠影</el-dropdown-item>
-                  <!-- <el-dropdown-item disabled>Action 4</el-dropdown-item>
-                  <el-dropdown-item divided>Action 5</el-dropdown-item> -->
-                </el-dropdown-menu>
-              </template>
-            </el-dropdown>
-        </div>
-
+        </el-menu>
     </div>
 </template>
-<style>
+<style scoped>
 /* 组件的背景颜色在APP.VUE里调 */ 
-#mainDynamicMenu
-{
-    display: flex;
-    height: 3rem;
-}
-#mainDynamicMenu > div
-{
-    font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
-    flex-grow: 1;
-    text-align: center;
-    padding-top: 0.75rem;
-    padding-bottom: 1rem;
-}
-#mainDynamicMenu > div >.el-dropdown:hover,#mainDynamicMenu > div:hover
-{
-    cursor: pointer;
-    animation: dm-keyframe01 0.5s;
-    animation-fill-mode: forwards;
-    /* background-color: #acccff; */
-}
-#mainDynamicMenu div.el-dropdown
-{
-    line-height: 1.5rem !important;
-    outline: 0 !important;
-    color: black;
-    height: 100%;
-}
-@keyframes dm-keyframe01 
-{
-  to
-  {
-    background-color: #acccff;
-  }
+
+.el-menu--horizontal {
+    justify-content: space-evenly;
 }
 @media screen and (max-width: 40rem)
 {
@@ -154,5 +98,4 @@ export default
         display: none;
     }
 }
-
 </style>

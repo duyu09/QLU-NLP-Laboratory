@@ -18,8 +18,8 @@ function getConnectUs() {
 }
 //新闻列表
 function getNews() {
-    // return axios.get(baseURL+'/show/nlp/news/list')
-    return axios.get("src/news.json")
+    return axios.get(baseURL+'/show/nlp/news/list')
+    // return axios.get("src/news.json")
 }
 //新闻详情
 function getNewsDetail(id){

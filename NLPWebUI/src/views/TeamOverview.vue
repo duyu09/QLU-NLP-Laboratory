@@ -2,71 +2,74 @@
     <div class="main">
         <PageHeader></PageHeader>
         <DynamicMenu></DynamicMenu>
-        <UpImg></UpImg>
-        <div class="content">
-            <div class="info">
-                <div class="title">团队掠影</div>
-                <el-divider>
-                    <el-icon color="#0e52a8">
-                        <StarFilled />
-                    </el-icon>
-                </el-divider>
+        <div class="change">
+            <UpImg></UpImg>
+            <div class="content">
+                <div class="info">
+                    <div class="title">团队掠影</div>
+                    <el-divider>
+                        <el-icon color="#0e52a8">
+                            <StarFilled />
+                        </el-icon>
+                    </el-divider>
 
-                <el-row :gutter="15">
-                    <el-col :span="12">
-                        <img class="grid-content ep-bg-purple" :src="url"/>
-                    </el-col>
-                    <el-col :span="12">
-                        <img class="grid-content ep-bg-purple-light" :src="url"/>
-                    </el-col>
-                </el-row>
+                    <el-row :gutter="15">
+                        <el-col :span="12">
+                            <img class="grid-content ep-bg-purple" :src="url"/>
+                        </el-col>
+                        <el-col :span="12">
+                            <img class="grid-content ep-bg-purple-light" :src="url"/>
+                        </el-col>
+                    </el-row>
 
-                <el-row :gutter="15">
-                    <el-col :span="24">
-                        <img class="grid-content ep-bg-purple-dark" :src="url"/>
-                    </el-col>
-                </el-row>
-                
-                <el-row :gutter="15">
-                    <el-col :span="8">
-                        <img class="grid-content ep-bg-purple" :src="url"/>
-                    </el-col>
-                    <el-col :span="8">
-                        <img class="grid-content ep-bg-purple-light" :src="url"/>
-                    </el-col>
-                    <el-col :span="8">
-                        <img class="grid-content ep-bg-purple" :src="url"/>
-                    </el-col>
-                </el-row>
-                <el-row :gutter="15">
-                    <el-col :span="12">
-                        <img class="grid-content ep-bg-purple" :src="url"/>
-                    </el-col>
-                    <el-col :span="12">
-                        <img class="grid-content ep-bg-purple-light" :src="url"/>
-                    </el-col>
-                </el-row>
+                    <el-row :gutter="15">
+                        <el-col :span="24">
+                            <img class="grid-content ep-bg-purple-dark" :src="url"/>
+                        </el-col>
+                    </el-row>
 
-                <el-row :gutter="15">
-                    <el-col :span="24">
-                        <img class="grid-content ep-bg-purple-dark" :src="url"/>
-                    </el-col>
-                </el-row>
-                
-                <el-row :gutter="15">
-                    <el-col :span="8">
-                        <img class="grid-content ep-bg-purple" :src="url"/>
-                    </el-col>
-                    <el-col :span="8">
-                        <img class="grid-content ep-bg-purple-light" :src="url"/>
-                    </el-col>
-                    <el-col :span="8">
-                        <img class="grid-content ep-bg-purple" :src="url"/>
-                    </el-col>
-                </el-row>
+                    <el-row :gutter="15">
+                        <el-col :span="8">
+                            <img class="grid-content ep-bg-purple" :src="url"/>
+                        </el-col>
+                        <el-col :span="8">
+                            <img class="grid-content ep-bg-purple-light" :src="url"/>
+                        </el-col>
+                        <el-col :span="8">
+                            <img class="grid-content ep-bg-purple" :src="url"/>
+                        </el-col>
+                    </el-row>
+                    <el-row :gutter="15">
+                        <el-col :span="12">
+                            <img class="grid-content ep-bg-purple" :src="url"/>
+                        </el-col>
+                        <el-col :span="12">
+                            <img class="grid-content ep-bg-purple-light" :src="url"/>
+                        </el-col>
+                    </el-row>
 
+                    <el-row :gutter="15">
+                        <el-col :span="24">
+                            <img class="grid-content ep-bg-purple-dark" :src="url"/>
+                        </el-col>
+                    </el-row>
+
+                    <el-row :gutter="15">
+                        <el-col :span="8">
+                            <img class="grid-content ep-bg-purple" :src="url"/>
+                        </el-col>
+                        <el-col :span="8">
+                            <img class="grid-content ep-bg-purple-light" :src="url"/>
+                        </el-col>
+                        <el-col :span="8">
+                            <img class="grid-content ep-bg-purple" :src="url"/>
+                        </el-col>
+                    </el-row>
+
+                </div>
             </div>
         </div>
+
         <Footer></Footer>
     </div>
 </template>
@@ -102,6 +105,7 @@ export default {
 <style scoped >
 .main {
     width: 100%;
+    background: rgb(231,231,231);
 }
 
 .upimg {
@@ -114,11 +118,14 @@ img {
 
 .content {
     width: 100%;
+    padding: 20px;
     padding-bottom: 6.25rem;
+    box-sizing: border-box;
+    background: white;
 }
 
 .info {
-    width: 80vw;
+    /*width: 80vw;*/
     margin: 0 auto;
 }
 
@@ -146,9 +153,19 @@ img {
 .grid-content {
     min-height: 36px;
 }
+.change{
+    width: 75%;
+    margin: 10px auto 0;
+
+}
 
 @media screen and (max-width: 40rem) {
     .info {
         width: 90vw;
     }
+    .change{
+        width: 100%;
+        margin: 0px auto 0
+    }
+
 }</style>

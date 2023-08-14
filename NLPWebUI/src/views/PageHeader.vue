@@ -16,6 +16,27 @@ export default
         drawer:false,
       }
     },
+    methods:{
+        handleSelect(url)
+        {
+            if(url=='1')
+            {
+                this.$router.push('/')
+            }
+            else if(url=='4-1')
+            {
+                this.$router.push('/studentmanage')
+            }
+            else if(url=='4-2')
+            {
+                this.$router.push('/studentcultivation')
+            }
+            else if(url=='4-3')
+            {
+                this.$router.push('/teamoverview')
+            }
+        }
+    }
 }
 </script>
 <template>
@@ -33,66 +54,23 @@ export default
           </el-button>
           <el-drawer v-model="drawer" title="QLU NLP Labs" size="50%">
 
-
-            <el-dropdown>
-              <span class="el-dropdown-link" style="font-size: larger;outline: 0 !important;">
-                    首页
-                <el-icon class="el-icon--right">
-                    <arrow-down />
-                </el-icon>
-              </span>
-            </el-dropdown>
-
-
-
-            <el-dropdown>
-              <span class="el-dropdown-link" style="font-size: larger;outline: none;">
-                    实验室概况
-                <el-icon class="el-icon--right">
-                    <arrow-down />
-                </el-icon>
-              </span>
-              <template #dropdown>
-                <el-dropdown-menu>
-                  <el-dropdown-item>科研方向</el-dropdown-item>
-                  <el-dropdown-item>科研成果</el-dropdown-item>
-                  <el-dropdown-item>实验室简介</el-dropdown-item>
-                  <!-- <el-dropdown-item disabled>Action 4</el-dropdown-item>
-                  <el-dropdown-item divided>Action 5</el-dropdown-item> -->
-                </el-dropdown-menu>
-              </template>
-            </el-dropdown>
-
-
-            <el-dropdown>
-              <span class="el-dropdown-link" style="font-size: larger;outline: none;">
-                    科研项目
-                <el-icon class="el-icon--right">
-                    <arrow-down />
-                </el-icon>
-              </span>
-              <template #dropdown>
-              </template>
-            </el-dropdown>
-
-
-
-            <el-dropdown>
-              <span class="el-dropdown-link" style="font-size: larger;outline: none;">
-                    人才管理
-                <el-icon class="el-icon--right">
-                    <arrow-down />
-                </el-icon>
-              </span>
-              <template #dropdown>
-                <el-dropdown-menu>
-                  <el-dropdown-item>人才培养</el-dropdown-item>
-                  <el-dropdown-item>人才招聘</el-dropdown-item>
-                  <!-- <el-dropdown-item disabled>Action 4</el-dropdown-item>
-                  <el-dropdown-item divided>Action 5</el-dropdown-item> -->
-                </el-dropdown-menu>
-              </template>
-            </el-dropdown>
+              <el-menu :default-active="1"
+                       @select="handleSelect">
+                  <el-menu-item index="1">首页</el-menu-item>
+                  <el-sub-menu index="2">
+                      <template #title>实验室概况</template>
+                      <el-menu-item index="2-1">科研方向</el-menu-item>
+                      <el-menu-item index="2-2">科研成果</el-menu-item>
+                      <el-menu-item index="2-3">实验室简介</el-menu-item>
+                  </el-sub-menu>
+                  <el-menu-item index="3">科研项目</el-menu-item>
+                  <el-sub-menu index="4">
+                      <template #title>学生管理</template>
+                      <el-menu-item index="4-1">学生管理</el-menu-item>
+                      <el-menu-item index="4-2">人才培养</el-menu-item>
+                      <el-menu-item index="4-3">团队掠影</el-menu-item>
+                  </el-sub-menu>
+              </el-menu>
 
           </el-drawer>
 
@@ -194,6 +172,9 @@ export default
         position: absolute;
         left: 2rem;
     }
+      .el-menu {
+           border-right: 0px
+      }
   }
   #headTitle-shortname .el-dropdown:focus-visible
   {

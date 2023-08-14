@@ -8,8 +8,8 @@ export default
 </script>
 <template>
     <div id="footDiv">
-        <div>
-            <div style="display: flex;">
+        <div style="display: flex;justify-content: center">
+            <div style="display: flex;width: 75%">
                 <div id="div01">
                 地址：山东省济南市大学路3501号 <br>齐鲁工业大学(长清校区)机电楼A座411室<br>
                 邮编：250000<br>
@@ -40,9 +40,7 @@ export default
   #div01
   {
     border-right: .125rem solid white;
-    flex-grow: 1;
-    padding-left: 6rem;
-    padding-right: 0rem;
+    flex-grow: 3;
   }
   #div02
   {

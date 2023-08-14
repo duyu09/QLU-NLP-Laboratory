@@ -26,43 +26,53 @@
 <template>
     <p-header></p-header>
     <div id="mainDiv">
-        <div id="app-menu" style="display: flex;justify-content: center;background-color: rgb(240,240,240);box-shadow: black 0.125rem 0.02rem 0.2rem;">
-            <div class="adjust_width">
+        <div id="app-menu" style="box-shadow: black 0.125rem 0.02rem 0.2rem;">
+            <div>
                 <dynamicMenu></dynamicMenu>
             </div>
         </div>
-        <div style="display: flex;justify-content: center;margin-top: 0.625rem;" id="app-Graph">
-            <div class="adjust_width">
-                <rotoGraph></rotoGraph>
+        <div class="app-content">
+            <div id="app-Graph">
+                <div>
+                    <rotoGraph></rotoGraph>
+                </div>
             </div>
-        </div>
-        <div style="display: flex;justify-content: center;">
-            <div class="adjust_width" style="background-color: white;padding-top: 0.825rem;">
-                <el-row id="i_and_n01">
-                    <el-col :span="9"><introduction></introduction></el-col>
-                    <el-col :span="15"><news></news></el-col>
-                </el-row>
-                <div id="i_and_n02">
-                    <introduction></introduction>
-                    <news></news>
+            <div>
+                <div  style="background-color: white;padding-top: 0.825rem;">
+                    <el-row id="i_and_n01">
+                        <el-col :span="9"><introduction></introduction></el-col>
+                        <el-col :span="15"><news></news></el-col>
+                    </el-row>
+                    <div id="i_and_n02">
+                        <introduction></introduction>
+                        <news></news>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div style="background-color: white;">
+                    <contactUs></contactUs>
+                </div>
+            </div>
+            <div >
+                <div  style="background-color: white;">
+                    <connect></connect>
                 </div>
             </div>
         </div>
-        <div style="display: flex;justify-content: center;margin-top: 0.5rem;">
-            <div class="adjust_width" style="background-color: white;">
-                <contactUs></contactUs>
-            </div>
-        </div>
-        <div style="display: flex;justify-content: center;margin-top: 0.5rem;">
-            <div class="adjust_width" style="background-color: white;margin-bottom: 0.5rem;">
-                <connect></connect>
-            </div>
-        </div>
+
     </div>
     <foot></foot>
 
 </template>
-<style>
+<style scoped>
+    .app-content
+    {
+        width: 75%;
+        height: 100%;
+        margin: 0 auto ;
+        padding-top: 10px;
+    }
     #mainDiv
     {
         background-color: rgb(231,231,231);
@@ -70,10 +80,6 @@
     #i_and_n02
     {
         display: none;
-    }
-    .adjust_width
-    {
-        width:75%;
     }
 
     @media screen and (max-width: 40rem)

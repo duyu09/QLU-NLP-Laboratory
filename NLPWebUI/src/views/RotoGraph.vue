@@ -26,7 +26,7 @@ export default
         const flag = i.isFrame
         if(flag==='0')
         {
-          window.location="http://"+i.urlPath;
+          window.open("http://"+i.urlPath);
         }
         else
         {

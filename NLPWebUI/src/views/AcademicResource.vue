@@ -39,40 +39,38 @@ export default {
     <div class="main">
         <page-header></page-header>
         <dynamic-menu></dynamic-menu>
-        <UpImg></UpImg>
-        <div class="content-part">
-            <div id="newslist">
-                <div class="header">
-                    <div class="title">学术资源</div>
-                    <div class="route" @click="goHome">
-                        返回首页
-                    </div>
-                </div>
-                <el-divider border-style="dotted" style="margin: 0;padding: 0;margin-bottom: 16px;" />
-                <div v-for="(item, index) in resourcelist" class="newsitem">
-                    <div class="left">
-
-                    </div>
-                    <div class="right">
-                        <span style="font-size: 19.2px;">{{ item.recourceName }}</span>
-                        <p style="color: grey; font-size: smaller;margin: .625rem 0 .625rem 0">
-                            {{ item.recordContent }}
-                        </p>
-                        <div style="display: flex;justify-content: end;width: 100%;">
-                            <el-button type="primary" style="font-size: smaller;margin-top: 6.4px;margin-bottom: 6.4px;"
-                                size="small" @click="goResourceDetail(item.recourceUrl)">查看详情</el-button>
+        <div class="change">
+            <UpImg></UpImg>
+            <div class="content-part">
+                <div id="newslist">
+                    <div class="header">
+                        <div class="title">学术资源</div>
+                        <div class="route" @click="goHome">
+                            返回首页
                         </div>
-                        <el-divider border-style="dotted" style="margin: 0;padding: 0;margin-bottom: 16px;" />
+                    </div>
+                    <el-divider border-style="dotted" style="margin: 0;padding: 0;margin-bottom: 16px;" />
+                    <div v-for="(item, index) in resourcelist" class="newsitem">
+                        <div class="left">
+
+                        </div>
+                        <div class="right">
+                            <span style="font-size: 19.2px;">{{ item.recourceName }}</span>
+                            <p style="color: grey; font-size: smaller;margin: .625rem 0 .625rem 0">
+                                {{ item.recordContent }}
+                            </p>
+                            <div style="display: flex;justify-content: end;width: 100%;">
+                                <el-button type="primary" style="font-size: smaller;margin-top: 6.4px;margin-bottom: 6.4px;"
+                                           size="small" @click="goResourceDetail(item.recourceUrl)">查看详情</el-button>
+                            </div>
+                            <el-divider border-style="dotted" style="margin: 0;padding: 0;margin-bottom: 16px;" />
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="right-part">
-                <div class="righttitle">
-                    学术资源
-                </div>
             </div>
         </div>
+
         <Footer></Footer>
     </div>
 </template>
@@ -80,6 +78,7 @@ export default {
 <style scoped>
 .main {
     width: 100%;
+    background: rgb(231,231,231);
 }
 
 .header {
@@ -157,13 +156,21 @@ export default {
 .content-part {
     display: flex;
     padding-bottom: 6.25rem;
+    background: white;
 
 }
-
+.change{
+    width: 75%;
+    margin: 10px auto 0
+}
 @media screen and (max-width: 640px) {
     #newslist {
         width: 100%;
         padding-top:0 ;
+    }
+    .change{
+        width: 100%;
+        margin: 0px auto 0
     }
 
     .right-part {
