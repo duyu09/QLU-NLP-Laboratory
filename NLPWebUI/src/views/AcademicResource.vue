@@ -29,7 +29,7 @@ export default {
             this.$router.push('/')
         },
         goResourceDetail(url) {
-            window.location.href="http://"+url
+            window.open("http://"+url)
         }
     }
 }
@@ -50,22 +50,22 @@ export default {
                         </div>
                     </div>
                     <el-divider border-style="dotted" style="margin: 0;padding: 0;margin-bottom: 16px;" />
-                    <div v-for="(item, index) in resourcelist" class="newsitem">
-                        <div class="left">
+                    <div class="section">
+                        <div v-for="(item, index) in resourcelist" class="newsitem">
+                            <div class="left">
 
-                        </div>
-                        <div class="right">
-                            <span style="font-size: 19.2px;">{{ item.recourceName }}</span>
-                            <p style="color: grey; font-size: smaller;margin: .625rem 0 .625rem 0">
-                                {{ item.recordContent }}
-                            </p>
-                            <div style="display: flex;justify-content: end;width: 100%;">
-                                <el-button type="primary" style="font-size: smaller;margin-top: 6.4px;margin-bottom: 6.4px;"
-                                           size="small" @click="goResourceDetail(item.recourceUrl)">查看详情</el-button>
                             </div>
-                            <el-divider border-style="dotted" style="margin: 0;padding: 0;margin-bottom: 16px;" />
+                            <div class="right">
+                                <span style="font-size: 19.2px;text-decoration-line: underline;cursor: pointer" @click="goResourceDetail(item.recourceUrl)">{{ item.recourceName }}</span>
+                                <p style="color: grey; font-size: smaller;margin: .625rem 0 .625rem 0">
+                                    {{ item.recordContent }}
+                                </p>
+
+                                <el-divider border-style="dotted" style="margin: 0;padding: 0;margin-bottom: 16px;" />
+                            </div>
                         </div>
                     </div>
+
                 </div>
 
             </div>
@@ -163,6 +163,9 @@ export default {
     width: 75%;
     margin: 10px auto 0
 }
+.section{
+    column-count: 2;
+}
 @media screen and (max-width: 640px) {
     #newslist {
         width: 100%;
@@ -172,7 +175,9 @@ export default {
         width: 100%;
         margin: 0px auto 0
     }
-
+    .section{
+        column-count: 1;
+    }
     .right-part {
         display: none;
     }
