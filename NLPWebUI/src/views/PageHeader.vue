@@ -23,17 +23,24 @@ export default
             {
                 this.$router.push('/')
             }
-            else if(url=='4-1')
+            else if(url=='5')
+            {
+                this.$router.push('newslist')
+            }
+            else if(url=='6') {
+                this.$router.push('/academicresource')
+            }
+            else if(url=='7')
             {
                 this.$router.push('/studentmanage')
             }
-            else if(url=='4-2')
-            {
-                this.$router.push('/studentcultivation')
-            }
-            else if(url=='4-3')
+            else if(url=='8')
             {
                 this.$router.push('/teamoverview')
+            }
+            else if(url=='9')
+            {
+                this.$router.push('/studentcultivation')
             }
         }
     }
@@ -57,19 +64,21 @@ export default
               <el-menu :default-active="1"
                        @select="handleSelect">
                   <el-menu-item index="1">首页</el-menu-item>
-                  <el-sub-menu index="2">
-                      <template #title>实验室概况</template>
-                      <el-menu-item index="2-1">科研方向</el-menu-item>
-                      <el-menu-item index="2-2">科研成果</el-menu-item>
-                      <el-menu-item index="2-3">实验室简介</el-menu-item>
+                  <el-menu-item index="2">研究方向</el-menu-item>
+                  <el-sub-menu index="3" >
+                      <template #title>团队成员</template>
+                      <el-menu-item index="3-1">学术顾问</el-menu-item>
+                      <el-menu-item index="3-2">带头人</el-menu-item>
+                      <el-menu-item index="3-3">团队教师</el-menu-item>
+                      <el-menu-item index="3-4">合作专家</el-menu-item>
+                      <el-menu-item index="3-5">在读学生</el-menu-item>
                   </el-sub-menu>
-                  <el-menu-item index="3">科研项目</el-menu-item>
-                  <el-sub-menu index="4">
-                      <template #title>学生管理</template>
-                      <el-menu-item index="4-1">学生管理</el-menu-item>
-                      <el-menu-item index="4-2">人才培养</el-menu-item>
-                      <el-menu-item index="4-3">团队掠影</el-menu-item>
-                  </el-sub-menu>
+                  <el-menu-item index="4">科研成果</el-menu-item>
+                  <el-menu-item index="5">团队新闻</el-menu-item>
+                  <el-menu-item index="6">学术资源</el-menu-item>
+                  <el-menu-item index="7">桃李芬芳</el-menu-item>
+                  <el-menu-item index="8">团队掠影</el-menu-item>
+                  <el-menu-item index="9">人才招聘</el-menu-item>
               </el-menu>
 
           </el-drawer>
