@@ -1,32 +1,35 @@
 <template>
-    <div >
+    <div style="background: rgb(231,231,231)">
         <page-header></page-header>
         <dynamic-menu></dynamic-menu>
-        <up-img></up-img>
-        <div class="route">
-            <div class="bread">
-                <el-breadcrumb separator="/">
-                    <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-                    <el-breadcrumb-item><a href="/newslist">新闻列表</a></el-breadcrumb-item>
-                    <el-breadcrumb-item v-if="newsinfo != null">{{ newsinfo.title }}</el-breadcrumb-item>
-                </el-breadcrumb>
+        <div class="change">
+            <up-img></up-img>
+            <div class="route">
+                <div class="bread">
+                    <el-breadcrumb separator="/">
+                        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+                        <el-breadcrumb-item><a href="/newslist">新闻列表</a></el-breadcrumb-item>
+                        <el-breadcrumb-item v-if="newsinfo != null">{{ newsinfo.title }}</el-breadcrumb-item>
+                    </el-breadcrumb>
+                </div>
+                <div class="news-head" v-if="newsinfo != null">
+                    <div class="title">{{ newsinfo.title }}</div>
+                    <div class="date">{{ newsinfo.createTime }}</div>
+                </div>
             </div>
-            <div class="news-head" v-if="newsinfo != null">
-                <div class="title">{{ newsinfo.title }}</div>
-                <div class="date">{{ newsinfo.createTime }}</div>
+            <div class="content" v-if="newsinfo != null">
+                <v-md-preview :text="newsinfo.recordContent" style="width: 100%;"></v-md-preview>
+                {{ newsid }}
             </div>
-        </div>
-        <div class="content" v-if="newsinfo != null">
-            <v-md-preview :text="newsinfo.recordContent" style="width: 100%;"></v-md-preview>
-            {{ newsid }}
-        </div>
-        <div class="news-change" v-if="newsinfo != null">
+            <div class="news-change" v-if="newsinfo != null">
             <span @click="golast(newsinfo.beforeId != null)" :class="newsinfo.beforeId == null ? 'noactive' : 'active'">上一条新闻: {{
                 newsinfo.beforeTitle == null ? "无" : newsinfo.beforeTitle }}</span>
-            <span @click="gonext(newsinfo.afterId != null)" :class="newsinfo.afterId == null ? 'noactive' : 'active'"> 下一条新闻: {{
+                <span @click="gonext(newsinfo.afterId != null)" :class="newsinfo.afterId == null ? 'noactive' : 'active'"> 下一条新闻: {{
                 newsinfo.afterTitle == null ? "无" : newsinfo.afterTitle
             }}</span>
+            </div>
         </div>
+
     </div>
     <Footer></Footer>
 </template>
@@ -121,7 +124,7 @@ export default {
     display: flex;
     justify-content: start;
     align-items: center;
-    background: #f3f3f3;
+    background: white;
     position: relative;
 }
 
@@ -155,6 +158,7 @@ export default {
 .news-change {
     display: flex;
     justify-content: space-between;
+    background: white;
 }
 
 .news-change>span {
@@ -166,9 +170,12 @@ export default {
 .content {
     width: 100%;
     height: 300px;
-    background: #0e52a8;
+    background: white;
 }
-
+.change{
+    width: 75%;
+    margin: 10px auto 0
+}
 @media screen and (max-width: 40rem) {
     .pc-menu {
         display: none;
@@ -186,5 +193,9 @@ export default {
         height: 2.875rem;
         display: flex;
         align-items: center;
+    }
+    .change{
+        width: 100%;
+        margin: 0px auto 0
     }
 }</style>

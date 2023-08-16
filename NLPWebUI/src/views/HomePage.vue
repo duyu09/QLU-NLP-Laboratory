@@ -99,7 +99,12 @@
         #app-Graph
         {
             margin-top: 0 !important;
-            padding-top: 0.5rem;
+            padding-top: 0rem;
+        }
+        .app-content
+        {
+            width: 100%;
+            padding-top: 0;
         }
     }
 </style>
