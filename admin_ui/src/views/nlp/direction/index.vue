@@ -10,15 +10,6 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="显示顺序" prop="postSort">
-        <el-input
-          v-model="queryParams.postSort"
-          placeholder="请输入显示顺序"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
       <el-form-item label="状态" prop="status">
         <el-select v-model="queryParams.status" placeholder="请选择状态" clearable size="small">
           <el-option
@@ -28,23 +19,6 @@
             :value="dict.value"
           />
         </el-select>
-      </el-form-item>
-      <el-form-item label="创建者" prop="creatBy">
-        <el-input
-          v-model="queryParams.creatBy"
-          placeholder="请输入创建者"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="更新时间" prop="updataTime">
-        <el-date-picker clearable size="small"
-          v-model="queryParams.updataTime"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="选择更新时间">
-        </el-date-picker>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -100,18 +74,22 @@
 
     <el-table v-loading="loading" :data="directionList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
+      <el-table-column label="序号" type="index" align="center">
+        <template slot-scope="scope">
+          <span>{{(queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1}}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="项目方向" align="center" prop="name" />
-      <el-table-column label="方向介绍" align="center" prop="recordContent" />
+      <el-table-column label="方向介绍" align="center" prop="recordContent" >
+        <template slot-scope="scope">
+          <p v-if="scope.row.recordContent === '' || scope.row.recordContent === null" >请填写方向介绍</p>
+          <a v-else style="color:#1890ff" @click="openRecordContent(scope.row.recordContent)">点击查看</a>
+        </template>
+      </el-table-column>
       <el-table-column label="显示顺序" align="center" prop="postSort" />
       <el-table-column label="状态" align="center" prop="status">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
-        </template>
-      </el-table-column>
-      <el-table-column label="创建者" align="center" prop="creatBy" />
-      <el-table-column label="更新时间" align="center" prop="updataTime" width="180">
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.updataTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -148,37 +126,29 @@
         <el-form-item label="项目方向" prop="name">
           <el-input v-model="form.name" placeholder="请输入项目方向" />
         </el-form-item>
-        <el-form-item label="方向介绍">
-          <editor v-model="form.recordContent" :min-height="192"/>
+        <el-form-item label="方向简介" prop="recordContent">
+          <MarkdownEditor v-model="form.recordContent"></MarkdownEditor>
         </el-form-item>
         <el-form-item label="显示顺序" prop="postSort">
-          <el-input-number v-model="form.postSort" controls-position="right" ></el-input-number>
+          <el-input-number v-model="form.postSort" controls-position="right" :min="1" />
         </el-form-item>
-        <el-form-item label="状态">
+        <el-form-item label="状态" prop="status">
           <el-radio-group v-model="form.status">
             <el-radio
               v-for="dict in dict.type.sys_normal_disable"
               :key="dict.value"
-:label="dict.value"
+              :label="dict.value"
             >{{dict.label}}</el-radio>
           </el-radio-group>
-        </el-form-item>
-        <el-form-item label="创建者" prop="creatBy">
-          <el-input v-model="form.creatBy" placeholder="请输入创建者" />
-        </el-form-item>
-        <el-form-item label="更新时间" prop="updataTime">
-          <el-date-picker clearable size="small"
-            v-model="form.updataTime"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="选择更新时间">
-          </el-date-picker>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
       </div>
+    </el-dialog>
+    <el-dialog title="方向简介" :visible.sync="ifShowRecordContent" @close="closeRecordContent">
+      <v-md-preview :text="showRecordContent"></v-md-preview>
     </el-dialog>
   </div>
 </template>
@@ -209,6 +179,10 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
+      //简介内容是否展示
+      ifShowRecordContent: false,
+      //简介介绍内容
+      showRecordContent:'',
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -218,12 +192,21 @@ export default {
         postSort: null,
         status: null,
         creatBy: null,
-        updataTime: null
+        updateTime: null
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
+        title: [
+          { required: true, message: "请输入标题", trigger: "blur" }
+        ],
+        recordContent: [
+          { required: true, message: "请输入详细内容", trigger: "blur" }
+        ],
+        status: [
+          { required: true, message: "状态不能为空", trigger: "change" }
+        ],
       }
     };
   },
@@ -250,13 +233,13 @@ export default {
       this.form = {
         id: null,
         name: null,
-        recordContent: null,
+        recordContent: '',
         postSort: null,
         status: "0",
         creatBy: null,
         createTime: null,
         updateBy: null,
-        updataTime: null
+        updateTime: null
       };
       this.resetForm("form");
     },
@@ -327,7 +310,15 @@ export default {
       this.download('nlp/direction/export', {
         ...this.queryParams
       }, `direction_${new Date().getTime()}.xlsx`)
-    }
+    },
+    openRecordContent(data) {
+      this.ifShowRecordContent = true;
+      this.showRecordContent = data;
+    },
+    // 详情展示 关闭
+    closeRecordContent() {
+      this.showRecordContent = '';
+    },
   }
 };
 </script>

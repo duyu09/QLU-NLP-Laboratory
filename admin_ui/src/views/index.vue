@@ -2,8 +2,6 @@
   <div>
 <!--    <div>Train Modeling</div>-->
     <h2>QLUOJ信息管理 后台</h2>
-    {{imgPath}}
-    <CutImage @nowImg="getImg" :imgPath = "form.imgPath" :autoCropWidth="200" :autoCropHeight="300"/>
   </div>
 </template>
 

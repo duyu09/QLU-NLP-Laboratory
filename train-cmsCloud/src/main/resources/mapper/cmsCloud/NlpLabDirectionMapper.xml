@@ -3,58 +3,60 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.train.cmsCloud.mapper.NlpLabDirectionMapper">
-    
+
     <resultMap type="NlpLabDirection" id="NlpLabDirectionResult">
         <result property="id"    column="id"    />
         <result property="name"    column="name"    />
         <result property="recordContent"    column="record_content"    />
+        <result property="postSort"    column="post_sort"    />
         <result property="status"    column="status"    />
-        <result property="creatBy"    column="creat_by"    />
+        <result property="createBy"    column="create_by"    />
         <result property="createTime"    column="create_time"    />
         <result property="updateBy"    column="update_by"    />
-        <result property="updataTime"    column="updata_time"    />
+        <result property="updateTime"    column="update_time"    />
     </resultMap>
 
     <sql id="selectNlpLabDirectionVo">
-        select id, name, record_content, status, creat_by, create_time, update_by, updata_time from nlp_lab_direction
+        select id, name, record_content, post_sort, status, create_by, create_time, update_by, update_time from nlp_lab_direction
     </sql>
 
     <select id="selectNlpLabDirectionList" parameterType="NlpLabDirection" resultMap="NlpLabDirectionResult">
         <include refid="selectNlpLabDirectionVo"/>
-        <where>  
+        <where>
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
             <if test="recordContent != null  and recordContent != ''"> and record_content = #{recordContent}</if>
             <if test="status != null  and status != ''"> and status = #{status}</if>
-            <if test="creatBy != null  and creatBy != ''"> and creat_by = #{creatBy}</if>
-            <if test="updataTime != null "> and updata_time = #{updataTime}</if>
-
+            <if test="createBy != null  and createBy != ''"> and create_by = #{createBy}</if>
+            <if test="updateTime != null "> and update_time = #{updateTime}</if>
         </where> order by post_sort
     </select>
-    
+
     <select id="selectNlpLabDirectionById" parameterType="Long" resultMap="NlpLabDirectionResult">
         <include refid="selectNlpLabDirectionVo"/>
         where id = #{id}
     </select>
-        
+
     <insert id="insertNlpLabDirection" parameterType="NlpLabDirection" useGeneratedKeys="true" keyProperty="id">
         insert into nlp_lab_direction
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="name != null">name,</if>
             <if test="recordContent != null">record_content,</if>
+            <if test="postSort != null">post_sort,</if>
             <if test="status != null">status,</if>
-            <if test="creatBy != null">creat_by,</if>
+            <if test="createBy != null">create_by,</if>
             <if test="createTime != null">create_time,</if>
             <if test="updateBy != null">update_by,</if>
-            <if test="updataTime != null">updata_time,</if>
+            <if test="updateTime != null">update_time,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="name != null">#{name},</if>
             <if test="recordContent != null">#{recordContent},</if>
+            <if test="postSort != null">#{postSort},</if>
             <if test="status != null">#{status},</if>
-            <if test="creatBy != null">#{creatBy},</if>
+            <if test="createBy != null">#{createBy},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="updateBy != null">#{updateBy},</if>
-            <if test="updataTime != null">#{updataTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
          </trim>
     </insert>
 
@@ -63,11 +65,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="SET" suffixOverrides=",">
             <if test="name != null">name = #{name},</if>
             <if test="recordContent != null">record_content = #{recordContent},</if>
+            <if test="postSort != null">post_sort = #{postSort},</if>
             <if test="status != null">status = #{status},</if>
-            <if test="creatBy != null">creat_by = #{creatBy},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateBy != null">update_by = #{updateBy},</if>
-            <if test="updataTime != null">updata_time = #{updataTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
         </trim>
         where id = #{id}
     </update>
@@ -77,7 +80,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteNlpLabDirectionByIds" parameterType="String">
-        delete from nlp_lab_direction where id in 
+        delete from nlp_lab_direction where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

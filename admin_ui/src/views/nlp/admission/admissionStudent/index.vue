@@ -106,6 +106,11 @@
         <!-- Table -->
         <el-table v-loading="loading" :data="admissionStudentList" @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="55" align="center" />
+          <el-table-column label="序号" type="index" align="center">
+            <template slot-scope="scope">
+              <span>{{(queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1}}</span>
+            </template>
+          </el-table-column>
           <el-table-column label="姓名" align="center" prop="name" />
           <el-table-column label="性别" align="center" prop="sex">
             <template slot-scope="scope">
@@ -178,7 +183,7 @@
         <el-form-item label="学历" prop="education">
           <el-input v-model="form.education" placeholder="请输入学历" />
         </el-form-item>
-        <el-form-item label="是否在读">
+        <el-form-item label="是否在读" prop="atSchool">
           <el-radio-group v-model="form.atSchool">
             <el-radio
               v-for="dict in dict.type.nlp_admission_student"
@@ -190,7 +195,7 @@
         <el-form-item label="显示顺序" prop="postSort">
           <el-input-number v-model="form.postSort" controls-position="right" :min="0" />
         </el-form-item>
-        <el-form-item label="状态">
+        <el-form-item label="状态" prop="status">
           <el-radio-group v-model="form.status">
             <el-radio
               v-for="dict in dict.type.sys_normal_disable"
@@ -249,8 +254,17 @@ export default {
       form: {},
       // 表单校验
       rules: {
+        name: [
+          { required: true, message: "姓名不能为空", trigger: "change" }
+        ],
         sex: [
           { required: true, message: "性别不能为空", trigger: "change" }
+        ],
+        grade: [
+          { required: true, message: "年级不能为空", trigger: "change" }
+        ],
+        education: [
+          { required: true, message: "学历不能为空", trigger: "change" }
         ],
         atSchool: [
           { required: true, message: "是否在读不能为空", trigger: "blur" }

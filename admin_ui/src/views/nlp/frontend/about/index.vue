@@ -2,16 +2,16 @@
   <div class="app-container">
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="名字" prop="name">
-          <el-input v-model="form.name" placeholder="请输入名字" />
+          <el-input v-model="form.name" placeholder="请输入名字" disabled/>
         </el-form-item>
         <el-form-item label="详细内容">
           <MarkdownEditor v-model="form.recordContent"></MarkdownEditor>
         </el-form-item>
         <el-form-item label="详情类型" prop="type">
-          <el-input v-model="form.type" placeholder="请输入类型"/>
+          <el-input v-model="form.type" placeholder="请输入类型" disabled/>
         </el-form-item>
         <el-form-item label="状态">
-          <el-radio-group v-model="form.status">
+          <el-radio-group v-model="form.status" disabled>
             <el-radio
               v-for="dict in dict.type.sys_normal_disable"
               :key="dict.value"
@@ -19,13 +19,9 @@
             >{{dict.label}}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
-        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="cancel">取 消</el-button>
+        <el-button type="primary" @click="submitForm">保 存</el-button>
       </div>
     <!--    详细内容预览框-->
     <el-dialog title="详情内容" :visible.sync="ifShowRecordContent" @close="closeRecordContent">
@@ -85,10 +81,10 @@ export default {
           {required: true, message: "所属类别不能为空", trigger: "blur"},
         ],
         postSort: [
-          {required: true, message: "显示顺序不能为空", trigger: "blur"}
+          {required: true, message: "显示顺序不能为空", trigger: "change"}
         ],
         status: [
-          {required: true, message: "状态不能为空", trigger: "blur"}
+          {required: true, message: "状态不能为空", trigger: "change"}
         ],
       }
     };
@@ -177,7 +173,7 @@ export default {
         if (valid) {
           if (this.form.id != null) {
             updateFrontendAbout(this.form).then(response => {
-              this.$modal.msgSuccess("修改成功");
+              this.$modal.msgSuccess("保存成功");
               this.open = false;
               this.getList();
             });

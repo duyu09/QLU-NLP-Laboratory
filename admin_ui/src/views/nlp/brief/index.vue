@@ -82,13 +82,21 @@
 
     <el-table v-loading="loading" :data="briefList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="实验室简介" align="center" prop="recordContent" />
-      <el-table-column label="显示顺序" align="center" prop="postSort" />
-      <el-table-column label="状态" align="center" prop="status" />
-      <el-table-column label="创建者" align="center" prop="creatBy" />
-      <el-table-column label="更新时间" align="center" prop="updataTime" width="180">
+      <el-table-column label="序号" type="index" align="center">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.updataTime, '{y}-{m}-{d}') }}</span>
+          <span>{{(queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="实验室简介" align="center" prop="recordContent">
+        <template slot-scope="scope">
+          <p v-if="scope.row.recordContent === '' || scope.row.recordContent === null" >请填写详细内容</p>
+          <a v-else style="color:#1890ff" @click="openRecordContent(scope.row.recordContent)">点击查看</a>
+        </template>
+      </el-table-column>
+      <el-table-column label="显示顺序" align="center" prop="postSort" />
+      <el-table-column label="状态" align="center" prop="status" >
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -123,27 +131,31 @@
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="实验室简介">
-          <editor v-model="form.recordContent" :min-height="192"/>
+          <MarkdownEditor v-model="form.recordContent"/>
         </el-form-item>
         <el-form-item label="显示顺序" prop="postSort">
           <el-input-number v-model="queryParams.postSort" controls-position="right"  :min="1" :max="100"></el-input-number>
         </el-form-item>
-        <el-form-item label="创建者" prop="creatBy">
-          <el-input v-model="form.creatBy" placeholder="请输入创建者" />
-        </el-form-item>
-        <el-form-item label="更新时间" prop="updataTime">
-          <el-date-picker clearable size="small"
-            v-model="form.updataTime"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="选择更新时间">
-          </el-date-picker>
+
+        <el-form-item label="状态" prop="status">
+          <el-radio-group v-model="form.status">
+            <el-radio
+              v-for="dict in dict.type.sys_normal_disable"
+              :key="dict.value"
+              :label="dict.value"
+            >{{dict.label}}</el-radio>
+          </el-radio-group>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
       </div>
+    </el-dialog>
+
+    <!--    详细内容预览框-->
+    <el-dialog title="详解内容" :visible.sync="ifShowRecordContent" @close="closeRecordContent">
+      <v-md-preview :text="showRecordContent"></v-md-preview>
     </el-dialog>
   </div>
 </template>
@@ -153,6 +165,7 @@ import { listBrief, getBrief, delBrief, addBrief, updateBrief } from "@/api/nlp/
 
 export default {
   name: "Brief",
+  dicts: ['sys_normal_disable'],
   data() {
     return {
       // 遮罩层
@@ -173,6 +186,10 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
+      // 详细介绍是否展示
+      ifShowRecordContent: false,
+      //详细介绍内容
+      showRecordContent: '',
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -289,7 +306,13 @@ export default {
       this.download('nlp/brief/export', {
         ...this.queryParams
       }, `brief_${new Date().getTime()}.xlsx`)
-    }
+    },
+
+    // 详情展示 打开
+    openRecordContent(data) {
+      this.ifShowRecordContent = true;
+      this.showRecordContent = data;
+    },
   }
 };
 </script>

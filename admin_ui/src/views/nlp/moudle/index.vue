@@ -1,27 +1,26 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="项目名" prop="name">
+      <el-form-item label="对应teacher表的id" prop="teacherId">
         <el-input
-          v-model="queryParams.name"
-          placeholder="请输入项目名"
+          v-model="queryParams.teacherId"
+          placeholder="请输入对应teacher表的id"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="完成情况" prop="projectStatus">
-        <el-select v-model="queryParams.projectStatus" placeholder="请选择" clearable size="small">
-          <el-option
-            v-for="dict in dict.type.nlp_project_status"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
+      <el-form-item label="标题" prop="title">
+        <el-input
+          v-model="queryParams.title"
+          placeholder="请输入标题"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
       </el-form-item>
       <el-form-item label="状态" prop="status">
-        <el-select v-model="queryParams.status" placeholder="请选择" clearable size="small">
+        <el-select v-model="queryParams.status" placeholder="请选择状态" clearable size="small">
           <el-option
             v-for="dict in dict.type.sys_normal_disable"
             :key="dict.value"
@@ -35,6 +34,7 @@
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
+
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button
@@ -43,7 +43,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['nlp:project:add']"
+          v-hasPermi="['nlp:module:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -54,7 +54,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['nlp:project:edit']"
+          v-hasPermi="['nlp:module:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -65,7 +65,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['nlp:project:remove']"
+          v-hasPermi="['nlp:module:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -75,32 +75,18 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['nlp:project:export']"
+          v-hasPermi="['nlp:module:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="projectList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="moduleList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="序号" type="index" align="center">
-        <template slot-scope="scope">
-          <span>{{(queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="项目名" align="center" prop="name" />
-      <el-table-column label="项目内容" align="center" prop="recordContent" >
-        <template slot-scope="scope">
-          <p v-if="scope.row.recordContent === '' || scope.row.recordContent === null" >请填写项目内容</p>
-          <a v-else style="color:#1890ff" @click="openRecordContent(scope.row.recordContent)">点击查看</a>
-        </template>
-      </el-table-column>
-      <el-table-column label="完成情况" align="center" prop="projectStatus">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.nlp_project_status" :value="scope.row.projectStatus"/>
-        </template>
-      </el-table-column>
-      <el-table-column label="显示顺序" align="center" prop="postSort" />
+      <el-table-column label="老师个人简介模块主键" align="center" prop="id" />
+      <el-table-column label="对应teacher表的id" align="center" prop="teacherId" />
+      <el-table-column label="标题" align="center" prop="title" />
+      <el-table-column label="内容" align="center" prop="recordContent" />
       <el-table-column label="状态" align="center" prop="status">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
@@ -113,19 +99,19 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['nlp:project:edit']"
+            v-hasPermi="['nlp:module:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['nlp:project:remove']"
+            v-hasPermi="['nlp:module:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-
+    
     <pagination
       v-show="total>0"
       :total="total"
@@ -134,35 +120,37 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改项目管理对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="100px">
-        <el-form-item label="项目名" prop="name">
-          <el-input v-model="form.name" placeholder="请输入项目名" />
+    <!-- 添加或修改成员编辑器对话框 -->
+    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+        <el-form-item label="对应teacher表的id" prop="teacherId">
+          <el-input v-model="form.teacherId" placeholder="请输入对应teacher表的id" />
         </el-form-item>
-        <el-form-item label="项目的介绍" prop="recordContent">
-          <MarkdownEditor v-model="form.recordContent"></MarkdownEditor>
+        <el-form-item label="标题" prop="title">
+          <el-input v-model="form.title" placeholder="请输入标题" />
         </el-form-item>
-        <el-form-item label="显示顺序" prop="postSort">
-          <el-input-number v-model="form.postSort" controls-position="right" ></el-input-number>
+        <el-form-item label="内容">
+          <editor v-model="form.recordContent" :min-height="192"/>
         </el-form-item>
-        <el-form-item label="完成情况" prop="projectStatus">
-          <el-radio-group v-model="form.projectStatus">
-            <el-radio
-              v-for="dict in dict.type.nlp_project_status"
-              :key="dict.value"
-              :label="dict.value"
-            >{{dict.label}}</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="状态" prop="status">
+        <el-form-item label="状态">
           <el-radio-group v-model="form.status">
             <el-radio
               v-for="dict in dict.type.sys_normal_disable"
               :key="dict.value"
-              :label="dict.value"
+:label="dict.value"
             >{{dict.label}}</el-radio>
           </el-radio-group>
+        </el-form-item>
+        <el-form-item label="创建者" prop="creatBy">
+          <el-input v-model="form.creatBy" placeholder="请输入创建者" />
+        </el-form-item>
+        <el-form-item label="更新时间" prop="updataTime">
+          <el-date-picker clearable size="small"
+            v-model="form.updataTime"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="选择更新时间">
+          </el-date-picker>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -170,19 +158,15 @@
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
-
-    <el-dialog title="项目简介" :visible.sync="ifShowRecordContent" @close="closeRecordContent">
-      <v-md-preview :text="showRecordContent"></v-md-preview>
-    </el-dialog>
   </div>
 </template>
 
 <script>
-import { listProject, getProject, delProject, addProject, updateProject } from "@/api/nlp/project";
+import { listModule, getModule, delModule, addModule, updateModule } from "@/api/nlp/module";
 
 export default {
-  name: "Project",
-  dicts: ['nlp_project_status', 'sys_normal_disable'],
+  name: "Module",
+  dicts: ['sys_normal_disable'],
   data() {
     return {
       // 遮罩层
@@ -197,46 +181,30 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 项目管理表格数据
-      projectList: [],
+      // 成员编辑器表格数据
+      moduleList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
       open: false,
-      //简介内容是否展示
-      ifShowRecordContent: false,
-      //简介介绍内容
-      showRecordContent:'',
       // 查询参数
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        name: null,
-        recordContent: '',
-        postSort: null,
-        projectStatus: null,
+        teacherId: null,
+        title: null,
+        recordContent: null,
         status: null,
-        creatBy: null,
-        updateTime: null
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
-        name: [
-          { required: true, message: "显示顺序不能为空", trigger: "blur" }
-        ],
-        recordContent: [
-          { required: true, message: "显示顺序不能为空", trigger: "blur" }
-        ],
-        projectStatus: [
-          { required: true, message: "显示顺序不能为空", trigger: "blur" }
-        ],
-        postSort: [
-          { required: true, message: "显示顺序不能为空", trigger: "blur" }
+        teacherId: [
+          { required: true, message: "对应teacher表的id不能为空", trigger: "blur" }
         ],
         status: [
-          { required: true, message: "0为正常，1为停用不能为空", trigger: "blur" }
+          { required: true, message: "状态不能为空", trigger: "blur" }
         ],
       }
     };
@@ -245,11 +213,11 @@ export default {
     this.getList();
   },
   methods: {
-    /** 查询项目管理列表 */
+    /** 查询成员编辑器列表 */
     getList() {
       this.loading = true;
-      listProject(this.queryParams).then(response => {
-        this.projectList = response.rows;
+      listModule(this.queryParams).then(response => {
+        this.moduleList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
@@ -263,15 +231,14 @@ export default {
     reset() {
       this.form = {
         id: null,
-        name: null,
-        recordContent: '',
-        postSort: null,
-        projectStatus: "0",
+        teacherId: null,
+        title: null,
+        recordContent: null,
         status: "0",
         creatBy: null,
         createTime: null,
         updateBy: null,
-        updateTime: null
+        updataTime: null
       };
       this.resetForm("form");
     },
@@ -295,16 +262,16 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加项目管理";
+      this.title = "添加成员编辑器";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
       const id = row.id || this.ids
-      getProject(id).then(response => {
+      getModule(id).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改项目管理";
+        this.title = "修改成员编辑器";
       });
     },
     /** 提交按钮 */
@@ -312,13 +279,13 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.id != null) {
-            updateProject(this.form).then(response => {
+            updateModule(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addProject(this.form).then(response => {
+            addModule(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -330,8 +297,8 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除项目管理编号为"' + ids + '"的数据项？').then(function() {
-        return delProject(ids);
+      this.$modal.confirm('是否确认删除成员编辑器编号为"' + ids + '"的数据项？').then(function() {
+        return delModule(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
@@ -339,18 +306,10 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('nlp/project/export', {
+      this.download('nlp/module/export', {
         ...this.queryParams
-      }, `project_${new Date().getTime()}.xlsx`)
-    },
-    openRecordContent(data) {
-      this.ifShowRecordContent = true;
-      this.showRecordContent = data;
-    },
-    // 详情展示 关闭
-    closeRecordContent() {
-      this.showRecordContent = '';
-    },
+      }, `module_${new Date().getTime()}.xlsx`)
+    }
   }
 };
 </script>

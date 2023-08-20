@@ -23,6 +23,10 @@
             <artifactId>train-common</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.train</groupId>
+            <artifactId>train-system</artifactId>
+        </dependency>
 
     </dependencies>
 

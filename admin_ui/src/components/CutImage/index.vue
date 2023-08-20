@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="user-info-head" @click="editCropper()"><img v-bind:src="this.showImgUrl+imgPath" title="点击上传图片" class="img-circle img-lg" /></div>
+    <div class="user-info-head" @click="editCropper()"><img v-bind:src="this.showImgUrl+imgPath" title="点击上传图片" class="img-lg" /></div>
     <el-dialog :title="title" :visible.sync="open" width="800px" append-to-body @opened="modalOpened"  @close="closeDialog">
       <el-row>
         <el-col :xs="24" :md="12" :style="{height: '350px'}">
@@ -12,6 +12,7 @@
             :autoCropWidth="options.autoCropWidth"
             :autoCropHeight="options.autoCropHeight"
             :fixedBox="options.fixedBox"
+            outputType="png"
             @realTime="realTime"
             v-if="visible"
           />
@@ -70,7 +71,7 @@ export default {
     },
     autoCropHeight: {
       type: Number,
-      default: 300,
+      default: 250,
     },
     // 图片数量限制
     limit: {
@@ -82,11 +83,11 @@ export default {
       type: Number,
       default: 50,
     },
-    // 文件类型, 例如['png', 'jpg', 'jpeg']
-    fileType: {
-      type: Array,
-      default: () => ["png", "jpg", "jpeg"],
-    },
+    // // 文件类型, 例如['png', 'jpg', 'jpeg']
+    // fileType: {
+    //   type: Array,
+    //   default: () => ["png", "jpg", "jpeg"],
+    // },
   },
   data() {
     return {
@@ -103,6 +104,7 @@ export default {
       visible: false,
       // 弹出层标题
       title: "裁切图片",
+      fileType: ["png", "jpg", "jpeg"],
       options: {
         img: this.showImgUrl + this.imgPath, //裁剪图片的地址
         autoCrop: true, // 是否默认生成截图框
@@ -263,6 +265,7 @@ export default {
 
 .user-info-head:hover:after {
   content: '+';
+  text-align:center;
   position: absolute;
   left: 0;
   right: 0;
@@ -276,7 +279,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   cursor: pointer;
   line-height: 110px;
-  border-radius: 50%;
 }
 
 .cut-image-upload-preview {
@@ -284,8 +286,7 @@ export default {
   top: 50%;
   transform: translate(50%, -50%);
   width: 200px;
-  height: 200px;
-  border-radius: 50%;
+  height: 250px;
   box-shadow: 0 0 4px #ccc;
   overflow: hidden;
 }

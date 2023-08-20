@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="100px">
       <el-form-item label="掠影分类标题" prop="title">
         <el-input
           v-model="queryParams.title"
@@ -64,7 +64,11 @@
 
     <el-table v-loading="loading" :data="teamOverviewTitleList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="Id" align="center" prop="id" />
+      <el-table-column label="序号" type="index" align="center">
+        <template slot-scope="scope">
+          <span>{{(queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1}}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="掠影分类标题" align="center" prop="title" id="twinkling"/>
       <el-table-column label="显示顺序" align="center" prop="postSort" />
       <el-table-column label="状态" align="center" prop="status">
@@ -104,14 +108,14 @@
 
     <!-- 新增团队掠影 标题 (title)对话框 -->
     <el-dialog :title="title" :visible.sync="openAdd" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px" :inline="true">
+      <el-form ref="form" :model="form" :rules="rules" label-width="120px" :inline="true">
         <el-form-item label="掠影分类标题" prop="title" >
           <el-input v-model="form.title" placeholder="请输入掠影分类标题" />
         </el-form-item>
         <el-form-item label="显示顺序" prop="postSort">
           <el-input-number v-model="form.postSort" controls-position="right" :min="0" />
         </el-form-item>
-        <el-form-item label="状态">
+        <el-form-item label="状态" prop="status">
           <el-radio-group v-model="form.status">
             <el-radio
               v-for="dict in dict.type.sys_normal_disable"
@@ -121,7 +125,7 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" placeholder="请输入备注" />
+          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -132,14 +136,14 @@
 
     <!-- 修改团队掠影 标题 (title)对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px" :inline="true">
+      <el-form ref="form" :model="form" :rules="rules" label-width="120px" :inline="true">
         <el-form-item label="掠影分类标题" prop="title" >
           <el-input v-model="form.title" placeholder="请输入掠影分类标题" />
         </el-form-item>
         <el-form-item label="显示顺序" prop="postSort">
           <el-input-number v-model="form.postSort" controls-position="right" :min="0" />
         </el-form-item>
-        <el-form-item label="状态">
+        <el-form-item label="状态" prop="status">
           <el-radio-group v-model="form.status">
             <el-radio
               v-for="dict in dict.type.sys_normal_disable"
@@ -149,7 +153,7 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" placeholder="请输入备注" />
+          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -214,6 +218,9 @@ export default {
       form: {},
       // 表单校验
       rules: {
+        title: [
+          { required: true, message: "标题不能为空", trigger: "blur" }
+        ],
         postSort: [
           { required: true, message: "显示顺序不能为空", trigger: "blur" }
         ],

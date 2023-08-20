@@ -64,6 +64,11 @@
 
     <el-table v-loading="loading" :data="carouselList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
+      <el-table-column label="序号" type="index" align="center">
+        <template slot-scope="scope">
+          <span>{{(queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1}}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="轮播图" align="center" prop="carouselImg" >
         <template slot-scope="scope">
           <div style="width: 100px; height: 100px">
@@ -82,18 +87,20 @@
           <dict-tag :options="dict.type.nlp_isFrame_yes_no" :value="scope.row.isFrame"/>
         </template>
       </el-table-column>
-
-      <el-table-column label="轮播图状态" align="center" prop="status">
+      <el-table-column label="状态" align="center" prop="status">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
         </template>
       </el-table-column>
-      <el-table-column label="路由地址" align="center" prop="urlPath" />
       <el-table-column label="详细信息" align="center" prop="recordContent" >
         <template slot-scope="scope">
-          <p v-if="scope.row.recordContent === ''" >请填写详细内容</p>
-          <p v-else-if="scope.row.recordContent === null" >请填写详细内容</p>
-          <a v-else style="color:#1890ff" @click="openRecordContent(scope.row.recordContent)">点击查看</a>
+          <div v-if="scope.row.isFrame === '0'">
+            <a style="color:#1890ff" @click="openFrame(scope.row.urlPath)"><u>{{scope.row.urlPath}}</u></a>
+          </div>
+          <div v-else>
+            <p v-if="scope.row.recordContent === '' || scope.row.recordContent === null" >请填写详细内容</p>
+            <a v-else style="color:#1890ff" @click="openRecordContent(scope.row.recordContent)">点击查看</a>
+          </div>
         </template>
       </el-table-column>
 
@@ -129,7 +136,7 @@
 
     <!-- 添加或修改轮播图对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+      <el-form ref="form" :model="form" :rules="rules" label-width="120px">
         <el-form-item label="轮播图">
           <imageUpload v-model="form.carouselImg" :limit="1"/>
         </el-form-item>
@@ -355,6 +362,10 @@ export default {
       this.download('nlp/frontend/carousel/export', {
         ...this.queryParams
       }, `carousel_${new Date().getTime()}.xlsx`)
+    },
+    // 页面跳转 打开
+    openFrame(data) {
+      window.open("http://"+data);
     },
     // 详情展示 打开
     openRecordContent(data) {

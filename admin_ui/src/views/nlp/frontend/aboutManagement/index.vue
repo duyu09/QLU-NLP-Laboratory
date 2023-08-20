@@ -11,16 +11,6 @@
         />
       </el-form-item>
 
-      <el-form-item label="详情类型" prop="type">
-        <el-select v-model="queryParams.type" placeholder="请选择详情类型" clearable size="small">
-          <el-option
-            v-for="dict in dict.type.nlp_frontend_markdown"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
       <el-form-item label="状态" prop="status">
         <el-select v-model="queryParams.status" placeholder="请选择状态" clearable size="small">
           <el-option
@@ -89,22 +79,20 @@
 
     <el-table v-loading="loading" :data="frontendAboutManagementList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center"/>
+      <el-table-column label="序号" type="index" align="center">
+        <template slot-scope="scope">
+          <span>{{(queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1}}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="名字" align="center" prop="name"/>
-      <el-table-column label="展示顺序" align="center" prop="postSort"/>
       <el-table-column label="详细内容" align="center" prop="recordContent">
         <template slot-scope="scope">
-          <p v-if="scope.row.recordContent === ''">请填写详细内容</p>
-          <p v-else-if="scope.row.recordContent === null">请填写详细内容</p>
+          <p v-if="scope.row.recordContent === '' || scope.row.recordContent === null">请填写详细内容</p>
           <a v-else style="color:#1890ff" @click="openRecordContent(scope.row.recordContent)">点击查看</a>
         </template>
       </el-table-column>
-      <!--      <el-table-column label="详情类型" align="center" prop="type">-->
-      <!--        <template slot-scope="scope">-->
-      <!--          <dict-tag :options="dict.type.nlp_frontend_markdown" :value="scope.row.type"/>-->
-      <!--        </template>-->
-      <!--      </el-table-column>-->
       <el-table-column label="详情类型" align="center" prop="type"/>
-
+      <el-table-column label="展示顺序" align="center" prop="postSort"/>
       <el-table-column label="状态" align="center" prop="status">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
@@ -147,26 +135,16 @@
         <el-form-item label="名字" prop="name">
           <el-input v-model="form.name" placeholder="请输入名字"/>
         </el-form-item>
-        <el-form-item label="展示顺序" prop="postSort">
-          <el-input-number v-model="form.postSort" controls-position="right" :min="0"/>
-        </el-form-item>
-        <el-form-item label="详细内容">
-          <!--          <editor v-model="form.recordContent" :min-height="192"/>-->
+        <el-form-item label="详细内容" prop="recordContent">
           <MarkdownEditor v-model="form.recordContent"></MarkdownEditor>
         </el-form-item>
         <el-form-item label="详情类型" prop="type">
-          <!--          <el-select v-model="form.type" placeholder="请选择详情类型">-->
-          <!--            <el-option-->
-          <!--              v-for="dict in dict.type.nlp_frontend_markdown"-->
-          <!--              :key="dict.value"-->
-          <!--              :label="dict.label"-->
-          <!--              :value="dict.value"-->
-          <!--            ></el-option>-->
-          <!--          </el-select>-->
-
           <el-input v-model="form.type" placeholder="请输入类型"/>
         </el-form-item>
-        <el-form-item label="状态">
+        <el-form-item label="展示顺序" prop="postSort">
+          <el-input-number v-model="form.postSort" controls-position="right" :min="0"/>
+        </el-form-item>
+        <el-form-item label="状态" prop="status">
           <el-radio-group v-model="form.status">
             <el-radio
               v-for="dict in dict.type.sys_normal_disable"
@@ -239,6 +217,9 @@ export default {
       rules: {
         name: [
           {required: true, message: "请输入名字", trigger: "blur"}
+        ],
+        recordContent: [
+          {required: true, message: "请输入内容", trigger: "blur"}
         ],
         type: [
           {required: true, message: "所属类别不能为空", trigger: "blur"},

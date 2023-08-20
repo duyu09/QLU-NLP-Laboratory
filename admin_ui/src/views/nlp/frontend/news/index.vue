@@ -66,6 +66,12 @@
 
     <el-table v-loading="loading" :data="nlpFrontendNewsList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
+      <el-table-column label="序号" type="index" align="center">
+        <template slot-scope="scope">
+          <span>{{(queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="标题" align="center" prop="title" />
       <el-table-column label="新闻插图" align="center" prop="newsImg" >
         <template slot-scope="scope">
           <div style="width: 100px; height: 100px">
@@ -78,7 +84,6 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="标题" align="center" prop="title" />
       <el-table-column label="是否置顶" align="center" prop="isStick">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.nlp_isFrame_yes_no" :value="scope.row.isStick"/>
@@ -94,8 +99,7 @@
 
       <el-table-column label="详细内容" align="center" prop="recordContent" >
         <template slot-scope="scope">
-          <p v-if="scope.row.recordContent === ''" >请填写详细内容</p>
-          <p v-else-if="scope.row.recordContent === null" >请填写详细内容</p>
+          <p v-if="scope.row.recordContent === '' || scope.row.recordContent === null" >请填写详细内容</p>
           <a v-else style="color:#1890ff" @click="openRecordContent(scope.row.recordContent)">点击查看</a>
         </template>
       </el-table-column>
@@ -134,21 +138,17 @@
     <!-- 添加或修改新闻动态管理对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="新闻插图" prop="newsImg">
-          <imageUpload v-model="form.newsImg":limit="1"/>
-        </el-form-item>
         <el-form-item label="标题" prop="title">
           <el-input v-model="form.title" placeholder="请输入title标题" />
         </el-form-item>
-<!--        <el-form-item label="简介内容">-->
-<!--          <MarkdownEditor v-model="form.synopsisContent" :min-height="192"/>-->
-<!--        </el-form-item>-->
-        <el-form-item label="简介内容">
-<!--          <editor v-model="form.synopsisContent" :min-height="192"/>-->
+        <el-form-item label="新闻插图" prop="newsImg">
+          <imageUpload v-model="form.newsImg":limit="1"/>
+        </el-form-item>
+        <el-form-item label="简介内容" prop="synopsisContent">
           <el-input v-model="form.synopsisContent" type="textarea" placeholder="请输入简介内容" />
         </el-form-item>
-        <el-form-item label="详细内容">
-          <MarkdownEditor v-model="form.recordContent" :min-height="192"/>
+        <el-form-item label="详细内容" prop="recordContent">
+          <MarkdownEditor v-model="form.recordContent"/>
         </el-form-item>
 
         <el-form-item label="是否置顶" prop="isStick">
@@ -165,7 +165,7 @@
           <el-input-number v-model="form.postSort" controls-position="right" :min="1" />
         </el-form-item>
 
-        <el-form-item label="状态">
+        <el-form-item label="状态" prop="status">
           <el-radio-group v-model="form.status">
             <el-radio
               v-for="dict in dict.type.sys_normal_disable"
@@ -258,11 +258,11 @@ export default {
         recordContent: [
           { required: true, message: "请输入详细内容", trigger: "blur" }
         ],
+        isStick: [
+          { required: true, message: "不能为空", trigger: "change" }
+        ],
         status: [
           { required: true, message: "状态不能为空", trigger: "change" }
-        ],
-        postSort: [
-          { required: true, message: "顺序不能空", trigger: "blur" }
         ],
       }
     };

@@ -64,6 +64,12 @@
 
     <el-table v-loading="loading" :data="teamOverviewImgList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
+      <el-table-column label="序号" type="index" align="center">
+        <template slot-scope="scope">
+          <span>{{(queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="图片名称" align="center" prop="imgName" />
       <el-table-column label="图片" align="center" prop="imgUrl" >
         <template slot-scope="scope">
           <div style="width: 100px; height: 100px">
@@ -76,7 +82,6 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="图片名称" align="center" prop="imgName" />
       <el-table-column label="显示顺序" align="center" prop="postSort" />
       <el-table-column label="状态" align="center" prop="status">
         <template slot-scope="scope">
@@ -114,11 +119,11 @@
     <!-- 添加或修改团队掠影 图片 (img)对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="图片上传">
-          <imageUpload v-model="form.imgUrl" :limit="1"/>
-        </el-form-item>
         <el-form-item label="图片名称" prop="imgName">
           <el-input v-model="form.imgName" placeholder="请输入图片名称" />
+        </el-form-item>
+        <el-form-item label="图片上传" prop="imgUrl">
+          <imageUpload v-model="form.imgUrl" :limit="1"/>
         </el-form-item>
         <el-form-item label="显示顺序" prop="postSort">
           <el-input-number v-model="form.postSort" controls-position="right" :min="0" />
@@ -188,6 +193,12 @@ export default {
       rules: {
         titleId: [
           { required: true, message: "掠影分类标题id不能为空", trigger: "blur" }
+        ],
+        imgName: [
+          { required: true, message: "掠影图片名称不能为空", trigger: "blur" }
+        ],
+        imgUrl: [
+          { required: true, message: "掠影图片地址不能为空", trigger: "blur" }
         ],
         postSort: [
           { required: true, message: "显示顺序不能为空", trigger: "blur" }

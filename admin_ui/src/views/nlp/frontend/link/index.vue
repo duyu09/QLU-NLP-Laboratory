@@ -75,20 +75,23 @@
 
     <el-table v-loading="loading" :data="frontendLinkList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="展示顺序" align="center" prop="postSort" />
+      <el-table-column label="序号" type="index" align="center">
+        <template slot-scope="scope">
+          <span>{{(queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1}}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="链接名称" align="center" prop="linkName" />
       <el-table-column label="链接地址" align="center" prop="linkUrl" >
-<!--        <template slot-scope="scope">-->
-<!--          <p v-if="scope.row.linkUrl === ''" >请填写链接地址</p>-->
-<!--          <p v-else-if="scope.row.linkUrl === null" >请填写链接地址</p>-->
-<!--          <a v-else style="color:#1890ff" @click="openLinkUrl(scope.row.linkUrl)">点击查看</a>-->
-<!--        </template>-->
+        <template slot-scope="scope">
+          <a style="color:#1890ff" @click="openFrame(scope.row.linkUrl)"><u>{{scope.row.linkUrl}}</u></a>
+        </template>
       </el-table-column>
-      <el-table-column label="是否使用" align="center" prop="status">
+      <el-table-column label="状态" align="center" prop="status">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
         </template>
       </el-table-column>
+      <el-table-column label="展示顺序" align="center" prop="postSort" />
       <el-table-column label="备注" align="center" prop="remark" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
@@ -157,10 +160,6 @@
       </div>
     </el-dialog>
 
-<!--    &lt;!&ndash;    友链预览框&ndash;&gt;-->
-<!--    <el-dialog title="友链地址" :visible.sync="ifShowLinkUrl" @close="closeLinkUrl">-->
-<!--      <v-md-preview :text="showLinkUrl"></v-md-preview>-->
-<!--    </el-dialog>-->
   </div>
 </template>
 
@@ -322,10 +321,9 @@ export default {
         ...this.queryParams
       }, `frontendLink_${new Date().getTime()}.xlsx`)
     },
-    // 详情展示 打开
-    openLinkUrl(data) {
-      this.ifShowLinkUrl = true;
-      this.showLinkUrl = data;
+    // 页面跳转 打开
+    openFrame(data) {
+      window.open("http://"+data);
     },
     // 详情展示 关闭
     closeLinkUrl() {

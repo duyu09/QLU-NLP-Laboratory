@@ -9,7 +9,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * 研究方向管理对象 nlp_lab_direction
- * 
+ *
  * @author relief
  * @date 2023-04-07
  */
@@ -36,94 +36,65 @@ public class NlpLabDirection extends BaseEntity
     @Excel(name = "状态", readConverterExp = "0=正常,1=停用")
     private String status;
 
-    /** 创建者 */
-    @Excel(name = "创建者")
-    private String creatBy;
-
-    /** 更新时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "更新时间", width = 30, dateFormat = "yyyy-MM-dd")
-    private Date updataTime;
-
-
-    public void setId(Long id) 
+    public void setId(Long id)
     {
         this.id = id;
     }
 
-    public Long getId() 
+    public Long getId()
     {
         return id;
     }
-    public void setName(String name) 
+    public void setName(String name)
     {
         this.name = name;
     }
 
-    public String getName() 
+    public String getName()
     {
         return name;
     }
-    public void setRecordContent(String recordContent) 
+    public void setRecordContent(String recordContent)
     {
         this.recordContent = recordContent;
     }
 
-    public String getRecordContent() 
+    public String getRecordContent()
     {
         return recordContent;
     }
-    public void setPostSort(Long postSort) 
+    public void setPostSort(Long postSort)
     {
         this.postSort = postSort;
     }
 
-    public Long getPostSort() 
+    public Long getPostSort()
     {
         return postSort;
     }
-    public void setStatus(String status) 
+    public void setStatus(String status)
     {
         this.status = status;
     }
 
-    public String getStatus() 
+    public String getStatus()
     {
         return status;
-    }
-    public void setCreatBy(String creatBy) 
-    {
-        this.creatBy = creatBy;
-    }
-
-    public String getCreatBy() 
-    {
-        return creatBy;
-    }
-
-    public void setUpdataTime(Date updataTime) 
-    {
-        this.updataTime = updataTime;
-    }
-
-    public Date getUpdataTime() 
-    {
-        return updataTime;
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("name", getName())
-            .append("recordContent", getRecordContent())
-            .append("postSort", getPostSort())
-            .append("status", getStatus())
-            .append("creatBy", getCreatBy())
-            .append("createTime", getCreateTime())
-            .append("updateBy", getUpdateBy())
-            .append("updataTime", getUpdataTime())
-            .toString();
+                .append("id", getId())
+                .append("name", getName())
+                .append("recordContent", getRecordContent())
+                .append("postSort", getPostSort())
+                .append("status", getStatus())
+                .append("createBy", getCreateBy())
+                .append("createTime", getCreateTime())
+                .append("updateBy", getUpdateBy())
+                .append("updateTime", getUpdateTime())
+                .toString();
     }
 
 

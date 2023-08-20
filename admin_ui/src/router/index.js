@@ -176,6 +176,20 @@ export const dynamicRoutes = [
         meta: { title: '修改生成配置', activeMenu: '/tool/gen' }
       }
     ]
+  },
+  {
+    path: '/nlp/teacher-edit',
+    component: Layout,
+    hidden: true,
+    permissions: ['tool:gen:edit'],
+    children: [
+      {
+        path: 'index/:teacherId(\\d+)',
+        component: () => import('@/views/nlp/teacher/edit'),
+        name: 'TeacherEdit',
+        meta: { title: '老师信息编辑', activeMenu: '/nlp/teacher' }
+      }
+    ]
   }
 ]
 

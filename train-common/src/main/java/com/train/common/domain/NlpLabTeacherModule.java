@@ -8,29 +8,36 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
- * 简介管理对象 nlp_lab_brief
+ * 成员编辑器对象 nlp_lab_teacher_module
  *
  * @author relief
- * @date 2023-04-06
+ * @date 2023-05-18
  */
-public class NlpLabBrief extends BaseEntity
+public class NlpLabTeacherModule extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** 主键 */
+    /** 老师个人简介模块主键 */
     private Long id;
 
-    /** 实验室简介 */
-    @Excel(name = "实验室简介")
+    /** 对应teacher表的id */
+    @Excel(name = "对应teacher表的id")
+    private Long teacherId;
+
+    /** 标题 */
+    @Excel(name = "标题")
+    private String title;
+
+    /** 内容 */
+    @Excel(name = "内容")
     private String recordContent;
 
-    /** 显示顺序 */
-    @Excel(name = "显示顺序")
-    private Long postSort;
-
-    /** 状态（0正常 1停用） */
-    @Excel(name = "状态", readConverterExp = "0=正常,1=停用")
+    /** 状态 */
+    @Excel(name = "状态")
     private String status;
+
+    /** 顺序 */
+    private Integer postSort;
 
     public void setId(Long id)
     {
@@ -41,6 +48,24 @@ public class NlpLabBrief extends BaseEntity
     {
         return id;
     }
+    public void setTeacherId(Long teacherId)
+    {
+        this.teacherId = teacherId;
+    }
+
+    public Long getTeacherId()
+    {
+        return teacherId;
+    }
+    public void setTitle(String title)
+    {
+        this.title = title;
+    }
+
+    public String getTitle()
+    {
+        return title;
+    }
     public void setRecordContent(String recordContent)
     {
         this.recordContent = recordContent;
@@ -49,15 +74,6 @@ public class NlpLabBrief extends BaseEntity
     public String getRecordContent()
     {
         return recordContent;
-    }
-    public void setPostSort(Long postSort)
-    {
-        this.postSort = postSort;
-    }
-
-    public Long getPostSort()
-    {
-        return postSort;
     }
     public void setStatus(String status)
     {
@@ -69,13 +85,19 @@ public class NlpLabBrief extends BaseEntity
         return status;
     }
 
+    public Integer getPostSort() {return postSort;}
+
+    public void setPostSort(Integer postSort) {this.postSort = postSort;}
+
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
             .append("id", getId())
+            .append("teacherId", getTeacherId())
+            .append("title", getTitle())
             .append("recordContent", getRecordContent())
-            .append("postSort", getPostSort())
             .append("status", getStatus())
+            .append("postSort",getPostSort())
             .append("createBy", getCreateBy())
             .append("createTime", getCreateTime())
             .append("updateBy", getUpdateBy())

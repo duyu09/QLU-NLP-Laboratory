@@ -12,6 +12,7 @@ export default defineConfig({
     }
   },
   server: {
+    host: "localhost",
     port: 80, // 设置服务启动端口号
   }
 })

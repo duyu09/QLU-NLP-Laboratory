@@ -10,6 +10,17 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
+
+      <el-form-item label="状态" prop="status">
+        <el-select v-model="queryParams.status" placeholder="请选择状态" clearable size="small">
+          <el-option
+            v-for="dict in dict.type.sys_normal_disable"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -63,18 +74,26 @@
     </el-row>
     <el-table v-loading="loading" :data="recourceList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="id" align="center" prop="id" />
-      <el-table-column label="是否使用" align="center" prop="status" />
+      <el-table-column label="序号" type="index" align="center">
+        <template slot-scope="scope">
+          <span>{{(queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1}}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="链接名称" align="center" prop="recourceName" />
+      <el-table-column label="链接地址" align="center" prop="recourceUrl" />
       <el-table-column label="详细内容" align="center" prop="recordContent" >
         <template slot-scope="scope">
-          <p v-if="scope.row.recordContent === ''" >请填写详细内容</p>
-          <p v-else-if="scope.row.recordContent === null" >请填写详细内容</p>
+          <p v-if="scope.row.recordContent === '' || scope.row.recordContent === null" >请填写详细内容</p>
           <a v-else style="color:#1890ff" @click="openRecordContent(scope.row.recordContent)">点击查看</a>
         </template>
       </el-table-column>
-      <el-table-column label="链接地址" align="center" prop="recourceUrl" />
       <el-table-column label="展示顺序" align="center" prop="postSort" />
+      <el-table-column label="状态" align="center" prop="status">
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
+        </template>
+      </el-table-column>
+      <el-table-column label="备注" align="center" prop="remark"/>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -109,14 +128,24 @@
         <el-form-item label="链接名称" prop="recourceName">
           <el-input v-model="form.recourceName" placeholder="请输入链接名称" />
         </el-form-item>
-        <el-form-item label="详细内容">
-          <MarkdownEditor v-model="form.recordContent" :min-height="192"/>
-        </el-form-item>
         <el-form-item label="链接地址" prop="recourceUrl">
           <el-input v-model="form.recourceUrl" placeholder="请输入链接地址" />
         </el-form-item>
+        <el-form-item label="详细内容">
+          <MarkdownEditor v-model="form.recordContent" :min-height="192"/>
+        </el-form-item>
         <el-form-item label="展示顺序" prop="postSort">
           <el-input-number v-model="form.postSort" controls-position="right" :min="1" />
+        </el-form-item>
+        <el-form-item label="状态" prop="status">
+          <el-radio-group v-model="form.status">
+            <el-radio
+              v-for="dict in dict.type.sys_normal_disable"
+              :key="dict.value"
+              :label="dict.value"
+            >{{ dict.label }}
+            </el-radio>
+          </el-radio-group>
         </el-form-item>
         <el-form-item label="备注" prop="remark">
           <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
@@ -139,6 +168,7 @@ import { listRecource, getRecource, delRecource, addRecource, updateRecource } f
 
 export default {
   name: "Recource",
+  dicts: ['sys_normal_disable'],
   data() {
     return {
       // 遮罩层
@@ -185,9 +215,6 @@ export default {
         ],
         status: [
           { required: true, message: "状态不能为空", trigger: "change" }
-        ],
-        postSort: [
-          { required: true, message: "顺序不能空", trigger: "blur" }
         ],
       }
     };

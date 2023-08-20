@@ -44,6 +44,11 @@
 
     <el-table v-loading="loading" :data="detailsList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
+      <el-table-column label="序号" type="index" align="center">
+        <template slot-scope="scope">
+          <span>{{(queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1}}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="标题" align="center" prop="title" />
       <el-table-column label="展示内容" align="center" prop="recordContent" >
         <template slot-scope="scope">
@@ -93,13 +98,13 @@
     <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="标题" prop="title">
-          <el-input v-model="form.title" placeholder="请输入标题" />
+          <el-input v-model="form.title" placeholder="请输入标题" disabled/>
         </el-form-item>
-        <el-form-item label="展示内容">
+        <el-form-item label="展示内容" prop="recordContent">
           <MarkdownEditor v-model="form.recordContent"></MarkdownEditor>
         </el-form-item>
         <el-form-item label="详情类别" prop="configId">
-          <el-select v-model="form.configId" placeholder="请选择详情类别">
+          <el-select v-model="form.configId" placeholder="请选择详情类别" disabled>
             <el-option
               v-for="dict in dict.type.nlp_details"
               :key="dict.value"
@@ -109,10 +114,10 @@
           </el-select>
         </el-form-item>
         <el-form-item label="显示顺序" prop="postSort">
-          <el-input-number v-model="form.postSort" controls-position="right" :min="0" />
+          <el-input-number v-model="form.postSort" controls-position="right" :min="0" disabled/>
         </el-form-item>
-        <el-form-item label="状态">
-          <el-radio-group v-model="form.status">
+        <el-form-item label="状态" prop="status">
+          <el-radio-group v-model="form.status" disabled>
             <el-radio
               v-for="dict in dict.type.sys_normal_disable"
               :key="dict.value"
@@ -181,6 +186,12 @@ export default {
       form: {},
       // 表单校验
       rules: {
+        title: [
+          { required: true, message: "标题不能为空", trigger: "change" }
+        ],
+        recordContent: [
+          { required: true, message: "内容不能为空", trigger: "change" }
+        ],
         configId: [
           { required: true, message: "详情类别不能为空", trigger: "change" }
         ],

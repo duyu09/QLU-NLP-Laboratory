@@ -9,9 +9,9 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * 成果管理对象 nlp_lab_achievement
- * 
+ *
  * @author relief
- * @date 2023-04-07
+ * @date 2023-04-21
  */
 public class NlpLabAchievement extends BaseEntity
 {
@@ -20,17 +20,17 @@ public class NlpLabAchievement extends BaseEntity
     /** 主键 */
     private Long id;
 
-    /** 科研平台 */
-    @Excel(name = "科研平台")
-    private String scientificResearchPlatform;
+    /** 标题 */
+    @Excel(name = "标题")
+    private String title;
 
-    /** 科研专利 */
-    @Excel(name = "科研专利")
-    private String scientificPatent;
+    /** 科研内容 */
+    @Excel(name = "科研内容")
+    private String context;
 
-    /** 科研论文 */
-    @Excel(name = "科研论文")
-    private String scientificPaper;
+    /** 科研类型 */
+    @Excel(name = "科研类型")
+    private String type;
 
     /** 显示顺序 */
     @Excel(name = "显示顺序")
@@ -39,100 +39,74 @@ public class NlpLabAchievement extends BaseEntity
     /** 状态（0正常 1停用） */
     private String status;
 
-    /** 创建者 */
-    private String creatBy;
-
-    /** 更新时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "更新时间", width = 30, dateFormat = "yyyy-MM-dd")
-    private Date updataTime;
-
-    public void setId(Long id) 
+    public void setId(Long id)
     {
         this.id = id;
     }
 
-    public Long getId() 
+    public Long getId()
     {
         return id;
     }
-    public void setScientificResearchPlatform(String scientificResearchPlatform) 
+    public void setTitle(String title)
     {
-        this.scientificResearchPlatform = scientificResearchPlatform;
+        this.title = title;
     }
 
-    public String getScientificResearchPlatform() 
+    public String getTitle()
     {
-        return scientificResearchPlatform;
+        return title;
     }
-    public void setScientificPatent(String scientificPatent) 
+    public void setContext(String context)
     {
-        this.scientificPatent = scientificPatent;
-    }
-
-    public String getScientificPatent() 
-    {
-        return scientificPatent;
-    }
-    public void setScientificPaper(String scientificPaper) 
-    {
-        this.scientificPaper = scientificPaper;
+        this.context = context;
     }
 
-    public String getScientificPaper() 
+    public String getContext()
     {
-        return scientificPaper;
+        return context;
     }
-    public void setPostSort(Long postSort) 
+    public void setType(String type)
+    {
+        this.type = type;
+    }
+
+    public String getType()
+    {
+        return type;
+    }
+    public void setPostSort(Long postSort)
     {
         this.postSort = postSort;
     }
 
-    public Long getPostSort() 
+    public Long getPostSort()
     {
         return postSort;
     }
-    public void setStatus(String status) 
+    public void setStatus(String status)
     {
         this.status = status;
     }
 
-    public String getStatus() 
+    public String getStatus()
     {
         return status;
-    }
-    public void setCreatBy(String creatBy) 
-    {
-        this.creatBy = creatBy;
-    }
-
-    public String getCreatBy() 
-    {
-        return creatBy;
-    }
-    public void setUpdataTime(Date updataTime) 
-    {
-        this.updataTime = updataTime;
-    }
-
-    public Date getUpdataTime() 
-    {
-        return updataTime;
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("scientificResearchPlatform", getScientificResearchPlatform())
-            .append("scientificPatent", getScientificPatent())
-            .append("scientificPaper", getScientificPaper())
-            .append("postSort", getPostSort())
-            .append("status", getStatus())
-            .append("creatBy", getCreatBy())
-            .append("createTime", getCreateTime())
-            .append("updateBy", getUpdateBy())
-            .append("updataTime", getUpdataTime())
-            .toString();
+                .append("id", getId())
+                .append("title", getTitle())
+                .append("context", getContext())
+                .append("type", getType())
+                .append("postSort", getPostSort())
+                .append("status", getStatus())
+                .append("createBy", getCreateBy())
+                .append("createTime", getCreateTime())
+                .append("updateBy", getUpdateBy())
+                .append("updateTime", getUpdateTime())
+                .toString();
     }
 }

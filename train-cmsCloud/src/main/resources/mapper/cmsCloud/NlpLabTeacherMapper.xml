@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.train.cmsCloud.mapper.NlpLabTeacherMapper">
+    <resultMap type="NlpLabTeacher" id="NlpLabTeacherResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="imgUrl"    column="img_url"    />
+        <result property="subject"    column="subject"    />
+        <result property="school"    column="school"    />
+        <result property="sex"    column="sex"    />
+        <result property="degree"    column="degree"    />
+        <result property="professionalTitle"    column="professional_title"    />
+        <result property="email"    column="email"    />
+        <result property="phone"    column="phone"    />
+        <result property="identity"    column="identity"    />
+        <result property="status"    column="status"    />
+        <result property="postSort"    column="post_sort"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectNlpLabTeacherVo">
+        select id, name, img_url, subject, school, sex, degree, professional_title, email, phone, identity, status, post_sort, create_by, create_time, update_by, update_time from nlp_lab_teacher
+    </sql>
+
+    <select id="selectNlpLabTeacherList" parameterType="NlpLabTeacher" resultMap="NlpLabTeacherResult">
+        <include refid="selectNlpLabTeacherVo"/>
+        <where>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="imgUrl != null  and imgUrl != ''"> and img_url = #{imgUrl}</if>
+            <if test="subject != null  and subject != ''"> and subject = #{subject}</if>
+            <if test="school != null  and school != ''"> and school = #{school}</if>
+            <if test="sex != null "> and sex = #{sex}</if>
+            <if test="degree != null  and degree != ''"> and degree = #{degree}</if>
+            <if test="professionalTitle != null  and professionalTitle != ''"> and professional_title = #{professionalTitle}</if>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="identity != null "> and identity = #{identity}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="postSort != null "> and post_sort = #{postSort}</if>
+            <if test="createBy != null  and createBy != ''"> and create_by = #{createBy}</if>
+        </where>
+        order by post_sort
+    </select>
+
+    <select id="selectNlpLabTeacherById" parameterType="Long" resultMap="NlpLabTeacherResult">
+        <include refid="selectNlpLabTeacherVo"/>
+        where id = #{id}
+    </select>
+    <select id="selectNlpLabTeacherByName" parameterType="String" resultMap="NlpLabTeacherResult">
+        <include refid="selectNlpLabTeacherVo"/>
+        where name = #{name}
+    </select>
+
+
+    <insert id="insertNlpLabTeacher" parameterType="NlpLabTeacher" useGeneratedKeys="true" keyProperty="id">
+        insert into nlp_lab_teacher
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="imgUrl != null">img_url,</if>
+            <if test="subject != null">subject,</if>
+            <if test="school != null">school,</if>
+            <if test="sex != null">sex,</if>
+            <if test="degree != null">degree,</if>
+            <if test="professionalTitle != null">professional_title,</if>
+            <if test="email != null">email,</if>
+            <if test="phone != null">phone,</if>
+            <if test="identity != null">identity,</if>
+            <if test="status != null and status != ''">status,</if>
+            <if test="postSort != null">post_sort,</if>
+            create_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="imgUrl != null">#{imgUrl},</if>
+            <if test="subject != null">#{subject},</if>
+            <if test="school != null">#{school},</if>
+            <if test="sex != null">#{sex},</if>
+            <if test="degree != null">#{degree},</if>
+            <if test="professionalTitle != null">#{professionalTitle},</if>
+            <if test="email != null">#{email},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="identity != null">#{identity},</if>
+            <if test="status != null and status != ''">#{status},</if>
+            <if test="postSort != null">#{postSort},</if>
+            sysdate()
+         </trim>
+    </insert>
+    <update id="updateNlpLabTeacher" parameterType="NlpLabTeacher">
+        update nlp_lab_teacher
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="imgUrl != null">img_url = #{imgUrl},</if>
+            <if test="subject != null">subject = #{subject},</if>
+            <if test="school != null">school = #{school},</if>
+            <if test="sex != null">sex = #{sex},</if>
+            <if test="degree != null">degree = #{degree},</if>
+            <if test="professionalTitle != null">professional_title = #{professionalTitle},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="identity != null">identity = #{identity},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="postSort != null">post_sort = #{postSort},</if>
+            update_time=sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteNlpLabTeacherById" parameterType="Long">
+        delete from nlp_lab_teacher where id = #{id}
+    </delete>
+    <delete id="deleteNlpLabTeacherByIds" parameterType="String">
+        delete from nlp_lab_teacher where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
