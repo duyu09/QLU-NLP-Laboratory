@@ -67,11 +67,11 @@ export default {
     },
     autoCropWidth: {
       type: Number,
-      default: 210,
+      default: 240,
     },
     autoCropHeight: {
       type: Number,
-      default: 280,
+      default: 240,
     },
     // 图片数量限制
     limit: {
@@ -284,9 +284,9 @@ export default {
 .cut-image-upload-preview {
   position: absolute;
   top: 50%;
-  transform: translate(50%, -50%);
-  width: 210px;
-  height: 280px;
+  transform: translate(35%, -50%);
+  width: 240px;
+  height: 240px;
   box-shadow: 0 0 4px #ccc;
   overflow: hidden;
 }
