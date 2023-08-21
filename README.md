@@ -47,4 +47,9 @@ Source code tree of official website of Research Group for Natural Language Proc
 
 齐鲁工业大学(山东省科学院) 自然语言处理与认知计算研究团队 保留所有权利。
 
+### 访客统计
+
+<div><b>Number of Total Visits (All of Duyu09's GitHub Projects): </b><br><img src="https://profile-counter.glitch.me/duyu09/count.svg" /></div> 
+
+<div><b>Number of Total Visits (QLU-NLP-Laboratory): </b><br><img src="https://profile-counter.glitch.me/duyu09-QLU-NLP-Laboratory/count.svg" /></div> 
 
