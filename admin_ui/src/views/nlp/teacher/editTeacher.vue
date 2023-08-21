@@ -63,7 +63,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item label="状态" prop="status">
-            <el-radio-group v-model="form.status">
+            <el-radio-group v-model="form.status" disabled>
               <el-radio
                 v-for="dict in dict.type.sys_normal_disable"
                 :key="dict.value" :label="dict.value"

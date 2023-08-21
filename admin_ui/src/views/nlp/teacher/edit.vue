@@ -25,7 +25,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item label="性别" prop="sex" disabled="">
+          <el-form-item label="性别" prop="sex">
             <el-select v-model="form.sex" placeholder="请选择性别">
               <el-option
                 v-for="dict in dict.type.sys_user_sex"
@@ -52,7 +52,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item label="成员身份" prop="professionalTitle">
-            <el-select v-model="form.identity" placeholder="请输入" disabled>
+            <el-select v-model="form.identity" placeholder="请输入">
               <el-option
                 v-for="dict in dict.type.nlp_member_identity"
                 :key="dict.value"

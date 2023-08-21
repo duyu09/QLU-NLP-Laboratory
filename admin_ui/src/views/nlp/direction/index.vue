@@ -121,7 +121,7 @@
     />
 
     <!-- 添加或修改研究方向管理对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="项目方向" prop="name">
           <el-input v-model="form.name" placeholder="请输入项目方向" />
@@ -198,7 +198,7 @@ export default {
       form: {},
       // 表单校验
       rules: {
-        title: [
+        name: [
           { required: true, message: "请输入标题", trigger: "blur" }
         ],
         recordContent: [

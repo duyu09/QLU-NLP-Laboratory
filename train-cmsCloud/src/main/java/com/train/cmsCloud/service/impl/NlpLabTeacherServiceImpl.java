@@ -53,7 +53,7 @@ public class NlpLabTeacherServiceImpl implements INlpLabTeacherService
     {
         SysUser sysUser = userService.selectUserById(id);
         NlpLabTeacher nlpLabTeacher1 = nlpLabTeacherMapper.selectNlpLabTeacherById(id);
-        if (nlpLabTeacher1.equals(null)) {
+        if (ObjectUtils.isEmpty(nlpLabTeacher1)) {
             nlpLabTeacher1 = new NlpLabTeacher();
         }
         setUserInfo(sysUser, nlpLabTeacher1);
@@ -114,6 +114,7 @@ public class NlpLabTeacherServiceImpl implements INlpLabTeacherService
     private void setUserInfo(SysUser sysUser, NlpLabTeacher labTeacher){
         if (ObjectUtils.isEmpty(labTeacher.getId()) && ObjectUtils.isNotEmpty(sysUser.getUserId())) {
             labTeacher.setId(sysUser.getUserId());
+            labTeacher.setStatus(UserStatus.DISABLE.getCode());
         }
         if (StringUtils.isEmpty(labTeacher.getName()) && StringUtils.isNotEmpty(sysUser.getNickName())) {
             labTeacher.setName(sysUser.getNickName());
@@ -126,6 +127,9 @@ public class NlpLabTeacherServiceImpl implements INlpLabTeacherService
         }
         if (StringUtils.isEmpty(labTeacher.getEmail()) && StringUtils.isNotEmpty(sysUser.getEmail())) {
             labTeacher.setEmail(sysUser.getEmail());
+        }
+        if(ObjectUtils.isEmpty(labTeacher.getPostSort())) {
+            labTeacher.setPostSort(1L);
         }
     }
 
@@ -161,7 +165,7 @@ public class NlpLabTeacherServiceImpl implements INlpLabTeacherService
     public int updateNlpLabTeacher(NlpLabTeacherDto nlpLabTeacherDto)
     {
         NlpLabTeacher nlpLabTeacher1 = nlpLabTeacherMapper.selectNlpLabTeacherById(nlpLabTeacherDto.getId());
-        if (nlpLabTeacher1.equals(null)) {
+        if (ObjectUtils.isEmpty(nlpLabTeacher1)) {
             return this.insertNlpLabTeacher(nlpLabTeacherDto);
         }
         nlpLabTeacherDto.setUpdateTime(DateUtils.getNowDate());
@@ -278,7 +282,7 @@ public class NlpLabTeacherServiceImpl implements INlpLabTeacherService
     {
         SysUser sysUser = userService.selectUserById(id);
         NlpLabTeacher nlpLabTeacher1 = nlpLabTeacherMapper.selectNlpLabTeacherById(id);
-        if (nlpLabTeacher1.equals(null)) {
+        if (ObjectUtils.isEmpty(nlpLabTeacher1)) {
             nlpLabTeacher1 = new NlpLabTeacher();
         }
         setUserInfo(sysUser, nlpLabTeacher1);

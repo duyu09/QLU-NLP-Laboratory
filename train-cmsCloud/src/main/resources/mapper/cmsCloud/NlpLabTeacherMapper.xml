@@ -60,6 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insertNlpLabTeacher" parameterType="NlpLabTeacher" useGeneratedKeys="true" keyProperty="id">
         insert into nlp_lab_teacher
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
             <if test="name != null">name,</if>
             <if test="imgUrl != null">img_url,</if>
             <if test="subject != null">subject,</if>
@@ -75,6 +76,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             create_time
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
             <if test="name != null">#{name},</if>
             <if test="imgUrl != null">#{imgUrl},</if>
             <if test="subject != null">#{subject},</if>

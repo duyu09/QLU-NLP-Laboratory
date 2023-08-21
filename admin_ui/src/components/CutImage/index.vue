@@ -67,11 +67,11 @@ export default {
     },
     autoCropWidth: {
       type: Number,
-      default: 200,
+      default: 210,
     },
     autoCropHeight: {
       type: Number,
-      default: 250,
+      default: 280,
     },
     // 图片数量限制
     limit: {
@@ -285,8 +285,8 @@ export default {
   position: absolute;
   top: 50%;
   transform: translate(50%, -50%);
-  width: 200px;
-  height: 250px;
+  width: 210px;
+  height: 280px;
   box-shadow: 0 0 4px #ccc;
   overflow: hidden;
 }
