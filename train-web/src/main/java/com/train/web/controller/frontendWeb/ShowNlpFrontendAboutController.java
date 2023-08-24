@@ -54,4 +54,5 @@ public class ShowNlpFrontendAboutController extends BaseController
     {
         return AjaxResult.success(nlpFrontendAboutService.selectNlpFrontendAboutByType(type));
     }
+
 }

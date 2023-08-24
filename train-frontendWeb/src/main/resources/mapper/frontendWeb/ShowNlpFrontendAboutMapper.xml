@@ -38,7 +38,7 @@
         <include refid="selectNlpFrontendAboutVo"/>
         where id = #{id}
     </select>
-    <select id="selectNlpFrontendAboutByType" resultType="com.train.common.domain.NlpFrontendAbout">
+    <select id="selectNlpFrontendAboutByType" parameterType="String" resultMap="NlpFrontendAboutResult">
         <include refid="selectNlpFrontendAboutVo"/>
         where type = #{type}
     </select>
