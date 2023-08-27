@@ -4,12 +4,12 @@
             <UpImg></UpImg>
             <div class="content">
                 <div class="info">
-                    <!--                    标题-->
-                    <div class="title">2020级</div>
+<!--                    标题-->
+                    <div class="title">在读学生</div>
 
                     <el-divider content-position="left">
                     </el-divider>
-                    <!--                    列表内容-->
+<!--                    列表内容-->
                     <div class="list">
                         <div class="content-item">
                             <div class="content-img" @click="visible=true">
@@ -36,7 +36,7 @@
                         </div>
 
                     </div>
-                    <!--                    弹出框-->
+<!--                    弹出框-->
                     <el-dialog v-model="visible" :show-close="false">
                         <template #header="{ close, titleId, titleClass }">
                             <div style="display: flex;flex-direction: row;justify-content: space-between;">
@@ -64,45 +64,43 @@
                     </el-dialog>
 
                 </div>
-                </div>
+
             </div>
         </div>
         <Footer></Footer>
+    </div>
 </template>
+
 <script>
-import DynamicMenu from './DynamicMenu.vue';
-import PageHeader from './PageHeader.vue';
-import { SemiSelect, StarFilled,CircleCloseFilled } from '@element-plus/icons-vue';
-import UpImg from './UpImg.vue';
-import Footer from './Footer.vue';
-import { getStudentManage } from '../api'
-export default {
-    components: {
-        DynamicMenu,
-        PageHeader,
-        SemiSelect,
-        StarFilled,
-        CircleCloseFilled,
-        UpImg,
-        Footer
-    },
-    data() {
-        return {
-            visible:false,
-            studentname:"王。。",
-            studentgrade:"2020",
-            studentmajor:"深度神经网络"
+    import DynamicMenu from "./DynamicMenu.vue";
+    import PageHeader from "./PageHeader.vue";
+    import {SemiSelect, StarFilled,CircleCloseFilled} from "@element-plus/icons-vue";
+    import UpImg from "./UpImg.vue";
+    import Footer from "./Footer.vue";
+
+    export default {
+        name: "TeamMember",
+        components:{
+            DynamicMenu,
+            PageHeader,
+            SemiSelect,
+            StarFilled,
+            CircleCloseFilled,
+            UpImg,
+            Footer
+        },
+        data(){
+            return{
+                visible:false,
+                studentname:"王。。",
+                studentgrade:"2020",
+                studentmajor:"深度神经网络"
+            }
         }
-    },
-    mounted() {
-        getStudentManage()
-            .then(res => {
-                console.log(res.data)
-            })
     }
-}
 </script>
-<style scoped >
+
+<style scoped>
     .main {
         width: 100%;
         background: rgb(231,231,231);

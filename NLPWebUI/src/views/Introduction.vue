@@ -1,9 +1,22 @@
 <script>
 import { RouterLink, RouterView } from 'vue-router'
+import {getIntroductionHttp} from '../api.js'
 import 'element-plus/dist/index.css';
 export default
 {
-    name:'Introduction'
+    name:'Introduction',
+    data(){
+        return{
+            content:''
+        }
+    },
+    mounted() {
+        getIntroductionHttp().then(res=>{
+            var a=res.data.data.recordContent
+            console.log(a)
+            this.content=res.data.data.recordContent
+        })
+    }
 }
 </script>
 <template>
@@ -13,9 +26,8 @@ export default
     </el-tag>
     <el-divider border-style="dotted" style="margin: 0;padding: 0;" />
     <el-divider border-style="dashed" style="margin: 0;padding: 0;" />
-    <div id="intro-div02">
-        &nbsp;&nbsp;&nbsp;&nbsp;​齐鲁工业大学（山东省科学院）自然语言处理与认知计算研究团队，依托于计算机科学与技术学部、国家超级计算济南中心。
-      团队面向国家和社会重大需求，聚焦于语言信息处理与多模态认知计算，重点探索文本语义分析、医疗健康信息处理与数据挖掘、多模态认知计算及推荐系统等领域的基础理论与关键技术。
+    <div id="intro-div02" >
+        <v-md-preview :text="content" style="width: 100%;"></v-md-preview>
     </div>
 </div>
 </template>

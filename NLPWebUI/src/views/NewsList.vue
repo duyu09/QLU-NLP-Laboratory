@@ -42,8 +42,6 @@ export default {
 
 <template>
     <div class="main">
-        <page-header></page-header>
-        <dynamic-menu></dynamic-menu>
         <div class="change">
             <up-img></up-img>
             <div class="content-part">
@@ -61,25 +59,21 @@ export default {
                             <div style="font-size: 16px">{{ item.createTime.slice(5, 10) }}</div>
                         </div>
                         <div class="right">
-                            <span style="font-size: 19.2px;">第{{ index + 1 }}条新闻</span>
+                            <span class="news-title" @click="goNewsDetail(item.id, index)">第{{ index + 1 }}条新闻</span>
                             <p style="color: grey; font-size: smaller;margin: .625rem 0 .625rem 0">
                                 {{ item.recordContent }}
                             </p>
-                            <div style="display: flex;justify-content: end;width: 100%;">
-                                <el-button type="primary" style="font-size: smaller;margin-top: 6.4px;margin-bottom: 6.4px;"
-                                           size="small" @click="goNewsDetail(item.id, index)">查看详情</el-button>
+                            <div class="news-img">
+                                <img src="@/assets/images/gate.jpg">
                             </div>
+
                             <el-divider border-style="dotted" style="margin: 0;padding: 0;margin-bottom: 16px;" />
                         </div>
                     </div>
                 </div>
 
-                <!--            <div class="right-part">-->
-                <!--                <div class="righttitle">-->
-                <!--                    实验室要闻-->
-                <!--                </div>-->
-                <!--            </div>-->
-            </div>        </div>
+            </div>
+        </div>
 
     </div>
     <Footer></Footer>
@@ -89,8 +83,21 @@ export default {
 .main {
     width: 100%;
     background: rgb(231,231,231);
+    overflow: hidden;
 }
-
+img{
+    width: 100%;
+    height: 100%;
+}
+.news-img{
+    width: 17rem;
+    margin: 30px 0 10px 0;
+}
+.news-title{
+    font-size: 19.2px;
+    cursor: pointer;
+    text-decoration-line: underline
+}
 .header {
     width: 100%;
     height: 6.25rem;

@@ -13,8 +13,8 @@ export default
     mounted() {
         getNews()
         .then(res=>{
-            console.log("新闻列表"+res.data.data)
-            this.newslist=res.data.data.slice(0,4)
+            console.log("新闻列表",res.data.data)
+            this.newslist=res.data.data.slice(0,2)
         })
     },
     methods:{
@@ -50,14 +50,19 @@ export default
         <div id="news-div02">
             <div v-for="(item,index) in newslist">
                 <span style="font-size: 1.2rem;">{{ item.title }}</span>
-                <p style="color: grey; font-size: smaller;">
+                <p style="color: grey; font-size: smaller;margin-top: 5px">
                     {{item.synopsisContent}}
                 </p>
-                <div style="display: flex;justify-content: end;width: 100%;">
-                    <el-button type="primary" style="font-size: smaller;margin-top: 0.4rem;margin-bottom: 0.4rem;" size="small" @click="goNewsDetail(item.id,index)">查看更多</el-button>
+                <div class="news-img">
+                    <img src="@/assets/images/gate.jpg">
                 </div>
+
                 <div style="display: flex;justify-content: start;width: 100%;">
                     <div style="color: gray;font-size: 0.8rem">{{item.createTime}}</div>
+                </div>
+
+                <div style="display: flex;justify-content: end;width: 100%;">
+                    <el-button type="primary" style="font-size: smaller;margin-top: 0.4rem;margin-bottom: 0.4rem;" size="small" @click="goNewsDetail(item.id,index)">查看更多</el-button>
                 </div>
                 <el-divider border-style="dotted" style="margin: 0;padding: 0;margin-bottom: 1rem;" />
             </div>
@@ -66,6 +71,14 @@ export default
     
 </template>
 <style>
+    img{
+        width: 100%;
+        height: 100%;
+    }
+    .news-img{
+        width: 17rem;
+        margin: 10px 0 10px 0;
+    }
 #news-mainDiv
 {
     padding: 1.8rem;padding-top: 1.25rem;

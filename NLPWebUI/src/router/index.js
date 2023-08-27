@@ -50,6 +50,24 @@ export const constantRoutes = [
     path:'/teamoverview',
     component:()=>import('../views/TeamOverview.vue')
   },
+  //团队成员
+  {
+    name:'teamMember',
+    path:'/teamMember',
+    component:()=>import('../views/TeamMember.vue')
+  },
+  //科研方向
+  {
+    name:'researchdir',
+    path:'/researchdir',
+    component:()=>import('../views/ResearchDir.vue')
+  },
+  //科研成果
+  {
+    name:'researchresult',
+    path:'/researchresult',
+    component:()=>import('../views/ResearchResult.vue')
+  },
   //教师主页
   {
     name:"teacherPage",

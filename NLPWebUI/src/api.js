@@ -2,11 +2,15 @@ import axios from 'axios'
 const baseURL=import.meta.env.VITE_BASE_URL
 export
 {
-    getRotoGraphHttp,getFriendLink,getConnectUs,getNews,getNewsDetail,getAcademicResource,getStudentCultivation,getStudentManage
+    getRotoGraphHttp,getFriendLink,getConnectUs,getNews,getNewsDetail,getAcademicResource,getStudentCultivation,getStudentManage,getIntroductionHttp
 }
 //轮播图
 function getRotoGraphHttp(){
     return axios.get(baseURL+'/show/nlp/carousel/list')
+}
+//实验室简介
+function getIntroductionHttp() {
+    return axios.get(baseURL+'/show/nlp/about/byType/Laboratory')
 }
 //友情链接
 function getFriendLink() {

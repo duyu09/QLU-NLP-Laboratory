@@ -1,7 +1,17 @@
 <script>
+  import DynamicMenu from "@/views/DynamicMenu.vue";
+  import PageHeader from "@/views/PageHeader.vue";
 
+  export default {
+    components:{
+      DynamicMenu,
+      PageHeader,
+    }
+  }
 </script>
 <template>
+  <PageHeader></PageHeader>
+  <DynamicMenu></DynamicMenu>
   <router-view>
 
   </router-view>

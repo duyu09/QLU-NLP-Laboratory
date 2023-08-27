@@ -1,7 +1,5 @@
 <template>
     <div class="main">
-        <PageHeader></PageHeader>
-        <DynamicMenu></DynamicMenu>
         <div class="change">
             <UpImg></UpImg>
             <div class="content">
@@ -53,6 +51,7 @@ mounted(){
 .main {
     width: 100%;
     background: rgb(231,231,231);
+    overflow: hidden;
 }
 .upimg{
     width: 100%;

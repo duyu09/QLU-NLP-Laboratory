@@ -37,8 +37,6 @@ export default {
 
 <template>
     <div class="main">
-        <page-header></page-header>
-        <dynamic-menu></dynamic-menu>
         <div class="change">
             <UpImg></UpImg>
             <div class="content-part">
@@ -79,6 +77,7 @@ export default {
 .main {
     width: 100%;
     background: rgb(231,231,231);
+    overflow: hidden;
 }
 
 .header {

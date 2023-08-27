@@ -1,7 +1,5 @@
 <template>
     <div style="background: rgb(231,231,231)">
-        <page-header></page-header>
-        <dynamic-menu></dynamic-menu>
         <div class="change">
             <up-img></up-img>
             <div class="route">
@@ -19,7 +17,6 @@
             </div>
             <div class="content" v-if="newsinfo != null">
                 <v-md-preview :text="newsinfo.recordContent" style="width: 100%;"></v-md-preview>
-                {{ newsid }}
             </div>
             <div class="news-change" v-if="newsinfo != null">
             <span @click="golast(newsinfo.beforeId != null)" :class="newsinfo.beforeId == null ? 'noactive' : 'active'">上一条新闻: {{

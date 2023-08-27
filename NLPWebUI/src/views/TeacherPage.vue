@@ -16,12 +16,7 @@ export default
 
 <template>
  <div id="tp-mainDiv">
-   <PageHeader></PageHeader>
-   <div id="tp-div03">
-     <div id="tp-div04">
-       <DynamicMenu></DynamicMenu>
-     </div>
-   </div>
+
    <div id="tp-div01">
      <div id="tp-div02">
        <div id="tp-div05">

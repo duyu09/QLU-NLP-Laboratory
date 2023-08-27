@@ -17,6 +17,7 @@ export default
     mounted()
     {
         getRotoGraphHttp().then(res=>{
+            console.log(res.data.data)
           this.rotoGraphList=res.data.data
         });
     },

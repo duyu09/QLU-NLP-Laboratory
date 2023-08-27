@@ -1,7 +1,5 @@
 <template>
     <div class="main">
-        <PageHeader></PageHeader>
-        <DynamicMenu></DynamicMenu>
         <div class="change">
             <UpImg></UpImg>
             <div class="content">
@@ -15,55 +13,140 @@
 
                     <el-row :gutter="15">
                         <el-col :span="12">
-                            <img class="grid-content ep-bg-purple" :src="url"/>
+                            <el-tooltip
+                                    class="box-item"
+                                    effect="dark"
+                                    content="图片信息"
+                                    placement="bottom"
+                                    show-after=300
+                            >
+                                <img class="grid-content" :src="url"/>
+                            </el-tooltip>
                         </el-col>
                         <el-col :span="12">
-                            <img class="grid-content ep-bg-purple-light" :src="url"/>
-                        </el-col>
+                            <el-tooltip
+                                    class="box-item"
+                                    effect="dark"
+                                    content="图片信息"
+                                    placement="bottom"
+                                    show-after=300
+                            >
+                                <img class="grid-content" :src="url"/>
+                            </el-tooltip>                        </el-col>
                     </el-row>
 
                     <el-row :gutter="15">
                         <el-col :span="24">
-                            <img class="grid-content ep-bg-purple-dark" :src="url"/>
-                        </el-col>
+                            <el-tooltip
+                                    class="box-item"
+                                    effect="dark"
+                                    content="图片信息"
+                                    placement="bottom"
+                                    show-after=300
+                            >
+                                <img class="grid-content" :src="url"/>
+                            </el-tooltip>                        </el-col>
                     </el-row>
 
                     <el-row :gutter="15">
                         <el-col :span="8">
-                            <img class="grid-content ep-bg-purple" :src="url"/>
-                        </el-col>
+                            <el-tooltip
+                                    class="box-item"
+                                    effect="dark"
+                                    content="图片信息"
+                                    placement="bottom"
+                                    show-after=300
+                            >
+                                <img class="grid-content" :src="url"/>
+                            </el-tooltip>                        </el-col>
                         <el-col :span="8">
-                            <img class="grid-content ep-bg-purple-light" :src="url"/>
-                        </el-col>
+                            <el-tooltip
+                                    class="box-item"
+                                    effect="dark"
+                                    content="图片信息"
+                                    placement="bottom"
+                                    show-after=300
+                            >
+                                <img class="grid-content" :src="url"/>
+                            </el-tooltip>                        </el-col>
                         <el-col :span="8">
-                            <img class="grid-content ep-bg-purple" :src="url"/>
-                        </el-col>
+                            <el-tooltip
+                                    class="box-item"
+                                    effect="dark"
+                                    content="图片信息"
+                                    placement="bottom"
+                                    show-after=300
+                            >
+                                <img class="grid-content" :src="url"/>
+                            </el-tooltip>                        </el-col>
                     </el-row>
                     <el-row :gutter="15">
                         <el-col :span="12">
-                            <img class="grid-content ep-bg-purple" :src="url"/>
-                        </el-col>
+                            <el-tooltip
+                                    class="box-item"
+                                    effect="dark"
+                                    content="图片信息"
+                                    placement="bottom"
+                                    show-after=300
+                            >
+                                <img class="grid-content" :src="url"/>
+                            </el-tooltip>                        </el-col>
                         <el-col :span="12">
-                            <img class="grid-content ep-bg-purple-light" :src="url"/>
-                        </el-col>
+                            <el-tooltip
+                                    class="box-item"
+                                    effect="dark"
+                                    content="图片信息"
+                                    placement="bottom"
+                                    show-after=300
+                            >
+                                <img class="grid-content" :src="url"/>
+                            </el-tooltip>                        </el-col>
                     </el-row>
 
                     <el-row :gutter="15">
                         <el-col :span="24">
-                            <img class="grid-content ep-bg-purple-dark" :src="url"/>
-                        </el-col>
+                            <el-tooltip
+                                    class="box-item"
+                                    effect="dark"
+                                    content="图片信息"
+                                    placement="bottom"
+                                    show-after=300
+                            >
+                                <img class="grid-content" :src="url"/>
+                            </el-tooltip>                        </el-col>
                     </el-row>
 
                     <el-row :gutter="15">
                         <el-col :span="8">
-                            <img class="grid-content ep-bg-purple" :src="url"/>
-                        </el-col>
+                            <el-tooltip
+                                    class="box-item"
+                                    effect="dark"
+                                    content="图片信息"
+                                    placement="bottom"
+                                    show-after=300
+                            >
+                                <img class="grid-content" :src="url"/>
+                            </el-tooltip>                        </el-col>
                         <el-col :span="8">
-                            <img class="grid-content ep-bg-purple-light" :src="url"/>
-                        </el-col>
+                            <el-tooltip
+                                    class="box-item"
+                                    effect="dark"
+                                    content="图片信息"
+                                    placement="bottom"
+                                    show-after=300
+                            >
+                                <img class="grid-content" :src="url"/>
+                            </el-tooltip>                        </el-col>
                         <el-col :span="8">
-                            <img class="grid-content ep-bg-purple" :src="url"/>
-                        </el-col>
+                            <el-tooltip
+                                    class="box-item"
+                                    effect="dark"
+                                    content="图片信息"
+                                    placement="bottom"
+                                    show-after=300
+                            >
+                                <img class="grid-content" :src="url"/>
+                            </el-tooltip>                        </el-col>
                     </el-row>
 
                 </div>
@@ -106,6 +189,7 @@ export default {
 .main {
     width: 100%;
     background: rgb(231,231,231);
+    overflow: hidden;
 }
 
 .upimg {

@@ -27,6 +27,14 @@ export default
         {
           this.$router.push('/')
         }
+        else if(url=='2')
+        {
+            this.$router.push('/researchdir')
+        }
+        else if(url=='3-5')
+        {
+            this.$router.push('/teamMember')
+        }
         else if(url=='4-1')
         {
           this.$router.push('/studentmanage')
@@ -61,11 +69,11 @@ export default
 <template>
 
     <div id="mainDynamicMenu">
-        <el-menu :default-active="1"
+        <el-menu default-active="1"
                  class="mainDynamicMenu"
                  mode="horizontal"
                  @select="handleSelect"
-                 ellipsis=false>
+                 >
             <el-menu-item index="1">首页</el-menu-item>
             <el-menu-item index="2">研究方向</el-menu-item>
             <el-sub-menu index="3" >
@@ -87,11 +95,19 @@ export default
     </div>
 </template>
 <style scoped>
-/* 组件的背景颜色在APP.VUE里调 */ 
-
+/* 组件的背景颜色在APP.VUE里调 */
+#mainDynamicMenu{
+    width: 100%;
+    background: white;
+}
+.mainDynamicMenu{
+    width: 75%;
+    margin: 0 auto;
+}
 .el-menu--horizontal {
     justify-content: space-evenly;
 }
+
 @media screen and (max-width: 40rem)
 {
     #mainDynamicMenu{

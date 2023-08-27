@@ -11,8 +11,8 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
-  server: {
-    host: "localhost",
-    port: 80, // 设置服务启动端口号
-  }
+  // server: {
+  //   host: "localhost",
+  //   port: 8081, // 设置服务启动端口号
+  // }
 })

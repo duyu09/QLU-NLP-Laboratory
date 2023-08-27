@@ -85,19 +85,21 @@ export default
 
         </div>
   <div id="headTitle-d01">
+        <div class="headTitle-d01-content">
+            <div id="headTitle01">
+                <img src="../assets/images/logo.svg" style="height:3.35rem;">
+            </div>
+            <div id="headTitle02">
+                自然语言处理及认知计算研究团队<br>
+                <span id="headTitle-englishName"><nobr>Research Group for Natural Language Processing </nobr><wbr><nobr>and Cognitive Computing</nobr></span>
+            </div>
+        </div>
 
-        <div id="headTitle01">
-          <img src="../assets/images/logo.svg" style="height:3.35rem;">
-        </div>
-        <div id="headTitle02">
-            自然语言处理及认知计算研究团队<br>
-            <span id="headTitle-englishName"><nobr>Research Group for Natural Language Processing </nobr><wbr><nobr>and Cognitive Computing</nobr></span>
-        </div>
-        <div id="headTitle03"></div>
+<!--        <div id="headTitle03"></div>-->
 
   </div>
 </template>
-<style>
+<style scoped>
   *
   {
    margin: 0;
@@ -113,16 +115,19 @@ export default
     background-image: linear-gradient(to right, rgb(0, 85, 255), rgb(0, 0, 108));
     color: white;
     height:5.4rem;
-    padding-top: 0rem;
-    display: flex;
-    align-items: center;
-    padding-left: 1.25rem;
+    padding-top: 1rem;
+  }
+  .headTitle-d01-content
+  {
+      width: 75%;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
   }
   #headTitle01
   {
     font-size: 2rem;
     line-height: 2rem;
-    margin-left: 5.5rem;
     flex-grow: 2;
   }
   #headTitle02

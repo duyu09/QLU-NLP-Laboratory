@@ -39,7 +39,7 @@ export default
 <!--                <b class="contact">【联系方式】：<br>联系人：鹿老师<br>联系电话：10000000000<br>邮箱：example@qq.com </b>-->
 <!--           </div>-->
             <div v-for="item in content" key="item.id">
-                {{item.recordContent}}
+                <v-md-preview :text="item.recordContent" style="width: 100%;"></v-md-preview>
             </div>
         </div>
     </div>

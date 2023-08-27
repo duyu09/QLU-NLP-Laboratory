@@ -24,13 +24,12 @@
     }
 </script>
 <template>
-    <p-header></p-header>
     <div id="mainDiv">
-        <div id="app-menu" style="box-shadow: black 0.125rem 0.02rem 0.2rem;">
-            <div>
-                <dynamicMenu></dynamicMenu>
-            </div>
-        </div>
+<!--        <div id="app-menu" style="box-shadow: black 0.125rem 0.02rem 0.2rem;background: white">-->
+<!--            <div>-->
+<!--                <dynamicMenu></dynamicMenu>-->
+<!--            </div>-->
+<!--        </div>-->
         <div class="app-content">
             <div id="app-Graph">
                 <div>
