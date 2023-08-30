@@ -86,6 +86,18 @@
           <a v-else style="color:#1890ff" @click="openRecordContent(scope.row.recordContent)">点击查看</a>
         </template>
       </el-table-column>
+      <el-table-column label="图片" align="center" prop="carouselImg" >
+        <template slot-scope="scope">
+          <div style="width: 100px; height: 100px">
+            <el-image
+              :src="showImgUrl + scope.row.carouselImg"
+              fix="contain"
+              :preview-src-list="showImgUrlBox"
+              @click="addShowImgUrl(showImgUrl + scope.row.carouselImg)"
+            />
+          </div>
+        </template>
+      </el-table-column>
       <el-table-column label="显示顺序" align="center" prop="postSort" />
       <el-table-column label="状态" align="center" prop="status">
         <template slot-scope="scope">
@@ -129,6 +141,9 @@
         <el-form-item label="方向简介" prop="recordContent">
           <MarkdownEditor v-model="form.recordContent"></MarkdownEditor>
         </el-form-item>
+        <el-form-item label="照片">
+          <imageUpload v-model="form.imgUrl" :limit="1"/>
+        </el-form-item>
         <el-form-item label="显示顺序" prop="postSort">
           <el-input-number v-model="form.postSort" controls-position="right" :min="1" />
         </el-form-item>
@@ -165,6 +180,10 @@ export default {
       loading: true,
       // 选中数组
       ids: [],
+      // 图片显示路径
+      showImgUrl: process.env.VUE_APP_BASE_API,
+      // 预览大图功能数组
+      showImgUrlBox: [],
       // 非单个禁用
       single: true,
       // 非多个禁用
@@ -318,6 +337,10 @@ export default {
     // 详情展示 关闭
     closeRecordContent() {
       this.showRecordContent = '';
+    },
+    /** 点击图片预览功能 */
+    addShowImgUrl(data) {
+      this.showImgUrlBox.push(data)
     },
   }
 };
