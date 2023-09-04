@@ -94,7 +94,7 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改招生详情 培养计划 招聘详情 数据对话框 -->
+    <!-- 添加或修改 招生详情 培养计划 招聘详情 数据对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="标题" prop="title">

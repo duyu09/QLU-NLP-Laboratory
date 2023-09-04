@@ -21,22 +21,24 @@
         </el-select>
       </el-form-item>
       <el-form-item label="年级" prop="grade">
-        <el-input
-          v-model="queryParams.grade"
-          placeholder="请输入年级"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+        <el-select v-model="queryParams.grade" placeholder="请选择年级" clearable size="small">
+          <el-option
+            v-for="dict in dict.type.nlp_admission_student_grade"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item label="学历" prop="education">
-        <el-input
-          v-model="queryParams.education"
-          placeholder="请输入学历"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+        <el-select v-model="queryParams.education" placeholder="请选择学历" clearable size="small">
+          <el-option
+            v-for="dict in dict.type.nlp_admission_student_education"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item label="是否在读" prop="atSchool">
         <el-select v-model="queryParams.atSchool" placeholder="请选择是否在读" clearable size="small">
@@ -100,6 +102,29 @@
               v-hasPermi="['nlp:admission:admissionStudent:remove']"
             >删除</el-button>
           </el-col>
+          <el-col :span="1.5">
+            <router-link :to="{path:'/nlp/admission/admissionStudent/grade-dict-data/index/113'}" class="link-type">
+                <el-button
+                  type="primary"
+                  plain
+                  icon="el-icon-setting"
+                  size="mini"
+                  v-hasPermi="['nlp:admission:admissionStudent:edit']"
+                >年级管理</el-button>
+            </router-link>
+          </el-col>
+          <el-col :span="1.5">
+            <router-link :to="{path:'/nlp/admission/admissionStudent/education-dict-data/index/114'}" class="link-type">
+              <el-button
+                type="primary"
+                plain
+                icon="el-icon-setting"
+                size="mini"
+                v-hasPermi="['nlp:admission:admissionStudent:edit']"
+              >学历管理</el-button>
+            </router-link>
+          </el-col>
+
           <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
         </el-row>
 
@@ -117,13 +142,34 @@
               <dict-tag :options="dict.type.sys_user_sex" :value="scope.row.sex"/>
             </template>
           </el-table-column>
-          <el-table-column label="年级" align="center" prop="grade" />
-          <el-table-column label="学历" align="center" prop="education" />
+          <el-table-column label="年级" align="center" prop="grade">
+            <template slot-scope="scope">
+              <dict-tag :options="dict.type.nlp_admission_student_grade" :value="scope.row.grade"/>
+            </template>
+          </el-table-column>
+          <el-table-column label="学历" align="center" prop="education">
+            <template slot-scope="scope">
+              <dict-tag :options="dict.type.nlp_admission_student_education" :value="scope.row.education"/>
+            </template>
+          </el-table-column>
           <el-table-column label="是否在读" align="center" prop="atSchool">
             <template slot-scope="scope">
               <dict-tag :options="dict.type.nlp_admission_student" :value="scope.row.atSchool"/>
             </template>
           </el-table-column>
+          <el-table-column label="介绍内容" align="center" prop="introduction">
+            <template slot-scope="scope">
+              <p v-if="scope.row.introduction === '' || scope.row.introduction === null" style="color:#b1b3b8">
+                请填写详细内容
+              </p>
+              <p v-else style="color:#409EFF; transition: 1s">
+                <a @click="openIntroduction(scope.row.introduction)">
+                  点击查看
+                </a>
+              </p>
+            </template>
+          </el-table-column>
+          <el-table-column label="指导老师" align="center" prop="tutor" />
           <el-table-column label="显示顺序" align="center" prop="postSort" />
           <el-table-column label="状态" align="center" prop="status">
             <template slot-scope="scope">
@@ -162,7 +208,7 @@
     </el-row>
 
     <!-- 添加或修改学生 数据对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="姓名" prop="name">
           <el-input v-model="form.name" placeholder="请输入姓名" />
@@ -178,10 +224,24 @@
           </el-select>
         </el-form-item>
         <el-form-item label="年级" prop="grade">
-          <el-input v-model="form.grade" placeholder="请输入年级" />
+          <el-select v-model="form.grade" placeholder="请选择年级">
+            <el-option
+              v-for="dict in dict.type.nlp_admission_student_grade"
+              :key="dict.value"
+              :label="dict.label"
+              :value="dict.value"
+            ></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="学历" prop="education">
-          <el-input v-model="form.education" placeholder="请输入学历" />
+          <el-select v-model="form.education" placeholder="请选择学历">
+            <el-option
+              v-for="dict in dict.type.nlp_admission_student_education"
+              :key="dict.value"
+              :label="dict.label"
+              :value="dict.value"
+            ></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="是否在读" prop="atSchool">
           <el-radio-group v-model="form.atSchool">
@@ -191,6 +251,12 @@
               :label="dict.value"
             >{{dict.label}}</el-radio>
           </el-radio-group>
+        </el-form-item>
+        <el-form-item label="介绍内容" prop="introduction">
+          <MarkdownEditor v-model="form.introduction"></MarkdownEditor>
+        </el-form-item>
+        <el-form-item label="指导老师" prop="tutor">
+          <el-input v-model="form.tutor" placeholder="请输入指导老师" />
         </el-form-item>
         <el-form-item label="显示顺序" prop="postSort">
           <el-input-number v-model="form.postSort" controls-position="right" :min="0" />
@@ -210,6 +276,12 @@
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
+
+    <!-- 详细内容预览框 -->
+    <el-dialog title="介绍内容" :visible.sync="ifShowIntroduction" @close="closeIntroduction">
+      <v-md-preview :text="showIntroduction"></v-md-preview>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -218,7 +290,7 @@ import { listAdmissionStudent, getAdmissionStudent, delAdmissionStudent, addAdmi
 
 export default {
   name: "AdmissionStudent",
-  dicts: ['sys_user_sex', 'nlp_admission_student', 'sys_normal_disable'],
+  dicts: ['sys_user_sex', 'nlp_admission_student_grade', 'nlp_admission_student_education', 'nlp_admission_student', 'sys_normal_disable'],
   data() {
     return {
       // 遮罩层
@@ -239,6 +311,12 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
+      // 详细介绍 年级 学历 是否展示
+      ifShowIntroduction: false,
+      ifShowGradeManagement: false,
+      ifShowEducationManagement: false,
+      // 详细介绍内容
+      showIntroduction: '',
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -249,6 +327,8 @@ export default {
         education: null,
         atSchool: null,
         status: null,
+        introduction: null,
+        tutor: null
       },
       // 表单参数
       form: {},
@@ -310,7 +390,9 @@ export default {
         createBy: null,
         createTime: null,
         updateBy: null,
-        updateTime: null
+        updateTime: null,
+        introduction: '',
+        tutor: null
       };
       this.resetForm("form");
     },
@@ -381,7 +463,17 @@ export default {
       this.download('nlp/admission/admissionStudent/export', {
         ...this.queryParams
       }, `admissionStudent_${new Date().getTime()}.xlsx`)
-    }
+    },
+    /** 详情展示操作 */
+    // 详情展示 打开
+    openIntroduction(data) {
+      this.ifShowIntroduction = true;
+      this.showIntroduction = data;
+    },
+    // 详情展示 关闭
+    closeIntroduction() {
+      this.showIntroduction = '';
+    },
   }
 };
 </script>

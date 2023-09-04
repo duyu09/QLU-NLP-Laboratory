@@ -17,10 +17,12 @@
         <result property="createTime"    column="create_time"    />
         <result property="updateBy"    column="update_by"    />
         <result property="updateTime"    column="update_time"    />
+        <result property="introduction"    column="introduction"    />
+        <result property="tutor"    column="tutor"    />
     </resultMap>
 
     <sql id="selectNlpAdmissionStudentVo">
-        select id, name, sex, grade, education, at_school, post_sort, status, create_by, create_time, update_by, update_time from nlp_admission_student
+        select id, name, sex, grade, education, at_school, post_sort, status, create_by, create_time, update_by, update_time, introduction, tutor from nlp_admission_student
     </sql>
 
     <select id="selectNlpAdmissionStudentList" parameterType="NlpAdmissionStudent" resultMap="NlpAdmissionStudentResult">
@@ -32,6 +34,8 @@
             <if test="education != null  and education != ''"> and education like concat('%', #{education}, '%')</if>
             <if test="atSchool != null  and atSchool != ''"> and at_school = #{atSchool}</if>
             <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="introduction != null  and introduction != ''"> and introduction = #{introduction}</if>
+            <if test="tutor != null  and tutor != ''"> and tutor = #{tutor}</if>
         </where>
         order by post_sort asc
     </select>
@@ -55,6 +59,8 @@
             <if test="createTime != null">create_time,</if>
             <if test="updateBy != null">update_by,</if>
             <if test="updateTime != null">update_time,</if>
+            <if test="introduction != null">introduction,</if>
+            <if test="tutor != null">tutor,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="name != null">#{name},</if>
@@ -68,6 +74,8 @@
             <if test="createTime != null">#{createTime},</if>
             <if test="updateBy != null">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
+            <if test="introduction != null">#{introduction},</if>
+            <if test="tutor != null">#{tutor},</if>
         </trim>
     </insert>
 
@@ -85,6 +93,8 @@
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateBy != null">update_by = #{updateBy},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="introduction != null">introduction = #{introduction},</if>
+            <if test="tutor != null">tutor = #{tutor},</if>
         </trim>
         where id = #{id}
     </update>

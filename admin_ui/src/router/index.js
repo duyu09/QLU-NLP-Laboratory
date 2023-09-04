@@ -5,7 +5,6 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '@/layout'
-import aboutManagement from "@/views/nlp/frontend/aboutManagement";
 
 /**
  * Note: 路由配置项
@@ -190,8 +189,41 @@ export const dynamicRoutes = [
         meta: { title: '老师信息编辑', activeMenu: '/nlp/teacher' }
       }
     ]
-  }
+  },
+  // grade's dict-data
+  {
+    path: '/nlp/admission/admissionStudent/grade-dict-data',
+    component: Layout,
+    hidden: true,
+    permissions: ['system:dict:list'],
+    children: [
+      {
+        path: 'index/:dictId(\\d+)',
+        component: () => import('@/views/nlp/admission/admissionStudent/dictData.vue'),
+        name: 'Grade',
+        meta: { title: '年级管理', activeMenu: '/nlp/admission/admissionStudent' }
+      }
+    ]
+  },
+  // education's dict-data
+  {
+    path: '/nlp/admission/admissionStudent/education-dict-data',
+    component: Layout,
+    hidden: true,
+    permissions: ['system:dict:list'],
+    children: [
+      {
+        path: 'index/:dictId(\\d+)',
+        component: () => import('@/views/nlp/admission/admissionStudent/dictData.vue'),
+        name: 'Education',
+        meta: { title: '学历管理', activeMenu: '/nlp/admission/admissionStudent' }
+      }
+    ]
+  },
 ]
+// 在组件中访问路由参数
+
+
 
 export default new Router({
   mode: 'history', // 去掉url中的#

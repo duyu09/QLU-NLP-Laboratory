@@ -69,7 +69,7 @@
           <span>{{(queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="掠影分类标题" align="center" prop="title" id="twinkling"/>
+      <el-table-column label="掠影分类标题" align="center" prop="title"/>
       <el-table-column label="显示顺序" align="center" prop="postSort" />
       <el-table-column label="状态" align="center" prop="status">
         <template slot-scope="scope">
@@ -92,7 +92,6 @@
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
             v-hasPermi="['nlp:admission:teamOverviewTitle:remove']"
-            class="twinkling"
           >删除分类</el-button>
         </template>
       </el-table-column>
@@ -161,7 +160,7 @@
         <el-button @click="cancel">取 消</el-button>
       </div>
 
-      <el-divider />
+      <el-divider/>
 
       <!-- TeamOverviewImg.index.vue -->
       <TeamOverviewImg/>
@@ -399,9 +398,6 @@ export default {
             this.$modal.msgSuccess("删除成功");
           }).catch(() => {});
         }
-
-        // twinkling闪烁1s
-        this.twinkling();
       });
     },
     /** 导出按钮操作 */

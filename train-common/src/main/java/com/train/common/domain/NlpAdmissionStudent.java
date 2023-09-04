@@ -9,7 +9,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * 学生 数据对象 nlp_admission_student
  *
  * @author ICOVETOUS
- * @date 2023-04-05
+ * @date 2023-09-01
  */
 public class NlpAdmissionStudent extends BaseEntity
 {
@@ -45,6 +45,14 @@ public class NlpAdmissionStudent extends BaseEntity
     /** 状态（0正常 1停用） */
     @Excel(name = "状态", readConverterExp = "0=正常,1=停用")
     private String status;
+
+    /** 介绍内容（markdown） */
+    @Excel(name = "介绍内容", readConverterExp = "m=arkdown")
+    private String introduction;
+
+    /** 指导老师 */
+    @Excel(name = "指导老师")
+    private String tutor;
 
     public void setId(Integer id)
     {
@@ -118,10 +126,28 @@ public class NlpAdmissionStudent extends BaseEntity
     {
         return status;
     }
+    public void setIntroduction(String introduction)
+    {
+        this.introduction = introduction;
+    }
+
+    public String getIntroduction()
+    {
+        return introduction;
+    }
+    public void setTutor(String tutor)
+    {
+        this.tutor = tutor;
+    }
+
+    public String getTutor()
+    {
+        return tutor;
+    }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
+        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
                 .append("id", getId())
                 .append("name", getName())
                 .append("sex", getSex())
@@ -134,6 +160,8 @@ public class NlpAdmissionStudent extends BaseEntity
                 .append("createTime", getCreateTime())
                 .append("updateBy", getUpdateBy())
                 .append("updateTime", getUpdateTime())
+                .append("introduction", getIntroduction())
+                .append("tutor", getTutor())
                 .toString();
     }
 }
