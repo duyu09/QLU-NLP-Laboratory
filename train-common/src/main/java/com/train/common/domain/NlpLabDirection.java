@@ -28,6 +28,10 @@ public class NlpLabDirection extends BaseEntity
     @Excel(name = "方向介绍")
     private String recordContent;
 
+    /** 方向介绍图片 */
+    @Excel(name = "方向介绍")
+    private String imgUrl;
+
     /** 显示顺序 */
     @Excel(name = "显示顺序")
     private Long postSort;
@@ -82,12 +86,17 @@ public class NlpLabDirection extends BaseEntity
         return status;
     }
 
+    public String getImgUrl() {return imgUrl;}
+
+    public void setImgUrl(String imgUrl) {this.imgUrl = imgUrl;}
+
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
                 .append("id", getId())
                 .append("name", getName())
                 .append("recordContent", getRecordContent())
+                .append("imgUrl",getImgUrl())
                 .append("postSort", getPostSort())
                 .append("status", getStatus())
                 .append("createBy", getCreateBy())

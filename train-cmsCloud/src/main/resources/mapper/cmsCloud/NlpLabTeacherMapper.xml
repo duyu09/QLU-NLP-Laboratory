@@ -44,7 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="postSort != null "> and post_sort = #{postSort}</if>
             <if test="createBy != null  and createBy != ''"> and create_by = #{createBy}</if>
         </where>
-        order by post_sort
+        order by identity,post_sort
     </select>
 
     <select id="selectNlpLabTeacherById" parameterType="Long" resultMap="NlpLabTeacherResult">

@@ -8,6 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="id"    column="id"    />
         <result property="name"    column="name"    />
         <result property="recordContent"    column="record_content"    />
+        <result property="imgUrl"    column="img_url"    />
         <result property="postSort"    column="post_sort"    />
         <result property="status"    column="status"    />
         <result property="createBy"    column="create_by"    />
@@ -17,7 +18,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectNlpLabDirectionVo">
-        select id, name, record_content, post_sort, status, create_by, create_time, update_by, update_time from nlp_lab_direction
+        select id, name, record_content,img_url, post_sort, status, create_by, create_time, update_by, update_time from nlp_lab_direction
     </sql>
 
     <select id="selectNlpLabDirectionList" parameterType="NlpLabDirection" resultMap="NlpLabDirectionResult">
@@ -42,6 +43,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="name != null">name,</if>
             <if test="recordContent != null">record_content,</if>
             <if test="postSort != null">post_sort,</if>
+            <if test="imgUrl != null">img_url,</if>
             <if test="status != null">status,</if>
             <if test="createBy != null">create_by,</if>
             <if test="createTime != null">create_time,</if>
@@ -52,6 +54,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="name != null">#{name},</if>
             <if test="recordContent != null">#{recordContent},</if>
             <if test="postSort != null">#{postSort},</if>
+            <if test="imgUrl != null">#{imgUrl},</if>
             <if test="status != null">#{status},</if>
             <if test="createBy != null">#{createBy},</if>
             <if test="createTime != null">#{createTime},</if>
@@ -66,6 +69,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="name != null">name = #{name},</if>
             <if test="recordContent != null">record_content = #{recordContent},</if>
             <if test="postSort != null">post_sort = #{postSort},</if>
+            <if test="imgUrl != null">img_url = #{imgUrl},</if>
             <if test="status != null">status = #{status},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
