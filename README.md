@@ -1,6 +1,6 @@
 ## 齐鲁工业大学(山东省科学院) 自然语言处理与认知计算研究团队官方网站 （源代码）
 
-Source code tree of official website of Research Group for Natural Language Processing and Cognitive Computing of Qilu University of Technology (Shandong Academy of Science)
+Source code tree of official website of Research Group for Natural Language Processing and Cognitive Computing of Qilu University of Technology (Shandong Academy of Sciences).
 
 ### 团队简介
 
@@ -16,11 +16,11 @@ Source code tree of official website of Research Group for Natural Language Proc
 
 &nbsp;&nbsp;&nbsp;&nbsp;团队常年诚聘青年教师！热忱欢迎青年博士的加入！提供事业编制，年薪25-50万元、安家费不低于30万元，欢迎垂询！
 
-&nbsp;&nbsp;&nbsp;&nbsp;联系方式：wenpeng.lu@qlu.edu.cn
+- _**联系方式：wenpeng.lu@qlu.edu.cn**_
 
 ### 友情链接
 
-- 齐鲁工业大学 www.qlu.edu.cn
+- 齐鲁工业大学 https://www.qlu.edu.cn/
 - 计算机科学与技术学部 http://jsxb.scsc.cn/
 - 国家超级计算济南中心 https://www.nsccjn.cn/
 - 中国中文信息学会 http://www.cipsc.org.cn/
@@ -31,25 +31,28 @@ Source code tree of official website of Research Group for Natural Language Proc
 
 -----
 
-自然语言处理与认知计算研究团队
+_**齐鲁工业大学(山东省科学院) 自然语言处理与认知计算研究团队**_
 
-地址：山东省济南市大学路3501号 齐鲁工业大学（山东省科学院）计算机科学与技术学部  
+- 地址：山东省济南市大学路3501号 齐鲁工业大学（山东省科学院）计算机科学与技术学部  
 
-邮编：250353
+- 邮编：250353
 
-邮箱：wenpeng.lu@qlu.edu.cn
+- 邮箱：wenpeng.lu@qlu.edu.cn
 
------
-
-&copy; 2023 RESEARCH GROUP FOR NATURAL LANGUAGE PROCESSING AND COGNITIVE COMPUTING OF QILU UNIVERSITY OF TECHNOLOGY (SHANDONG ACADEMY OF SCIENCE).
-
-<img src="https://github.com/duyu09/QLU-NLP-Laboratory/assets/92843163/b2886e8b-c929-4b74-902f-d535d842807b" style="width:70%;">
+**&copy; 2023 RESEARCH GROUP FOR NATURAL LANGUAGE PROCESSING AND COGNITIVE COMPUTING OF QILU UNIVERSITY OF TECHNOLOGY (SHANDONG ACADEMY OF SCIENCES).**
 
 齐鲁工业大学(山东省科学院) 自然语言处理与认知计算研究团队 保留所有权利。
+
+<img src="https://github.com/duyu09/QLU-NLP-Laboratory/assets/92843163/b2886e8b-c929-4b74-902f-d535d842807b" style="width:70%;" />
+<br><br>
+
+<img src="https://github.com/duyu09/QLU-NLP-Laboratory/assets/92843163/b00adac1-44f7-4ff9-809e-bdd7a5f4ba08" style="width:47%;" />
+
+-----
 
 ### 访客统计
 
 <div><b>Number of Total Visits (All of Duyu09's GitHub Projects): </b><br><img src="https://profile-counter.glitch.me/duyu09/count.svg" /></div> 
 
-<div><b>Number of Total Visits (QLU-NLP-Laboratory): </b><br><img src="https://profile-counter.glitch.me/duyu09-QLU-NLP-Laboratory/count.svg" /></div> 
+<div><b>Number of Total Visits (QLU-NLP-Laboratory): </b><br><img src="https://profile-counter.glitch.me/duyu09-QLU-NLP-Laboratory/count.svg" /></div>
 
